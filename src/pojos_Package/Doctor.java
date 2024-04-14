@@ -6,6 +6,8 @@ import java.util.Objects;
 
 public class Doctor extends Client 
 {
+	
+	private static final long serialVersionUID = 98763412L;
 	private List <String> prescriptions;
 
 	
@@ -46,6 +48,17 @@ public class Doctor extends Client
 		Doctor other = (Doctor) obj;
 		return Objects.equals(prescriptions, other.prescriptions);
 	}
+
+
+	@Override
+	public String toString() {
+		return "Doctor " + super.toString();
+	}
+
+
+	
+
+	
 	
 	
 	

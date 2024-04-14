@@ -1,10 +1,15 @@
 package pojos_Package;
 
+import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class Client 
+
+public class Client implements Serializable
 {
+	private static final long serialVersionUID = 98763412L;
+	
 	private Integer id;
 	private String name;
 	private String surnmame;
@@ -12,10 +17,11 @@ public class Client
 	private Integer phone_number;
 	private String email;
 	private List <Medicine> medicines;
-	
+	/*Password no debe ponerse por ahora, a posteriori cuando hagamos el login*/
 	
 	public Client() {
 		super();
+		this.medicines = new LinkedList <Medicine> ();
 	}
 	
 	
@@ -39,8 +45,6 @@ public class Client
 				&& Objects.equals(name, other.name) && Objects.equals(phone_number, other.phone_number)
 				&& Objects.equals(surnmame, other.surnmame);
 	}
-
-
 
 
 	public Integer getId() {
@@ -88,15 +92,11 @@ public class Client
 		this.medicines = medicines;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "Client [name=" + name + ", surnmame=" + surnmame + ", adress=" + adress
 				+ ", phone_number=" + phone_number + ", email=" + email + "]";
 	}
-	
-	
 	
 	
 	
