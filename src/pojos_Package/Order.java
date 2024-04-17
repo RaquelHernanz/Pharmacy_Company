@@ -37,8 +37,6 @@ public class Order
 	}
 
 
-
-
 	public Integer getCode() {
 		return code;
 	}
