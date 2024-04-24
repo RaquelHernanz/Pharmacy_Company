@@ -16,7 +16,6 @@ public class Medicine implements Serializable
 	private Date expiration;
 	private Pharmacist pharmacist;
 	private Blob foto;
-	/*Podríamos añadir caratulas de los medicamentos como BLOB, preguntar a Katerina*/
 	
 	
 	@Override
