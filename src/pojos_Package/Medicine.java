@@ -15,7 +15,7 @@ public class Medicine implements Serializable
 	private Integer stock;
 	private Date expiration;
 	private Pharmacist pharmacist;
-	private Blob foto;
+	private Blob photo;
 	
 	
 	@Override
