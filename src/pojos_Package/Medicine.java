@@ -1,6 +1,7 @@
 package pojos_Package;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.Date;
 import java.util.Objects;
 
@@ -14,7 +15,7 @@ public class Medicine implements Serializable
 	private Integer stock;
 	private Date expiration;
 	private Pharmacist pharmacist;
-	/*Podríamos añadir caratulas de los medicamentos como BLOB, preguntar a Katerina*/
+	private Blob photo;
 	
 	
 	@Override
