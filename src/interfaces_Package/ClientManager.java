@@ -1,5 +1,11 @@
 package interfaces_Package;
 
-public interface ClientManager {
+import java.util.List;
 
+import pojos_Package.Client;
+
+
+public interface ClientManager {
+	public void createClient (Client c);
+	public List<Client> getListOfClients();
 }

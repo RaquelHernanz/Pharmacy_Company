@@ -19,6 +19,17 @@ public class Administrator implements Serializable
 	private List <Order> orders;
 	
 	
+	
+	public Administrator(Integer id, String name, String surnmame, Integer phone_number, String email) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.surnmame = surnmame;
+		this.phone_number = phone_number;
+		this.email = email;
+	}
+
+
 	public Administrator() {
 		super();
 		this.orders = new LinkedList <Order> ();

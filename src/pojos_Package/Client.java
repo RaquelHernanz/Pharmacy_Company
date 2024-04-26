@@ -19,12 +19,23 @@ public class Client implements Serializable
 	private List <Medicine> medicines;
 	/*Password no debe ponerse por ahora, a posteriori cuando hagamos el login*/
 	
-	public Client() {
+	public Client(Integer id2, String name2, String surname, Integer phone_number2, String email2) {
 		super();
 		this.medicines = new LinkedList <Medicine> ();
 	}
 	
 	
+	public Client(Integer id, String name, String surnmame, String adress, Integer phone_number, String email) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.surnmame = surnmame;
+		this.adress = adress;
+		this.phone_number = phone_number;
+		this.email = email;
+	}
+
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(adress, email, id, medicines, name, phone_number, surnmame);
