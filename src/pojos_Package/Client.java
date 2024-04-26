@@ -19,6 +19,8 @@ public class Client implements Serializable
 	private List <Medicine> medicines;
 	/*Password no debe ponerse por ahora, a posteriori cuando hagamos el login*/
 	
+	private String text;
+	
 	public Client(Integer id2, String name2, String surname, Integer phone_number2, String email2) {
 		super();
 		this.medicines = new LinkedList <Medicine> ();
