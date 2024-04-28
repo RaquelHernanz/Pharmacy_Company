@@ -1,5 +1,9 @@
 package interfaces_Package;
 
-public interface AdministratorManager {
+import java.util.List;
+import pojos_Package.Administrator;
 
+public interface AdministratorManager {
+  public void createAdministrator(Administrator a);
+  public List<Administrator> getListOfAdministrators();
 }
