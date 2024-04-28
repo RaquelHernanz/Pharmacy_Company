@@ -7,14 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import interfaces_Package.ClientManager;
-import pojos_Package.Administrator;
 import pojos_Package.Client;
 
 public class JDBCClientManager implements ClientManager{
 	
-	private JDBCClientManager manager;
+	private JDBCManager manager;
 	
-	public JDBCClientManager(JDBCClientManager m) {
+	public JDBCClientManager(JDBCManager m) {
 		this.manager=m;
 	}
 

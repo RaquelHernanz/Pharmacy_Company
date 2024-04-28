@@ -1,11 +1,13 @@
 package jdbc_Package;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class JDBCManager {
 	
-   private Connection c=null;
+   private Connection c = null;
    
    public JDBCManager() {
 	   
@@ -25,6 +27,7 @@ public class JDBCManager {
 		   
 	   }
    }
+   
    public Connection getConnection() {
 	   return c;
    }

@@ -4,18 +4,110 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class Doctor extends Client 
+public class Doctor 
 {
 	
 	private static final long serialVersionUID = 98763412L;
 	private List <String> prescriptions;
-
+	private Integer id;
+	private String name;
+	private String surnmame;
+	private String adress;
+	private Integer phone_number;
+	private String email;
+	private List <Medicine> medicines;
 	
 	public Doctor() {
 		super();
 		this.prescriptions = new LinkedList <String>();
+		this.medicines =  new LinkedList <Medicine>();
 		//Provisionalmente se quedará como LinkedList
 	}
+	
+	
+
+	public Integer getId() {
+		return id;
+	}
+
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+
+	public String getName() {
+		return name;
+	}
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
+	public String getSurnmame() {
+		return surnmame;
+	}
+
+
+
+	public void setSurnmame(String surnmame) {
+		this.surnmame = surnmame;
+	}
+
+
+
+	public String getAdress() {
+		return adress;
+	}
+
+
+
+	public void setAdress(String adress) {
+		this.adress = adress;
+	}
+
+
+
+	public Integer getPhone_number() {
+		return phone_number;
+	}
+
+
+
+	public void setPhone_number(Integer phone_number) {
+		this.phone_number = phone_number;
+	}
+
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
+	public List<Medicine> getMedicines() {
+		return medicines;
+	}
+
+
+
+	public void setMedicines(List<Medicine> medicines) {
+		this.medicines = medicines;
+	}
+
 
 
 	public List<String> getPrescriptions() {
@@ -28,33 +120,40 @@ public class Doctor extends Client
 	}
 
 
+
+	@Override
+	public String toString() {
+		return "Doctor [name=" + name + ", surnmame=" + surnmame + ", adress=" + adress + ", phone_number="
+				+ phone_number + ", email=" + email + ", medicines=" + medicines + ", prescriptions=" + prescriptions
+				+ "]";
+	}
+
+
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(prescriptions);
-		return result;
+		return Objects.hash(adress, email, id, medicines, name, phone_number, prescriptions, surnmame);
 	}
+
 
 
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Doctor other = (Doctor) obj;
-		return Objects.equals(prescriptions, other.prescriptions);
+		return Objects.equals(adress, other.adress) && Objects.equals(email, other.email)
+				&& Objects.equals(id, other.id) && Objects.equals(medicines, other.medicines)
+				&& Objects.equals(name, other.name) && Objects.equals(phone_number, other.phone_number)
+				&& Objects.equals(prescriptions, other.prescriptions) && Objects.equals(surnmame, other.surnmame);
 	}
 
 
-	@Override
-	public String toString() {
-		return "Doctor " + super.toString();
-	}
-
+	
 
 	
 

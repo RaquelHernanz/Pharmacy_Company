@@ -8,11 +8,12 @@ import java.util.List;
 import interfaces_Package.AdministratorManager;
 import pojos_Package.Administrator;
 
+
 public class JDBCAdministratorManager implements AdministratorManager {
 	
-    private JDBCAdministratorManager manager;
+    private JDBCManager manager;
 	
-	public JDBCAdministratorManager (JDBCAdministratorManager m) {
+	public JDBCAdministratorManager (JDBCManager m) {
 		this.manager = m;
 	}
 	
@@ -20,6 +21,7 @@ public class JDBCAdministratorManager implements AdministratorManager {
 		try {
 			String sql = "INSERT INTO Administrator (id,name,surname,phone_number,email)"
 					+ "VALUES(?,?,?,?,?)";
+			
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setInt(1,a.getId());
 			prep.setString(2,a.getName());
