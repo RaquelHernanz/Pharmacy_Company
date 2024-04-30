@@ -21,7 +21,7 @@ public class JDBCClientManager implements ClientManager{
 	public void createClient(Client c) {
 		// TODO Auto-generated method stub
 		try {
-			String sql="INSERT INTO Client(id,name,surname,phone_number,email)"
+			String sql="INSERT INTO Clients (id,name,surname,phone_number,email)"
 					+ "VALUES(?,?,?,?,?)";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setInt(1,c.getId());
@@ -30,7 +30,6 @@ public class JDBCClientManager implements ClientManager{
 			prep.setInt(4,c.getPhone_number());
 			prep.setString(5,c.getEmail());
 			prep.setString (6,c.getAddress());
-			/*Añadir el address*/
 			
 			prep.executeUpdate();
 			
