@@ -5,9 +5,9 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="src/lib_Package/sqlite-jdbc-3.8.7.jar"/>
-	<classpathentry kind="lib" path="/VetClinic/lib/eclipselink-2.7.10.jar"/>
-	<classpathentry kind="lib" path="/VetClinic/lib/javax.persistence-2.1.1.v201509150925.jar"/>
+	<classpathentry excluding="lib_Package/" kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib_Package/eclipselink-2.7.10.jar"/>
+	<classpathentry kind="lib" path="lib_Package/javax.persistence-2.1.1.v201509150925.jar"/>
+	<classpathentry kind="lib" path="lib_Package/sqlite-jdbc-3.8.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
