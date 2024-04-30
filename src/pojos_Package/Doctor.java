@@ -1,10 +1,11 @@
 package pojos_Package;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class Doctor 
+public class Doctor implements Serializable
 {
 	
 	private static final long serialVersionUID = 98763412L;
@@ -12,7 +13,7 @@ public class Doctor
 	private Integer id;
 	private String name;
 	private String surnmame;
-	private String adress;
+	private String address;
 	private Integer phone_number;
 	private String email;
 	private List <Medicine> medicines;
@@ -25,6 +26,32 @@ public class Doctor
 	}
 	
 	
+	public Doctor(String name, String surnmame, String address, Integer phone_number, String email) {
+		super();
+		this.name = name;
+		this.surnmame = surnmame;
+		this.address = address;
+		this.phone_number = phone_number;
+		this.email = email;
+		this.prescriptions = new LinkedList <String>();
+		this.medicines =  new LinkedList <Medicine>();
+	}
+	
+	
+
+	public Doctor(Integer id, String name, String surnmame, String address, Integer phone_number, String email) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.surnmame = surnmame;
+		this.address = address;
+		this.phone_number = phone_number;
+		this.email = email;
+		this.prescriptions = new LinkedList <String>();
+		this.medicines =  new LinkedList <Medicine>();
+	
+	}
+
 
 	public Integer getId() {
 		return id;
@@ -62,14 +89,14 @@ public class Doctor
 
 
 
-	public String getAdress() {
-		return adress;
+	public String getAddress() {
+		return address;
 	}
 
 
 
-	public void setAdress(String adress) {
-		this.adress = adress;
+	public void setAddress(String adress) {
+		this.address = adress;
 	}
 
 
@@ -123,7 +150,7 @@ public class Doctor
 
 	@Override
 	public String toString() {
-		return "Doctor [name=" + name + ", surnmame=" + surnmame + ", adress=" + adress + ", phone_number="
+		return "Doctor [name=" + name + ", surnmame=" + surnmame + ", adress=" + address + ", phone_number="
 				+ phone_number + ", email=" + email + ", medicines=" + medicines + ", prescriptions=" + prescriptions
 				+ "]";
 	}
@@ -132,7 +159,7 @@ public class Doctor
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(adress, email, id, medicines, name, phone_number, prescriptions, surnmame);
+		return Objects.hash(address, email, id, medicines, name, phone_number, prescriptions, surnmame);
 	}
 
 
@@ -146,7 +173,7 @@ public class Doctor
 		if (getClass() != obj.getClass())
 			return false;
 		Doctor other = (Doctor) obj;
-		return Objects.equals(adress, other.adress) && Objects.equals(email, other.email)
+		return Objects.equals(address, other.address) && Objects.equals(email, other.email)
 				&& Objects.equals(id, other.id) && Objects.equals(medicines, other.medicines)
 				&& Objects.equals(name, other.name) && Objects.equals(phone_number, other.phone_number)
 				&& Objects.equals(prescriptions, other.prescriptions) && Objects.equals(surnmame, other.surnmame);

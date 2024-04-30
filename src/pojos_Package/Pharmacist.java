@@ -1,10 +1,11 @@
 package pojos_Package;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class Pharmacist  
+public class Pharmacist implements Serializable 
 {
 	
 	private static final long serialVersionUID = 98763412L;
@@ -22,6 +23,32 @@ public class Pharmacist
 		this.orders = new LinkedList <Order>();
 		this.medicines_created = new LinkedList <Medicine>();
 	}
+	
+	
+	
+	public Pharmacist(String name, String surnmame, Integer phone_number, String email) {
+		super();
+		this.name = name;
+		this.surnmame = surnmame;
+		this.phone_number = phone_number;
+		this.email = email;
+		this.orders = new LinkedList <Order>();
+		this.medicines_created = new LinkedList <Medicine>();
+	}
+	
+
+
+	public Pharmacist(Integer id, String name, String surnmame, Integer phone_number, String email) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.surnmame = surnmame;
+		this.phone_number = phone_number;
+		this.email = email;
+		this.orders = new LinkedList <Order>();
+		this.medicines_created = new LinkedList <Medicine>();
+	}
+
 
 
 	public Integer getId() {

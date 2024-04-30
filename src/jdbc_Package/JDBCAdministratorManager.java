@@ -19,7 +19,7 @@ public class JDBCAdministratorManager implements AdministratorManager {
 	
 	public void createAdministrator(Administrator a) {
 		try {
-			String sql = "INSERT INTO Administrator (id,name,surname,phone_number,email)"
+			String sql = "INSERT INTO Administrators (id,name,surname,phone_number,email)"
 					+ "VALUES(?,?,?,?,?)";
 			
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);

@@ -29,6 +29,8 @@ public class JDBCClientManager implements ClientManager{
 			prep.setString(3, c.getSurnmame());
 			prep.setInt(4,c.getPhone_number());
 			prep.setString(5,c.getEmail());
+			prep.setString (6,c.getAddress());
+			/*Añadir el address*/
 			
 			prep.executeUpdate();
 			
@@ -55,9 +57,10 @@ public class JDBCClientManager implements ClientManager{
 				String surname = rs.getString("surname");
 				Integer phone_number = rs.getInt("phone_number");
 				String email = rs.getString("email");
+				String address = rs.getString("address");
 				
 				
-				Client c = new Client (id, name,surname,phone_number,email);
+				Client c = new Client (id, name,surname,phone_number,email,address);
 				clients.add(c);
 			}
 			
