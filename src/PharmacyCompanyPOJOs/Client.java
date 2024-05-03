@@ -17,7 +17,6 @@ public class Client implements Serializable
 	private Integer phone_number;
 	private String email;
 	private List <Medicine> medicines;
-	/*Password no debe ponerse por ahora, a posteriori cuando hagamos el login*/
 	
 	
 	public Client() 

@@ -17,6 +17,26 @@ public class Order
 	}
 	
 
+	public Order(Float totalprice, Integer quantity, Pharmacist pharmacist, Administrator administrator) {
+		super();
+		this.totalprice = totalprice;
+		this.quantity = quantity;
+		this.pharmacist = pharmacist;
+		this.administrator = administrator;
+	}
+	
+	
+
+	public Order(Integer code, Float totalprice, Integer quantity, Pharmacist pharmacist, Administrator administrator) {
+		super();
+		this.code = code;
+		this.totalprice = totalprice;
+		this.quantity = quantity;
+		this.pharmacist = pharmacist;
+		this.administrator = administrator;
+	}
+
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(administrator, code, pharmacist, quantity, totalprice);
