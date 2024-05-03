@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+import pojos_Package.Administrator;
 import pojos_Package.Pharmacist;
 
 public class JDBCPharmacistManager 
@@ -66,5 +68,34 @@ private JDBCManager manager;
 		}
 		return pharmacists;
 	}
-
+	
+	
+	public Pharmacist searchPharmacistById (Integer id) {
+	// TODO Auto-generated method stub
+			Pharmacist p = null;
+			
+			
+			try {
+				Statement stmt = manager.getConnection().createStatement();
+				String sql = "SELECT * FROM Pharmacists WHERE id=" + id;
+			
+				ResultSet rs = stmt.executeQuery(sql);
+				
+				Integer p_id = rs.getInt("id");
+				String name = rs.getString("name");
+				String surname = rs.getString("surname");
+				Integer phone_number = rs.getInt("phone_number");
+				String email = rs.getString("email");
+				
+				p = new Pharmacist (p_id, name,surname,phone_number,email);
+			    
+			    rs.close();
+			    stmt.close();
+			    
+			}catch(Exception e) {e.printStackTrace();}
+			
+			
+			return p;
+			
+	}
 }
