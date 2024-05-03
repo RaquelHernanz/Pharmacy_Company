@@ -8,9 +8,9 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import interfaces_Package.UserManager;
-import pojos_Package.Role;
-import pojos_Package.User;
+import PharmacyCompanyInterfaces.UserManager;
+import PharmacyCompanyPOJOs.Role;
+import PharmacyCompanyPOJOs.User;
 
 public class JPAUserManager implements UserManager{
 

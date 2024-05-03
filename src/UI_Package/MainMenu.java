@@ -4,22 +4,22 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
 
+import PharmacyCompanyInterfaces.AdministratorManager;
+import PharmacyCompanyInterfaces.ClientManager;
+import PharmacyCompanyInterfaces.UserManager;
+import PharmacyCompanyJDBC.JDBCAdministratorManager;
+import PharmacyCompanyJDBC.JDBCClientManager;
+import PharmacyCompanyJDBC.JDBCManager;
 import PharmacyCompanyJPA.JPAUserManager;
-import interfaces_Package.AdministratorManager;
-import interfaces_Package.ClientManager;
-import interfaces_Package.UserManager;
-import jdbc_Package.JDBCAdministratorManager;
-import jdbc_Package.JDBCClientManager;
-import jdbc_Package.JDBCManager;
-import pojos_Package.Role;
-import pojos_Package.User;
+import PharmacyCompanyPOJOs.Role;
+import PharmacyCompanyPOJOs.User;
 
 public class MainMenu {
 
 	private static JDBCManager jdbcmanager;
 	private static AdministratorManager administratormanager;
 	private static ClientManager clientmanager;
-	private static BufferedReader reader= new BufferedReader(new InputStreamReader(System.in));
+	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static UserManager usermanager;
 	
 	public static void main(String[] args) {
@@ -28,8 +28,8 @@ public class MainMenu {
       jdbcmanager=new JDBCManager();
       administratormanager= new JDBCAdministratorManager(jdbcmanager);
       clientmanager= new JDBCClientManager(jdbcmanager);
-      //no se porque no me funciona esto
       usermanager= new JPAUserManager();
+    //no se porque no me funciona esto
       
       try {
     	  int choice;
@@ -70,14 +70,14 @@ public class MainMenu {
 		
         if(u!=null && u.getRole().getName().equals("onwner")) {
         	System.out.println("Login of owner successful");
-        	//call for owner submenu;
-        	ownerMenu(email);
+        	//call for administrator submenu;
+            AdministratorMenu(email);
         }
 		
 		
 	}
 
-	private static void ownerMenu(String email) {
+	private static void AdministratorMenu(String email) {
 		// TODO Auto-generated method stub
 		try {
 	    	  int choice;

@@ -1,4 +1,4 @@
-package jdbc_Package;
+package PharmacyCompanyJDBC;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

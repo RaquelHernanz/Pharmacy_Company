@@ -1,8 +1,8 @@
-package interfaces_Package;
+package PharmacyCompanyInterfaces;
 
 import java.util.List;
 
-import pojos_Package.Pharmacist;
+import PharmacyCompanyPOJOs.Pharmacist;
 
 public interface PharmacistManager 
 {

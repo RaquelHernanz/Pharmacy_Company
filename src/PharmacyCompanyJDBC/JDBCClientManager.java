@@ -1,12 +1,13 @@
-package jdbc_Package;
+package PharmacyCompanyJDBC;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import interfaces_Package.ClientManager;
-import pojos_Package.Client;
+
+import PharmacyCompanyInterfaces.ClientManager;
+import PharmacyCompanyPOJOs.Client;
 
 public class JDBCClientManager implements ClientManager{
 	

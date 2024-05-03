@@ -1,4 +1,4 @@
-package interfaces_Package;
+package PharmacyCompanyInterfaces;
 
 public interface MedicineManager {
 

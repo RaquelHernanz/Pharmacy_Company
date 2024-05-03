@@ -1,4 +1,4 @@
-package jdbc_Package;
+package PharmacyCompanyJDBC;
 
 public class JDBCMedicineManager {
 

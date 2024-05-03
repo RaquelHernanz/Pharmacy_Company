@@ -1,4 +1,4 @@
-package pojos_Package;
+package PharmacyCompanyPOJOs;
 
 import java.io.Serializable;
 import java.sql.Blob;

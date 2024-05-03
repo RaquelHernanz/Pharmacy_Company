@@ -1,9 +1,9 @@
-package interfaces_Package;
+package PharmacyCompanyInterfaces;
 
 import java.util.List;
 
-import pojos_Package.Administrator;
-import pojos_Package.Doctor;
+import PharmacyCompanyPOJOs.Administrator;
+import PharmacyCompanyPOJOs.Doctor;
 
 public interface DoctorManager 
 {

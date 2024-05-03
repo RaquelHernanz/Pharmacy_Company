@@ -1,12 +1,13 @@
-package jdbc_Package;
+package PharmacyCompanyJDBC;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import interfaces_Package.AdministratorManager;
-import pojos_Package.Administrator;
+
+import PharmacyCompanyInterfaces.AdministratorManager;
+import PharmacyCompanyPOJOs.Administrator;
 
 
 public class JDBCAdministratorManager implements AdministratorManager {

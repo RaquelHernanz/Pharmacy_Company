@@ -1,7 +1,8 @@
-package interfaces_Package;
+package PharmacyCompanyInterfaces;
 
 import java.util.List;
-import pojos_Package.Administrator;
+
+import PharmacyCompanyPOJOs.Administrator;
 
 public interface AdministratorManager {
   public void createAdministrator(Administrator a);

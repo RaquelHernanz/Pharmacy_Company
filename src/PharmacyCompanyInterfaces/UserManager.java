@@ -1,9 +1,9 @@
-package interfaces_Package;
+package PharmacyCompanyInterfaces;
 
 import java.util.List;
 
-import pojos_Package.Role;
-import pojos_Package.User;
+import PharmacyCompanyPOJOs.Role;
+import PharmacyCompanyPOJOs.User;
 
 public interface UserManager {
 

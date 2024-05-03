@@ -1,5 +1,5 @@
 
-package jdbc_Package;
+package PharmacyCompanyJDBC;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,8 +7,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import pojos_Package.Administrator;
-import pojos_Package.Pharmacist;
+import PharmacyCompanyPOJOs.Administrator;
+import PharmacyCompanyPOJOs.Pharmacist;
 
 public class JDBCPharmacistManager 
 {

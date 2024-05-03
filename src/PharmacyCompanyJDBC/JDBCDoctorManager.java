@@ -1,4 +1,4 @@
-package jdbc_Package;
+package PharmacyCompanyJDBC;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,9 +6,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import interfaces_Package.DoctorManager;
-import pojos_Package.Client;
-import pojos_Package.Doctor;
+import PharmacyCompanyInterfaces.DoctorManager;
+import PharmacyCompanyPOJOs.Client;
+import PharmacyCompanyPOJOs.Doctor;
 
 public class JDBCDoctorManager implements DoctorManager{
 		
