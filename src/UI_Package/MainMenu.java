@@ -42,36 +42,48 @@ public class MainMenu {
       doctormanager = new JDBCDoctorManager (jdbcmanager);
       pharmacistmanager = new JDBCPharmacistManager (jdbcmanager);
       usermanager= new JPAUserManager();
-    //no se porque no me funciona esto
+    //no sé porque no me funciona esto
       
       try {
     	  int choice;
     	  do {
-    		  System.out.println("Choose an option");
+    		  System.out.println("Choose an initial option");
     		  System.out.println("1. Login User");
     		  System.out.println("2. Sing-up new user");
-    		  //System.out.println("1. Add a new administrator");
     		  System.out.println("0. Exit");
+    		  //System.out.println("1. Add a new administrator");
+    		  //Después de realizar el login user o el sign-up según el usuario se pondrá el menú
     		  choice = Integer.parseInt(reader.readLine());
     		  
     		  switch(choice) {
-    		  case 1:
+    		  case 1 -> //
+    		  {
+    			  System.out.println("Option 1");
     			  login();
     			  //createAdministrator();
-    		  case 2:
+    		  }
+    		  case 2 ->
+    		  {
+    			  System.out.println("Option 2");
     			  singUpUser();
-    		  case 0:
-    			  jdbcmanager.disconnect();
+
+    		  }
+    		  case 0 ->  
+    		  {   jdbcmanager.disconnect();
+    			  System.out.println("At least this doesnt fail");
     			  System.exit(0);
     		  }
+    		  }
     		  
-    	  }while(choice!=0);
+    	  }while(choice > -1);
     	  
-      }catch(Exception e) {
-    	  e.printStackTrace();
-      }
-	}
 
+	}catch(Exception e) {
+  	  e.printStackTrace();
+  	  
+	}
+	}
+	
 	private static void login() throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("Email: ");
@@ -81,11 +93,11 @@ public class MainMenu {
 		
 		User u= usermanager.checkPassword(email, password);
 		
-        if(u!=null && u.getRole().getName().equals("onwner")) {
+        if(u!=null && u.getRole().getName().equals("")) {
         	System.out.println("Login of owner successful");
         	//call for administrator submenu;
             /*AdministratorMenu(email);*/
-        }
+    }
 		
 		
 	}
