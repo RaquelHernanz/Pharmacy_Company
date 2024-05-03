@@ -7,18 +7,18 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import PharmacyCompanyPOJOs.Administrator;
+import PharmacyCompanyInterfaces.PharmacistManager;
 import PharmacyCompanyPOJOs.Pharmacist;
 
-public class JDBCPharmacistManager 
+public class JDBCPharmacistManager implements PharmacistManager
 {
-private JDBCManager manager;
+    private JDBCManager manager;
 	
 	public JDBCPharmacistManager (JDBCManager m) {
 		this.manager = m;
 	}
 	
-	public void createPharmacistManager (Pharmacist a) {
+	public void createPharmacist (Pharmacist a) {
 		try {
 			String sql = "INSERT INTO Pharmacists (id,name,surname,phone_number,email)"
 					+ "VALUES(?,?,?,?,?)";
@@ -37,7 +37,7 @@ private JDBCManager manager;
 		}
 	}
 	
-	public List<Pharmacist> getListOfAdministrators(){
+	public List <Pharmacist> getListOfPharmacist(){
 		
 		List<Pharmacist> pharmacists = new ArrayList<Pharmacist>();
 		
