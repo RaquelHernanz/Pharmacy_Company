@@ -14,6 +14,7 @@ import PharmacyCompanyJDBC.JDBCDoctorManager;
 import PharmacyCompanyJDBC.JDBCManager;
 import PharmacyCompanyJDBC.JDBCPharmacistManager;
 import PharmacyCompanyJPA.JPAUserManager;
+import UI_Package.MainMenu;
 
 public class Testing {
 
@@ -42,29 +43,28 @@ public class Testing {
 	    	  int choice;
 	    	  do {
 	    		  System.out.println("Choose an initial option");
-	    		  System.out.println("1. Login User");
-	    		  System.out.println("2. Sing-up new user");
+	    		  System.out.println("1. Create Administrator");
+	    		  System.out.println("2. Create Client");
 	    		  System.out.println("0. Exit");
 	    		  //Después de realizar el login user o el sign-up según el usuario se pondrá el menú
 	    		  choice = Integer.parseInt(reader.readLine());
 	    		  
-	    		  switch(choice) {
-	    		  case 1 -> //Creación de un administrador
+	    		  switch(choice) 
 	    		  {
-	    			 
-	    			  
-	    		  }
-	    		  case 2 -> //Creación de un cliente
-	    		  {
-	    			 
-	    			  
-	    			  
-	    		  }
-	    		  case 0 -> //Salir de la base de datos
-	    		  {   jdbcmanager.disconnect();
-	    			  System.out.println("At least this doesnt fail");
-	    			  System.exit(0);
-	    		  }
+	    		    case 1 -> //Creación de un administrador
+	    		    {
+	    			 MainMenu.createAdministrator();
+	    		    }
+	    		    case 2 -> //Creación de un cliente
+	    		    {
+	    			  System.out.println("At least this doesnt fail");   			  
+	    		    }
+	    		    case 0 -> //Salir de la base de datos
+	    		    {   
+	    		    	jdbcmanager.disconnect();
+	    			    System.out.println("At least this doesnt fail");
+	    			    System.exit(0);
+	    		    }
 	    		  }
 	    		  
 	    	  }while(choice > -1);

@@ -19,8 +19,11 @@ import PharmacyCompanyJDBC.JDBCDoctorManager;
 import PharmacyCompanyJDBC.JDBCManager;
 import PharmacyCompanyJDBC.JDBCPharmacistManager;
 import PharmacyCompanyJPA.JPAUserManager;
+import PharmacyCompanyPOJOs.Administrator;
 import PharmacyCompanyPOJOs.Role;
 import PharmacyCompanyPOJOs.User;
+import VetClinicPOJOs.Owner;
+import VetClinicPOJOs.Pet;
 
 
 public class MainMenu {
@@ -69,7 +72,7 @@ public class MainMenu {
     		  case 2 ->
     		  {
     			  
-    			  singUpUser();
+    			  /*singUpUser();*/
     			  
     		  }
     		  case 0 ->  
@@ -170,58 +173,25 @@ public class MainMenu {
 	}
 
 	
-/*public class Menu {
-
-	private static JDBCManager jdbcmanager;
-	private static OwnerManager ownermanager;
-	private static PetManager petmanager;
-	private static BufferedReader reader = new BufferedReader (new InputStreamReader(System.in));
-	
-	public static void main(String[] args) {
+	public static void createAdministrator () throws Exception
+	{
 		// TODO Auto-generated method stub
-
-		jdbcmanager = new JDBCManager();
-		ownermanager = new JDBCOwnerManager(jdbcmanager); 
-		petmanager = new JDBCPetManager(jdbcmanager);
+		System.out.println("Introduce your name");
+		String name = reader.readLine();
+		System.out.println("Introduce your surname");
+		String surname = reader.readLine();
+		System.out.println("Introduce your email");
+		String email = reader.readLine();
+		System.out.println("Introduce your phone number");
+		Integer phonenumber = Integer.parseInt(reader.readLine());
 		
-		
-		try {
-			int choice;
-			do {
-				System.out.println("Choose an option");
-				System.out.println("1. Add a new owner.");
-				System.out.println("2. Print all the owners in DB.");
-				System.out.println("3.  Add a new pet in the DB");
-				System.out.println("4.  Print all the pets of an owner.");
-				System.out.println("0. Exit.");
-				
-				choice = Integer.parseInt(reader.readLine());
-								
-				switch(choice)
-				{
-				case 1: 
-					createOwner();
-					break;
-				case 2:
-					getAllowners();
-				case 3:
-					createPet();
-				case 4:
-					printOwnersPets();
-				case 0:
-					jdbcmanager.disconnect();
-					System.exit(0);
-					
-				}
-				
-			}while(true);
-			
-			
-		}catch(Exception e)
-		{e.printStackTrace();}
+		Administrator a = new Administrator (name,surname,phonenumber,email);
+		administratormanager.createAdministrator(a);
 	}
 	
-	private static void createOwner() throws Exception
+	/*public Administrator(String name, String surnmame, Integer phone_number, String email)*/
+	
+	/*private static void createOwner() throws Exception
 	{
 		System.out.println("Type the name of the owner");
 		String name = reader.readLine();
@@ -236,50 +206,23 @@ public class MainMenu {
 		
 		ownermanager.createOwner(o);
 	}
+	 */
 	
-	private static void createPet() throws Exception
+	
+	private static void createClient () throws Exception 
 	{
-		System.out.println("Type the name of the pet");
-		String name = reader.readLine();
-		System.out.println("Type if it's cured or not");
-		Boolean cured = Boolean.valueOf(reader.readLine());
-		System.out.println("Type the type of animal(dog, cat, bird, hamster)");
-		String typeOfAnimal = reader.readLine();
-		System.out.println("Type the dob of the pet in formal yyyy/mm/dd");
-		String dob_str = reader.readLine();
-		DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-		Date dob = (Date) df.parse(dob_str);
-		System.out.println("Type the coat of the pet");
-		String coat = reader.readLine();
-		System.out.println("Type the owner id of the pet");
-		Integer owner_id = Integer.parseInt(reader.readLine());
-		
-		Owner o = ownermanager.searchOwnerById(owner_id);
-		
-		Pet p = new Pet(coat,  name,cured, typeOfAnimal, dob, o);
-		petmanager.addPet(p);
-		
-	}
-	private static void getAllowners() throws Exception{
-		
-		List<Owner> owners = null;
-		
-		owners = ownermanager.getListOfOwners();
-		
-		System.out.println(owners);
 		
 	}
 	
-	private static void printOwnersPets() throws Exception{
+	private static void createPharmacist () throws Exception 
+	{
 		
-		List<Pet> pets = null;
+	}
+	
+	private static void createDoctor () throws Exception 
+	{
 		
-		System.out.println("Type the id of the owner");
-		Integer o_id = Integer.parseInt(reader.readLine());
-		
-		pets = petmanager.getPetsOfanOwner(o_id);
-		
-		System.out.println(pets);
-		
-	}*/	
-}
+	}
+}	
+	
+	

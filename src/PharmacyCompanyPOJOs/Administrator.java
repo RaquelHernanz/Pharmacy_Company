@@ -27,11 +27,24 @@ public class Administrator implements Serializable
 		this.surnmame = surnmame;
 		this.phone_number = phone_number;
 		this.email = email;
+		this.orders = new LinkedList <Order> ();
 	}
 
 
 	public Administrator() {
 		super();
+		this.orders = new LinkedList <Order> ();
+	}
+	
+	
+
+
+	public Administrator(String name, String surnmame, Integer phone_number, String email) {
+		super();
+		this.name = name;
+		this.surnmame = surnmame;
+		this.phone_number = phone_number;
+		this.email = email;
 		this.orders = new LinkedList <Order> ();
 	}
 
