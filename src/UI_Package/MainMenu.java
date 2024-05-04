@@ -51,22 +51,26 @@ public class MainMenu {
     		  System.out.println("1. Login User");
     		  System.out.println("2. Sing-up new user");
     		  System.out.println("0. Exit");
-    		  //System.out.println("1. Add a new administrator");
     		  //Después de realizar el login user o el sign-up según el usuario se pondrá el menú
     		  choice = Integer.parseInt(reader.readLine());
     		  
     		  switch(choice) {
     		  case 1 -> //
     		  {
-    			  System.out.println("Option 1");
+    			  try {
     			  login();
-    			  //createAdministrator();
+    			  }catch (java.sql.SQLException e)
+    			  {
+    				  e.printStackTrace();
+    				  System.out.println("Resolve it");
+    			  } 
+    			  
     		  }
     		  case 2 ->
     		  {
-    			  System.out.println("Option 2");
+    			  
     			  singUpUser();
-
+    			  
     		  }
     		  case 0 ->  
     		  {   jdbcmanager.disconnect();
@@ -93,12 +97,15 @@ public class MainMenu {
 		
 		User u= usermanager.checkPassword(email, password);
 		
-        if(u!=null && u.getRole().getName().equals("")) {
-        	System.out.println("Login of owner successful");
-        	//call for administrator submenu;
-            /*AdministratorMenu(email);*/
+        if(u!=null && u.getRole().getName().equals("doctor")&& u.getRole().getName().equals("client")
+        		&& u.getRole().getName().equals("pharmacist") && u.getRole().getName().equals("administrator")) {
+        	System.out.println("Login of user successful");
+        	//Llamar al método para cada usuario
+        	
+    }else 
+    {
+    	 System.out.println("Login not successful");
     }
-		
 		
 	}
 	
@@ -138,16 +145,16 @@ public class MainMenu {
 	private static void singUpUser() {
 		// TODO Auto-generated method stub
 		try {
-			System.out.println("Introduce the email of the user: ");
+			System.out.println("Introduce your email of the user: ");
 			String email=reader.readLine();
-			System.out.println("Introduce the password: ");
+			System.out.println("Introduce your password: ");
 			String password=reader.readLine();
 			
 			MessageDigest md= MessageDigest.getInstance("MD5");
 			md.update(password.getBytes());
 			byte[] pass = md.digest();
 			
-			System.out.println("Introduce the role of the user. 1: owner, 2:vet ");
+			System.out.println("Introduce the role of the user. 1:client, 2:doctor 3:administrator 4:pharmacist ");
 			Integer role=Integer.parseInt(reader.readLine());
 			
 			Role r = usermanager.getRole(role);

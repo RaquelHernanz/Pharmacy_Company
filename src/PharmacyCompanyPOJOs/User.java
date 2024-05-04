@@ -13,8 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
+import PharmacyCompanyInterfaces.UserManager;
+
 @Entity
 @Table(name="users")
+
 public class User implements Serializable {
    
 	/**
