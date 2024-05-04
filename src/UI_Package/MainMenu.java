@@ -186,6 +186,7 @@ public class MainMenu {
 		Integer phonenumber = Integer.parseInt(reader.readLine());
 		
 		Administrator a = new Administrator (name,surname,phonenumber,email);
+		System.out.println(a.toString());
 		administratormanager.createAdministrator(a);
 	}
 	

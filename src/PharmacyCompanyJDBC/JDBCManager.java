@@ -16,7 +16,6 @@ public class JDBCManager {
 		   Class.forName("org.sqlite.JDBC");
 		   c = DriverManager.getConnection("jdbc:sqlite:./db/PharmacyCompany.db");
 		   c.createStatement().execute("PRAGMA foreign_keys=ON");
-		   
 		   System.out.print("Database Connection opened.");
 		   createTables();
 		   
@@ -97,6 +96,7 @@ public class JDBCManager {
 					+ "quanity INTEGER,"
 					+ "bill REAL,"
 					+ "date DATE;";
+			
 			stmt.executeUpdate(sql);
 			
 			sql = "CREATE TABLE update_medicines ("
