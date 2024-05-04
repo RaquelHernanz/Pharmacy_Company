@@ -3,11 +3,6 @@ package UI_Package;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.List;
-
 import PharmacyCompanyInterfaces.AdministratorManager;
 import PharmacyCompanyInterfaces.ClientManager;
 import PharmacyCompanyInterfaces.DoctorManager;
@@ -22,8 +17,7 @@ import PharmacyCompanyJPA.JPAUserManager;
 import PharmacyCompanyPOJOs.Administrator;
 import PharmacyCompanyPOJOs.Role;
 import PharmacyCompanyPOJOs.User;
-import VetClinicPOJOs.Owner;
-import VetClinicPOJOs.Pet;
+
 
 
 public class MainMenu {
@@ -184,7 +178,6 @@ public class MainMenu {
 		String email = reader.readLine();
 		System.out.println("Introduce your phone number");
 		Integer phonenumber = Integer.parseInt(reader.readLine());
-		
 		Administrator a = new Administrator (name,surname,phonenumber,email);
 		System.out.println(a.toString());
 		administratormanager.createAdministrator(a);
