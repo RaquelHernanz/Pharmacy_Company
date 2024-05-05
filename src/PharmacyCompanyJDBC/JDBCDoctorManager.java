@@ -57,9 +57,9 @@ public class JDBCDoctorManager implements DoctorManager{
 					Integer phone_number = rs.getInt("phone_number");
 					String email = rs.getString("email");
 					String address = rs.getString("address");
+					String prescriptions = rs.getString("prescriptions");
 					
-					
-					Doctor c = new Doctor (id, name,surname,address,phone_number,email);
+					Doctor c = new Doctor (id, name,surname,address,phone_number,email,prescriptions);
 					doctors.add(c);
 				}
 				
@@ -92,8 +92,9 @@ public class JDBCDoctorManager implements DoctorManager{
 				Integer phone_number = rs.getInt("phone_number");
 				String email = rs.getString("email");
 				String address = rs.getString("address");
+				String prescriptions = rs.getString("prescriptions");
 				
-				d = new Doctor (d_id, name,surname,address,phone_number,email);
+				d = new Doctor (d_id, name,surname,address,phone_number,email,prescriptions);
 			    
 			    rs.close();
 			    stmt.close();

@@ -18,6 +18,7 @@ public class JDBCManager {
 		   
 		   //Hay un problema al abrir la connexión, por eso no funciona la base de datos.
 		   //El error está aquí a continuación
+		   
 		   /*Before the connectionDatabase Connection opened.java.sql.SQLException: table administrators already exists
 	at org.sqlite.core.NativeDB.throwex(NativeDB.java:397)
 	at org.sqlite.core.NativeDB._exec(Native Method)
@@ -77,6 +78,7 @@ public class JDBCManager {
 					+ "code INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ "name TEXT UNIQUE,"
 					+ "price NUMERIC (10,2),"
+					+ "instructions TEXT,"
 					+ "stock INTEGER,"
 					+ "expirations DATE NOU NULL,"
 					+ "pharmacist_id INTEGER REFERENCES Pharmacists(id),"

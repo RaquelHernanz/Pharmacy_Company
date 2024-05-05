@@ -62,27 +62,27 @@ public class Medicine implements Serializable
 	}
 
 
-	public Medicine(Integer code, String name, Float price,String instructions, Integer stock, Date expiration,
-			Pharmacist pharmacist, Blob image) {
+	public Medicine(Integer code, String name, Float price,String instructions, Integer stock, Date expirations,
+			Pharmacist pharmacist_id, Blob image) {
 		super();
 		this.code = code;
 		this.name = name;
 		this.price = price;
 		this.instructions = instructions;
 		this.stock = stock;
-		this.expirations = expiration;
-		this.pharmacist = pharmacist;
+		this.expirations = expirations;
+		this.pharmacist = pharmacist_id;
 		this.image = image;
 	}
 	
-	public Medicine(String name, Float price,String instructions, Integer stock, Date expiration, Pharmacist pharmacist,
+	public Medicine(String name, Float price,String instructions, Integer stock, Date expirations, Pharmacist pharmacist,
 			Blob image) {
 		super();
 		this.name = name;
 		this.price = price;
 		this.instructions = instructions;
 		this.stock = stock;
-		this.expirations = expiration;
+		this.expirations = expirations;
 		this.pharmacist = pharmacist;
 		this.image = image;
 	}

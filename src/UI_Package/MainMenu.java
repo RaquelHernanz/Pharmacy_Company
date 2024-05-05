@@ -66,7 +66,7 @@ public class MainMenu {
     		  case 2 ->
     		  {
     			  
-    			  /*singUpUser();*/
+    			  singUpUser();
     			  
     		  }
     		  case 0 ->  
@@ -79,11 +79,11 @@ public class MainMenu {
     	  }while(choice > -1);
     	  
 
-	}catch(Exception e) {
-		
-  	  e.printStackTrace();
-  	  
-	}
+	}catch(Exception e) 
+      {
+		System.out.println("At least this doesnt fail");
+  	     e.printStackTrace();
+  	  }
 	}
 	
 	private static void login() throws Exception {
@@ -152,13 +152,11 @@ public class MainMenu {
 			md.update(password.getBytes());
 			byte[] pass = md.digest();
 			
-			System.out.println("Introduce the role of the user. 1:client, 2:doctor 3:administrator 4:pharmacist ");
-			Integer role=Integer.parseInt(reader.readLine());
-			
+			System.out.println("Introduce the role of the user. ");
+			System.out.println("1:client, 2:doctor 3:administrator 4:pharmacist ");
+			Integer role= Integer.parseInt(reader.readLine());
 			Role r = usermanager.getRole(role);
-			
 			User u= new User(email,pass,r);
-			
 			usermanager.newUser(u);
 			
 		}catch(Exception e) {
@@ -185,23 +183,6 @@ public class MainMenu {
 	}
 	
 	/*public Administrator(String name, String surnmame, Integer phone_number, String email)*/
-	
-	/*private static void createOwner() throws Exception
-	{
-		System.out.println("Type the name of the owner");
-		String name = reader.readLine();
-		System.out.println("Type the phone of the owner");
-		Integer phone = Integer.parseInt(reader.readLine());
-		System.out.println("Type the cardnumber of the owner");
-		Integer cardnumber = Integer.parseInt(reader.readLine());
-		System.out.println("Type the email of the owner");
-		String email = reader.readLine();
-		
-		Owner o = new Owner(name, email, phone, cardnumber);
-		
-		ownermanager.createOwner(o);
-	}
-	 */
 	
 	
 	private static void createClient () throws Exception 
