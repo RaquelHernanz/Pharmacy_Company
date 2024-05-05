@@ -2,7 +2,7 @@ package PharmacyCompanyPOJOs;
 
 import java.io.Serializable;
 import java.sql.Blob;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Objects;
 
 public class Medicine implements Serializable 
@@ -12,8 +12,9 @@ public class Medicine implements Serializable
 	private Integer code;
 	private String name;
 	private String instructions;
+	private Float price;
 	private Integer stock;
-	private Date expiration;
+	private Date expirations;
 	private Pharmacist pharmacist;
 	private Blob image;
 	
@@ -22,45 +23,28 @@ public class Medicine implements Serializable
 		this.pharmacist = new Pharmacist();
 	}
 	
-	@Override
-	public String toString() {
-		return "Medicine [name=" + name + ", instructions=" + instructions + ", stock=" + stock + ", expiration="
-				+ expiration + ", pharmacist=" + pharmacist + ", image=" + image + "]";
+
+	public Float getPrice() {
+		return price;
+	}
+	public void setPrice(Float price) {
+		this.price = price;
+	}
+
+	public Date getExpirations() {
+		return expirations;
+	}
+
+	public void setExpirations(Date expirations) {
+		this.expirations = expirations;
 	}
 	
 	
-
-	public Medicine(Integer code, String name, String instructions, Integer stock, Date expiration,
-			Pharmacist pharmacist, Blob image) {
-		super();
-		this.code = code;
-		this.name = name;
-		this.instructions = instructions;
-		this.stock = stock;
-		this.expiration = expiration;
-		this.pharmacist = pharmacist;
-		this.image = image;
-	}
-	
-	
-
-	public Medicine(String name, String instructions, Integer stock, Date expiration, Pharmacist pharmacist,
-			Blob image) {
-		super();
-		this.name = name;
-		this.instructions = instructions;
-		this.stock = stock;
-		this.expiration = expiration;
-		this.pharmacist = pharmacist;
-		this.image = image;
-	}
-	
-	
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(code, expiration, image, instructions, name, pharmacist, stock);
+		return Objects.hash(code, expirations, image, instructions, name, pharmacist, price, stock);
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -71,12 +55,39 @@ public class Medicine implements Serializable
 		if (getClass() != obj.getClass())
 			return false;
 		Medicine other = (Medicine) obj;
-		return Objects.equals(code, other.code) && Objects.equals(expiration, other.expiration)
+		return Objects.equals(code, other.code) && Objects.equals(expirations, other.expirations)
 				&& Objects.equals(image, other.image) && Objects.equals(instructions, other.instructions)
 				&& Objects.equals(name, other.name) && Objects.equals(pharmacist, other.pharmacist)
-				&& Objects.equals(stock, other.stock);
+				&& Objects.equals(price, other.price) && Objects.equals(stock, other.stock);
 	}
 
+
+	public Medicine(Integer code, String name, Float price,String instructions, Integer stock, Date expiration,
+			Pharmacist pharmacist, Blob image) {
+		super();
+		this.code = code;
+		this.name = name;
+		this.price = price;
+		this.instructions = instructions;
+		this.stock = stock;
+		this.expirations = expiration;
+		this.pharmacist = pharmacist;
+		this.image = image;
+	}
+	
+	public Medicine(String name, Float price,String instructions, Integer stock, Date expiration, Pharmacist pharmacist,
+			Blob image) {
+		super();
+		this.name = name;
+		this.price = price;
+		this.instructions = instructions;
+		this.stock = stock;
+		this.expirations = expiration;
+		this.pharmacist = pharmacist;
+		this.image = image;
+	}
+	
+	
 	public Integer getCode() {
 		return code;
 	}
@@ -101,12 +112,7 @@ public class Medicine implements Serializable
 	public void setStock(Integer stock) {
 		this.stock = stock;
 	}
-	public Date getExpiration() {
-		return expiration;
-	}
-	public void setExpiration(Date expiration) {
-		this.expiration = expiration;
-	}
+	
 	public Pharmacist getPharmacist() {
 		return pharmacist;
 	}
