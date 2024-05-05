@@ -21,7 +21,7 @@ public class JDBCClientManager implements ClientManager{
 	public void createClient(Client c) {
 		// TODO Auto-generated method stub
 		try {
-			String sql="INSERT INTO Clients (id, name, surname, phone_number, email, address)"
+			String sql="INSERT INTO clients (id, name, surname, phone_number, email, address)"
 					+ "VALUES(?,?,?,?,?,?)";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setInt(1,c.getId());
@@ -46,7 +46,7 @@ public class JDBCClientManager implements ClientManager{
         try {
 			
 			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM Client";
+			String sql = "SELECT * FROM clients";
 			ResultSet rs = stmt.executeQuery(sql);
 			
 			while(rs.next())
@@ -80,7 +80,7 @@ public class JDBCClientManager implements ClientManager{
 				
 				try {
 					Statement stmt = manager.getConnection().createStatement();
-					String sql = "SELECT * FROM Clients WHERE id=" + id;
+					String sql = "SELECT * FROM clients WHERE id=" + id;
 				
 					ResultSet rs = stmt.executeQuery(sql);
 					

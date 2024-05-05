@@ -20,7 +20,7 @@ public class JDBCAdministratorManager implements AdministratorManager {
 	
 	public void createAdministrator(Administrator a) {
 		try {
-			String sql = "INSERT INTO Administrators (id,name,surname,phone_number,email)"
+			String sql = "INSERT INTO administrators (id,name,surname,phone_number,email)"
 					+ "VALUES(?,?,?,?,?)";
 			
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
@@ -45,7 +45,7 @@ public class JDBCAdministratorManager implements AdministratorManager {
 		try {
 			
 			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM Administrator";
+			String sql = "SELECT * FROM administrators";
 			ResultSet rs = stmt.executeQuery(sql);
 			
 			while(rs.next())
@@ -78,7 +78,7 @@ public class JDBCAdministratorManager implements AdministratorManager {
 		
 		try {
 			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM Administrators WHERE id=" + id;
+			String sql = "SELECT * FROM administrators WHERE id=" + id;
 		
 			ResultSet rs = stmt.executeQuery(sql);
 			

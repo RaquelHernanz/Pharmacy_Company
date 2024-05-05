@@ -2,7 +2,6 @@ package PharmacyCompanyInterfaces;
 
 import java.util.List;
 
-import PharmacyCompanyPOJOs.Administrator;
 import PharmacyCompanyPOJOs.Doctor;
 
 public interface DoctorManager 

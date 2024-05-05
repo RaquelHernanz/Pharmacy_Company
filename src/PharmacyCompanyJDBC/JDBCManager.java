@@ -14,10 +14,22 @@ public class JDBCManager {
 	   try {
 		   
 		   Class.forName("org.sqlite.JDBC");
+		   System.out.print("Before the connection");
+		   
+		   //Hay un problema al abrir la connexión, por eso no funciona la base de datos.
+		   //El error está aquí a continuación
+		   /*Before the connectionDatabase Connection opened.java.sql.SQLException: table administrators already exists
+	at org.sqlite.core.NativeDB.throwex(NativeDB.java:397)
+	at org.sqlite.core.NativeDB._exec(Native Method)
+	at org.sqlite.jdbc3.JDBC3Statement.executeUpdate(JDBC3Statement.java:116)
+	at PharmacyCompanyJDBC.JDBCManager.createTables(JDBCManager.java:42)
+	at PharmacyCompanyJDBC.JDBCManager.<init>(JDBCManager.java:21)
+	at UI_Package.Testing.main(Testing.java:34)*/
+		   
 		   c = DriverManager.getConnection("jdbc:sqlite:./db/PharmacyCompany.db");
 		   c.createStatement().execute("PRAGMA foreign_keys=ON");
 		   System.out.print("Database Connection opened.");
-		   createTables();
+		   this.createTables();
 		   
 	   }catch(SQLException e) {
 		   e.printStackTrace();
@@ -33,35 +45,35 @@ public class JDBCManager {
 			
 			Statement stmt = c.createStatement();
 			
-			String sql = "CREATE TABLE Administrators ("
+			String sql = "CREATE TABLE administrators ("
 					+ "id INTEGER PRIMARY KEY AUTOINCREMENT, "
 					+ "name TEXT NOT NULL, surname TEXT NOT NULL, "
 					+ "email TEXT NOT NULL UNIQUE, phone_number INTEGER);";
 			
 			stmt.executeUpdate(sql);
 			
-			sql = "CREATE TABLE Clients ("
+			sql = "CREATE TABLE clients ("
 					+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ "name TEXT NOT NULL, surname TEXT NOT NULL, "
 					+ "email TEXT NOT NULL UNIQUE, phone_number INTEGER, "
 					+ "address TEXT NOT NULL);";
 			stmt.executeUpdate(sql);
 			
-			sql = "CREATE TABLE Pharmacists "
+			sql = "CREATE TABLE pharmacists "
 					+"(id INTEGER PRIMARY KEY  AUTOINCREMENT, "
 					+" name TEXT NOT NULL, surmane TEXT NOT NULL, "
 					+ "phone_number INTEGER, "
-					+ "email TEXT NOT NULL );";
+					+ "email TEXT NOT NULL);";
 			stmt.executeUpdate(sql);
 			
-			sql = "CREATE TABLE Doctors ("
+			sql = "CREATE TABLE doctors ("
 					+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ "name TEXT NOT NULL, surname TEXT NOT NULL, "
 					+ "email TEXT NOT NULL UNIQUE, phone_number INTEGER, "
 					+ "address TEXT NOT NULL, prescriptions TEXT);";
 			stmt.executeUpdate(sql);
 			
-			sql = "CREATE TABLE Medicines ("
+			sql = "CREATE TABLE medicines ("
 					+ "code INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ "name TEXT UNIQUE,"
 					+ "price NUMERIC (10,2),"
@@ -86,7 +98,8 @@ public class JDBCManager {
 					+ "medicine_id INTEGER REFERENCES Medicines (code),"
 					+ "quantity INTEGER,"
 					+ "bill REAL,"
-					+ "date DATE);";
+					+ "date DATE,"
+					+ "PRIMARY KEY (client_id, medicine_id));";
 			stmt.executeUpdate(sql);
 			
 			
@@ -95,7 +108,8 @@ public class JDBCManager {
 					+ "doctor_id INTEGER REFERENCES Doctors (id))"
 					+ "quanity INTEGER,"
 					+ "bill REAL,"
-					+ "date DATE;";
+					+ "date DATE,"
+					+ "PRIMARY KEY (doctor_id, medicine_id);";
 			
 			stmt.executeUpdate(sql);
 			

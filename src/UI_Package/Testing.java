@@ -18,7 +18,7 @@ import UI_Package.MainMenu;
 
 public class Testing {
 
-	//The main purpose of this class is the local testing of the functions
+	//The main purpose of this class is the local testing of the functions of JDBC
 	
 	private static JDBCManager jdbcmanager;
 	private static AdministratorManager administratormanager;
@@ -31,7 +31,7 @@ public class Testing {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		jdbcmanager=new JDBCManager();
+		  jdbcmanager=new JDBCManager();
 	      administratormanager= new JDBCAdministratorManager(jdbcmanager);
 	      clientmanager = new JDBCClientManager(jdbcmanager);
 	      doctormanager = new JDBCDoctorManager (jdbcmanager);
@@ -53,7 +53,13 @@ public class Testing {
 	    		  {
 	    		    case 1 -> //Creación de un administrador
 	    		    {
-	    			 MainMenu.createAdministrator();
+	    		    
+	    		    	try {
+	    			     MainMenu.createAdministrator();
+	    		    	}catch (Exception e)
+	    		    	{
+	    		    		System.out.println("Didnt work out");
+	    		    	}
 	    		    }
 	    		    case 2 -> //Creación de un cliente
 	    		    {

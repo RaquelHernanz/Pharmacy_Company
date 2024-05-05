@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import PharmacyCompanyInterfaces.DoctorManager;
-import PharmacyCompanyPOJOs.Client;
 import PharmacyCompanyPOJOs.Doctor;
 
 public class JDBCDoctorManager implements DoctorManager{
@@ -23,8 +22,8 @@ public class JDBCDoctorManager implements DoctorManager{
 		public void createDoctor (Doctor c) {
 			// TODO Auto-generated method stub
 			try {
-				String sql="INSERT INTO Doctors (id,name,surname,phone_number,email)"
-						+ "VALUES(?,?,?,?,?)";
+				String sql="INSERT INTO doctors (id,name,surname,phone_number,email,address)"
+						+ "VALUES(?,?,?,?,?,?)";
 				PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 				prep.setInt(1,c.getId());
 				prep.setString(2,c.getName());
@@ -47,7 +46,7 @@ public class JDBCDoctorManager implements DoctorManager{
 	        try {
 				
 				Statement stmt = manager.getConnection().createStatement();
-				String sql = "SELECT * FROM Client";
+				String sql = "SELECT * FROM doctors";
 				ResultSet rs = stmt.executeQuery(sql);
 				
 				while(rs.next())
@@ -83,7 +82,7 @@ public class JDBCDoctorManager implements DoctorManager{
 			
 			try {
 				Statement stmt = manager.getConnection().createStatement();
-				String sql = "SELECT * FROM Doctors WHERE id=" + id;
+				String sql = "SELECT * FROM doctors WHERE id=" + id;
 			
 				ResultSet rs = stmt.executeQuery(sql);
 				

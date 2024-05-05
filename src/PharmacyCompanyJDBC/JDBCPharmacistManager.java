@@ -20,7 +20,7 @@ public class JDBCPharmacistManager implements PharmacistManager
 	
 	public void createPharmacist (Pharmacist a) {
 		try {
-			String sql = "INSERT INTO Pharmacists (id,name,surname,phone_number,email)"
+			String sql = "INSERT INTO pharmacists (id,name,surname,phone_number,email)"
 					+ "VALUES(?,?,?,?,?)";
 			
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
@@ -44,7 +44,7 @@ public class JDBCPharmacistManager implements PharmacistManager
 		try {
 			
 			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM Administrator";
+			String sql = "SELECT * FROM pharmacists";
 			ResultSet rs = stmt.executeQuery(sql);
 			
 			while(rs.next())
@@ -77,7 +77,7 @@ public class JDBCPharmacistManager implements PharmacistManager
 			
 			try {
 				Statement stmt = manager.getConnection().createStatement();
-				String sql = "SELECT * FROM Pharmacists WHERE id=" + id;
+				String sql = "SELECT * FROM pharmacists WHERE id=" + id;
 			
 				ResultSet rs = stmt.executeQuery(sql);
 				
