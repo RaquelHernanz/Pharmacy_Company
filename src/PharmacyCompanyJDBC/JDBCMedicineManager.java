@@ -124,5 +124,59 @@ public class JDBCMedicineManager implements MedicineManager
 		return medicines;
 	}
 	
+	
+	public void assignMedicinetoClient (Integer client_id,Integer code) throws Exception
+	{
+		//TODO Auto-generated method stub
+		try 
+		{
+			String sql = "INSERT INTO purchase_C (client_id, medicine_id)"
+					+ "VALUES (?,?)";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			prep.setInt (1,client_id);
+			prep.setInt(2,code);
+			prep.executeUpdate();			
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void assignMedicinetoDoctor (Integer doctor_id, Integer code) throws Exception
+	{
+		//TODO Auto-generated method stub
+				try 
+				{
+					String sql = "INSERT INTO purchase_C (client_id, medicine_id)"
+							+ "VALUES (?,?)";
+					PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+					prep.setInt (1,doctor_id);
+					prep.setInt(2,code);
+					prep.executeUpdate();			
+					
+				}catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+	}
+	
+	public void deleteMedicinebyCode (Integer medicine_code) throws Exception
+	{
+		// TODO Auto-generated method stub
+		try {
+			String sql = "DELETE FROM medicines WHERE code=?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			
+			prep.setInt(1,medicine_code);
+			
+			prep.executeUpdate();			
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+	}
     
 }

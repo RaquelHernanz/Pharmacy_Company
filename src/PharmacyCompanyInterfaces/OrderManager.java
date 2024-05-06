@@ -10,6 +10,7 @@ public interface OrderManager
 	public List <Order> getListOfOrders ();
 	public List <Order> getOrderOfPharmacist (Integer pharmacist_id);
 	public List <Order> getOrderOfAdministrator (Integer administrator_id);
-	
+	public void assignMedicinetoOrder (Integer medicine_code, Integer order_code) throws Exception;
+	public void deleteOrderbyCode (Integer order_code) throws Exception;
 }
 

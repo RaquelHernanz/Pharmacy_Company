@@ -70,12 +70,12 @@ public class JDBCPharmacistManager implements PharmacistManager
 	}
 	
 	
-	public Pharmacist searchPharmacistById (Integer id) {
+	public Pharmacist searchPharmacistById (Integer id) 
+	{
 	// TODO Auto-generated method stub
 			Pharmacist p = null;
-			
-			
-			try {
+			try 
+			{
 				Statement stmt = manager.getConnection().createStatement();
 				String sql = "SELECT * FROM pharmacists WHERE id=" + id;
 			
@@ -93,9 +93,25 @@ public class JDBCPharmacistManager implements PharmacistManager
 			    stmt.close();
 			    
 			}catch(Exception e) {e.printStackTrace();}
+				
+		return p;
 			
+	}
+	
+	public void deletePharmacistbyId (Integer id) throws Exception 
+	{
+		// TODO Auto-generated method stub
+		try {
+			String sql = "DELETE FROM pharmacists WHERE id=?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			
-			return p;
+			prep.setInt(1,id);
 			
+			prep.executeUpdate();			
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

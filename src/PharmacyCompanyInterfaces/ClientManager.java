@@ -9,4 +9,5 @@ public interface ClientManager {
 	public void createClient (Client c);
 	public List<Client> getListOfClients();
 	public Client searchClientById (Integer id);
+	public void deleteClientbyId (Integer id) throws Exception;
 }

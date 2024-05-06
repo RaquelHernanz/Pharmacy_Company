@@ -99,4 +99,21 @@ public class JDBCAdministratorManager implements AdministratorManager {
 		return a;
 	}
 	
+    public void deleteAdministratorbyId (Integer id) throws Exception 
+	{
+		// TODO Auto-generated method stub
+		try {
+			String sql = "DELETE FROM administrators WHERE id=?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			
+			prep.setInt(1,id);
+			
+			prep.executeUpdate();			
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
 }

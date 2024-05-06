@@ -57,8 +57,8 @@ public class JDBCDoctorManager implements DoctorManager{
 					Integer phone_number = rs.getInt("phone_number");
 					String email = rs.getString("email");
 					String address = rs.getString("address");
-					String prescriptions = rs.getString("prescriptions");
-					
+					List <String> prescriptions = rs.getString("prescriptions");
+					//Preguntar a Katerina.
 					Doctor c = new Doctor (id, name,surname,address,phone_number,email,prescriptions);
 					doctors.add(c);
 				}
@@ -73,14 +73,12 @@ public class JDBCDoctorManager implements DoctorManager{
 		}
 		
 		
-		public Doctor searchDoctorById (Integer id) 
-		{
-		
+	public Doctor searchDoctorById (Integer id) 
+	{
 			// TODO Auto-generated method stub
-			Doctor d = null;
-			
-			
-			try {
+			Doctor d = null;	
+			try 
+			{
 				Statement stmt = manager.getConnection().createStatement();
 				String sql = "SELECT * FROM doctors WHERE id=" + id;
 			
@@ -93,7 +91,7 @@ public class JDBCDoctorManager implements DoctorManager{
 				String email = rs.getString("email");
 				String address = rs.getString("address");
 				String prescriptions = rs.getString("prescriptions");
-				
+				//Preguntar a Katerina.
 				d = new Doctor (d_id, name,surname,address,phone_number,email,prescriptions);
 			    
 			    rs.close();
@@ -101,8 +99,25 @@ public class JDBCDoctorManager implements DoctorManager{
 			    
 			}catch(Exception e) {e.printStackTrace();}
 			
+		return d;
+	}
+	
+	public void deleteDoctorbyId (Integer id) throws Exception 
+	{
+		// TODO Auto-generated method stub
+		try {
+			String sql = "DELETE FROM doctors WHERE id=?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			
-			return d;
+			prep.setInt(1,id);
+			
+			prep.executeUpdate();			
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
 		}
+	}
+		
 		
 }

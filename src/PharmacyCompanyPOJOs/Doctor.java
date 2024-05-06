@@ -28,7 +28,7 @@ public class Doctor implements Serializable
 	//Preguntar a Katerina sobre las prescricciones y la base de datos. ¿Qué hacer?
 	
 	
-	public Doctor(String name, String surnmame, String address, Integer phone_number, String email, String prescriptions) {
+	public Doctor(String name, String surnmame, String address, Integer phone_number, String email, List <String> prescriptions) {
 		super();
 		this.name = name;
 		this.surnmame = surnmame;
@@ -41,7 +41,7 @@ public class Doctor implements Serializable
 	
 	
 
-	public Doctor(Integer id, String name, String surnmame, String address, Integer phone_number, String email, String prescriptions) {
+	public Doctor(Integer id, String name, String surnmame, String address, Integer phone_number, String email, List <String> prescriptions) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -53,7 +53,20 @@ public class Doctor implements Serializable
 		this.medicines =  new LinkedList <Medicine>();
 	
 	}
+	
+	
 
+
+	public Doctor(String name, String surnmame, String address, Integer phone_number, String email) {
+		super();
+		this.name = name;
+		this.surnmame = surnmame;
+		this.address = address;
+		this.phone_number = phone_number;
+		this.email = email;
+		this.medicines =  new LinkedList <Medicine>();
+		this.prescriptions = new LinkedList <String>();
+	}
 
 	public Integer getId() {
 		return id;

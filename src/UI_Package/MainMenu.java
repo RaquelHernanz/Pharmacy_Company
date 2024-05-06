@@ -15,6 +15,9 @@ import PharmacyCompanyJDBC.JDBCManager;
 import PharmacyCompanyJDBC.JDBCPharmacistManager;
 import PharmacyCompanyJPA.JPAUserManager;
 import PharmacyCompanyPOJOs.Administrator;
+import PharmacyCompanyPOJOs.Client;
+import PharmacyCompanyPOJOs.Doctor;
+import PharmacyCompanyPOJOs.Pharmacist;
 import PharmacyCompanyPOJOs.Role;
 import PharmacyCompanyPOJOs.User;
 
@@ -33,13 +36,12 @@ public class MainMenu {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 	  
-      jdbcmanager=new JDBCManager();
+      jdbcmanager = new JDBCManager();
       administratormanager= new JDBCAdministratorManager(jdbcmanager);
       clientmanager = new JDBCClientManager(jdbcmanager);
       doctormanager = new JDBCDoctorManager (jdbcmanager);
       pharmacistmanager = new JDBCPharmacistManager (jdbcmanager);
       usermanager= new JPAUserManager();
-    //no sé porque no me funciona esto
       
       try {
     	  int choice;
@@ -65,9 +67,13 @@ public class MainMenu {
     		  }
     		  case 2 ->
     		  {
-    			  
+    			  try {
     			  singUpUser();
-    			  
+    			  }catch (Exception e)
+    			  {
+    				  e.printStackTrace();
+    				  System.out.println("Resolve it");
+    			  } 
     		  }
     		  case 0 ->  
     		  {   jdbcmanager.disconnect();
@@ -106,41 +112,8 @@ public class MainMenu {
     }
 		
 	}
-	
-	//Por ahora los métodos como comentarios se quedan así hasta que no podamos solucionar el 
-	//inicio de sesión.
 
-	/*private static void AdministratorMenu(String email) {
-		// TODO Auto-generated method stub
-		try {
-	    	  int choice;
-	    	  do {
-	    		  System.out.println("Choose an option");
-	    		  System.out.println("1. Add a new administrator");
-	    		  System.out.println("2. Print all administrators in DB");
-	    		  System.out.println("0. Exit");
-	    		  choice = Integer.parseInt(reader.readLine());
-	    		  
-	    		  switch(choice) {
-	    		  case 1:
-	    			  //createAdministrator();
-	    			  
-	    		  case 2:
-	    			  //getAllAdministrators();
-	    		  case 0:
-	    			  jdbcmanager.disconnect();
-	    			  System.exit(0);
-	    		  }
-	    		  
-	    	  }while(choice!=0);
-	    	  
-	      }catch(Exception e) {
-	    	  e.printStackTrace();
-	      }
-		
-	}*/
-
-	private static void singUpUser() {
+	private static void singUpUser() throws Exception {
 		// TODO Auto-generated method stub
 		try {
 			System.out.println("Introduce your email of the user: ");
@@ -182,23 +155,57 @@ public class MainMenu {
 		administratormanager.createAdministrator(a);
 	}
 	
-	/*public Administrator(String name, String surnmame, Integer phone_number, String email)*/
-	
 	
 	private static void createClient () throws Exception 
 	{
-		
+		System.out.println("Introduce your name");
+		String name = reader.readLine();
+		System.out.println("Introduce your surname");
+		String surname = reader.readLine();
+		System.out.println("Introduce your email");
+		String email = reader.readLine();
+		System.out.println("Introduce your phone number");
+		Integer phonenumber = Integer.parseInt(reader.readLine());
+		System.out.println("Introduce your address for deliveries");
+		String address = reader.readLine();
+		Client c = new Client (name,surname,address,phonenumber,email);
+		System.out.println(c.toString());
+		clientmanager.createClient(c);
 	}
 	
 	private static void createPharmacist () throws Exception 
 	{
-		
+		System.out.println("Introduce your name");
+		String name = reader.readLine();
+		System.out.println("Introduce your surname");
+		String surname = reader.readLine();
+		System.out.println("Introduce your email");
+		String email = reader.readLine();
+		System.out.println("Introduce your phone number");
+		Integer phonenumber = Integer.parseInt(reader.readLine());
+		Pharmacist p = new Pharmacist (name,surname,phonenumber,email);
+		System.out.println(p.toString());
+		pharmacistmanager.createPharmacist(p);
 	}
 	
 	private static void createDoctor () throws Exception 
 	{
-		
+		System.out.println("Introduce your name");
+		String name = reader.readLine();
+		System.out.println("Introduce your surname");
+		String surname = reader.readLine();
+		System.out.println("Introduce your email");
+		String email = reader.readLine();
+		System.out.println("Introduce your phone number");
+		Integer phonenumber = Integer.parseInt(reader.readLine());
+		System.out.println("Introduce your address for deliveries");
+		String address = reader.readLine();
+		Doctor d = new Doctor (name,surname,address,phonenumber,email);
+		System.out.println(d.toString());
+		doctormanager.createDoctor(d);
 	}
-}	
+	
+}
+
 	
 	

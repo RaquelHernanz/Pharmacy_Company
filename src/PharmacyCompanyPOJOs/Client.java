@@ -39,15 +39,14 @@ public class Client implements Serializable
 	}
 
 
-	public Client(String name, String surnmame, String address, Integer phone_number, String email,
-			List<Medicine> medicines) {
+	public Client(String name, String surnmame, String address, Integer phone_number, String email) {
 		super();
 		this.name = name;
 		this.surnmame = surnmame;
 		this.address = address;
 		this.phone_number = phone_number;
 		this.email = email;
-		this.medicines = medicines;
+		this.medicines = new LinkedList <Medicine> ();
 	}
 
 
@@ -123,8 +122,6 @@ public class Client implements Serializable
 		return "Client [name=" + name + ", surnmame=" + surnmame + ", adress=" + address
 				+ ", phone_number=" + phone_number + ", email=" + email + "]";
 	}
-	
-	
 	
 
 

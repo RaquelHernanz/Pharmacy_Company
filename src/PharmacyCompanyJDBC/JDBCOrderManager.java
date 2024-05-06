@@ -155,4 +155,39 @@ public class JDBCOrderManager implements OrderManager
 		return orders;
 	}
 	
+	public void assignMedicinetoOrder (Integer medicine_id,Integer order_id) throws Exception
+	{
+		//TODO Auto-generated method stub
+		try 
+		{
+			String sql = "INSERT INTO update_medicines (client_id, medicine_id)"
+					+ "VALUES (?,?)";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			prep.setInt (1,order_id);
+			prep.setInt(2,medicine_id);
+			prep.executeUpdate();			
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteOrderbyCode (Integer order_code) {
+		// TODO Auto-generated method stub
+		try {
+			String sql = "DELETE FROM orders WHERE code=?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			
+			prep.setInt(1,order_code);
+			
+			prep.executeUpdate();			
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+	}
+	
 }

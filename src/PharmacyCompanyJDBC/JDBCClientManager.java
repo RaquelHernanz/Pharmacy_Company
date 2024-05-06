@@ -78,7 +78,8 @@ public class JDBCClientManager implements ClientManager{
 				Client c = null;
 				
 				
-				try {
+				try 
+				{
 					Statement stmt = manager.getConnection().createStatement();
 					String sql = "SELECT * FROM clients WHERE id=" + id;
 				
@@ -100,7 +101,26 @@ public class JDBCClientManager implements ClientManager{
 				}catch(Exception e) {e.printStackTrace();}
 				
 				
-				return c;
-			}
+		return c;
+	}
+	
+	public void deleteClientbyId (Integer id) throws Exception 
+	{
+		// TODO Auto-generated method stub
+		try {
+			String sql = "DELETE FROM clients WHERE id=?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			
+			prep.setInt(1,id);
+			
+			prep.executeUpdate();			
+			
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}
+	
+	
 }
 

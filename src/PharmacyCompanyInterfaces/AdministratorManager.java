@@ -8,4 +8,5 @@ public interface AdministratorManager {
   public void createAdministrator(Administrator a);
   public List<Administrator> getListOfAdministrators();
   public Administrator searchAdministratorById (Integer id);
+  public void deleteAdministratorbyId (Integer id) throws Exception;
 }
