@@ -9,7 +9,6 @@ public class Doctor implements Serializable
 {
 	
 	private static final long serialVersionUID = 98763412L;
-	private List <String> prescriptions;
 	private Integer id;
 	private String name;
 	private String surnmame;
@@ -20,28 +19,44 @@ public class Doctor implements Serializable
 	
 	public Doctor() {
 		super();
-		this.prescriptions = new LinkedList <String>();
 		this.medicines =  new LinkedList <Medicine>();
-		//Provisionalmente se quedará como LinkedList
 	}
+
 	
-	//Preguntar a Katerina sobre las prescricciones y la base de datos. ¿Qué hacer?
 	
-	
-	public Doctor(String name, String surnmame, String address, Integer phone_number, String email, List <String> prescriptions) {
+	@Override
+	public int hashCode() {
+		return Objects.hash(address, email, id, medicines, name, phone_number, surnmame);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Doctor other = (Doctor) obj;
+		return Objects.equals(address, other.address) && Objects.equals(email, other.email)
+				&& Objects.equals(id, other.id) && Objects.equals(medicines, other.medicines)
+				&& Objects.equals(name, other.name) && Objects.equals(phone_number, other.phone_number)
+				&& Objects.equals(surnmame, other.surnmame);
+	}
+
+	public Doctor(String name, String surnmame, String address, Integer phone_number, String email) 
+	{
 		super();
 		this.name = name;
 		this.surnmame = surnmame;
 		this.address = address;
 		this.phone_number = phone_number;
 		this.email = email;
-		this.prescriptions = prescriptions;
 		this.medicines =  new LinkedList <Medicine>();
 	}
-	
-	
 
-	public Doctor(Integer id, String name, String surnmame, String address, Integer phone_number, String email, List <String> prescriptions) {
+
+	public Doctor(Integer id, String name, String surnmame, String address, Integer phone_number, String email) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -49,24 +64,10 @@ public class Doctor implements Serializable
 		this.address = address;
 		this.phone_number = phone_number;
 		this.email = email;
-		this.prescriptions = prescriptions;
 		this.medicines =  new LinkedList <Medicine>();
 	
 	}
 	
-	
-
-
-	public Doctor(String name, String surnmame, String address, Integer phone_number, String email) {
-		super();
-		this.name = name;
-		this.surnmame = surnmame;
-		this.address = address;
-		this.phone_number = phone_number;
-		this.email = email;
-		this.medicines =  new LinkedList <Medicine>();
-		this.prescriptions = new LinkedList <String>();
-	}
 
 	public Integer getId() {
 		return id;
@@ -149,50 +150,8 @@ public class Doctor implements Serializable
 	public void setMedicines(List<Medicine> medicines) {
 		this.medicines = medicines;
 	}
-
-
-
-	public List<String> getPrescriptions() {
-		return prescriptions;
-	}
-
-
-	public void setPrescriptions(List<String> prescriptions) {
-		this.prescriptions = prescriptions;
-	}
-
-
-
-	@Override
-	public String toString() {
-		return "Doctor [name=" + name + ", surnmame=" + surnmame + ", adress=" + address + ", phone_number="
-				+ phone_number + ", email=" + email + ", medicines=" + medicines + ", prescriptions=" + prescriptions
-				+ "]";
-	}
-
-
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(address, email, id, medicines, name, phone_number, prescriptions, surnmame);
-	}
-
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Doctor other = (Doctor) obj;
-		return Objects.equals(address, other.address) && Objects.equals(email, other.email)
-				&& Objects.equals(id, other.id) && Objects.equals(medicines, other.medicines)
-				&& Objects.equals(name, other.name) && Objects.equals(phone_number, other.phone_number)
-				&& Objects.equals(prescriptions, other.prescriptions) && Objects.equals(surnmame, other.surnmame);
-	}
+	
+	
 
 
 	

@@ -21,15 +21,14 @@ public class JDBCClientManager implements ClientManager{
 	public void createClient(Client c) {
 		// TODO Auto-generated method stub
 		try {
-			String sql="INSERT INTO clients (id, name, surname, phone_number, email, address)"
-					+ "VALUES(?,?,?,?,?,?)";
+			String sql="INSERT INTO clients (name, surname, phone_number, email, address)"
+					+ "VALUES (?,?,?,?)";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-			prep.setInt(1,c.getId());
-			prep.setString(2,c.getName());
-			prep.setString(3, c.getSurnmame());
-			prep.setInt(4,c.getPhone_number());
-			prep.setString(5,c.getEmail());
-			prep.setString (6,c.getAddress());
+			prep.setString(1,c.getName());
+			prep.setString(2, c.getSurnmame());
+			prep.setInt(3,c.getPhone_number());
+			prep.setString(4,c.getEmail());
+			prep.setString (5,c.getAddress());
 			
 			prep.executeUpdate();
 			

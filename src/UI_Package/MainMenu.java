@@ -43,6 +43,10 @@ public class MainMenu {
       pharmacistmanager = new JDBCPharmacistManager (jdbcmanager);
       usermanager= new JPAUserManager();
       
+      if ( administratormanager == null ) 
+      {
+    	  System.out.println("Resolve it");
+      }
       try {
     	  int choice;
     	  do {
@@ -68,7 +72,9 @@ public class MainMenu {
     		  case 2 ->
     		  {
     			  try {
-    			  singUpUser();
+    			  /*singUpUser();*/
+    				  
+    				createAdministrator ();
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -152,6 +158,10 @@ public class MainMenu {
 		Integer phonenumber = Integer.parseInt(reader.readLine());
 		Administrator a = new Administrator (name,surname,phonenumber,email);
 		System.out.println(a.toString());
+		if (administratormanager == null) 
+		{
+			System.out.println("	Error");
+		}
 		administratormanager.createAdministrator(a);
 	}
 	

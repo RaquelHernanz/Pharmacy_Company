@@ -22,15 +22,14 @@ public class JDBCDoctorManager implements DoctorManager{
 		public void createDoctor (Doctor c) {
 			// TODO Auto-generated method stub
 			try {
-				String sql="INSERT INTO doctors (id,name,surname,phone_number,email,address)"
-						+ "VALUES(?,?,?,?,?,?)";
+				String sql="INSERT INTO doctors (name,surname,phone_number,email,address)"
+						+ "VALUES(?,?,?,?)";
 				PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-				prep.setInt(1,c.getId());
-				prep.setString(2,c.getName());
-				prep.setString(3, c.getSurnmame());
-				prep.setInt(4,c.getPhone_number());
-				prep.setString(5,c.getEmail());
-				prep.setString(6,c.getAddress());
+				prep.setString(1,c.getName());
+				prep.setString(2, c.getSurnmame());
+				prep.setInt(3,c.getPhone_number());
+				prep.setString(4,c.getEmail());
+				prep.setString(5,c.getAddress());
 				prep.executeUpdate();
 				
 			}catch(Exception e) {
@@ -57,12 +56,11 @@ public class JDBCDoctorManager implements DoctorManager{
 					Integer phone_number = rs.getInt("phone_number");
 					String email = rs.getString("email");
 					String address = rs.getString("address");
-					List <String> prescriptions = rs.getString("prescriptions");
-					//Preguntar a Katerina.
-					Doctor c = new Doctor (id, name,surname,address,phone_number,email,prescriptions);
+					Doctor c = new Doctor (id, name,surname,address,phone_number,email);
 					doctors.add(c);
 				}
-				
+				/*Integer id, String name, String surnmame, String address, Integer phone_number, String email*/
+				/*String name, String surnmame, String address, Integer phone_number, String email*/
 				rs.close();
 				stmt.close();
 				
@@ -90,9 +88,7 @@ public class JDBCDoctorManager implements DoctorManager{
 				Integer phone_number = rs.getInt("phone_number");
 				String email = rs.getString("email");
 				String address = rs.getString("address");
-				String prescriptions = rs.getString("prescriptions");
-				//Preguntar a Katerina.
-				d = new Doctor (d_id, name,surname,address,phone_number,email,prescriptions);
+				d = new Doctor (d_id, name,surname,address,phone_number,email);
 			    
 			    rs.close();
 			    stmt.close();

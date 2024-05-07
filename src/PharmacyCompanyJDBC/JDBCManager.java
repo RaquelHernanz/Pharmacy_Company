@@ -14,19 +14,6 @@ public class JDBCManager {
 	   try {
 		   
 		   Class.forName("org.sqlite.JDBC");
-		   System.out.print("Before the connection");
-		   
-		   //Hay un problema al abrir la connexión, por eso no funciona la base de datos.
-		   //El error está aquí a continuación
-		   
-		   /*Before the connectionDatabase Connection opened.java.sql.SQLException: table administrators already exists
-	at org.sqlite.core.NativeDB.throwex(NativeDB.java:397)
-	at org.sqlite.core.NativeDB._exec(Native Method)
-	at org.sqlite.jdbc3.JDBC3Statement.executeUpdate(JDBC3Statement.java:116)
-	at PharmacyCompanyJDBC.JDBCManager.createTables(JDBCManager.java:42)
-	at PharmacyCompanyJDBC.JDBCManager.<init>(JDBCManager.java:21)
-	at UI_Package.Testing.main(Testing.java:34)*/
-		   
 		   c = DriverManager.getConnection("jdbc:sqlite:./db/PharmacyCompany.db");
 		   c.createStatement().execute("PRAGMA foreign_keys=ON");
 		   System.out.print("Database Connection opened.");
@@ -123,7 +110,7 @@ public class JDBCManager {
 			
 			
 		}catch(SQLException e) {
-			if(!e.getMessage().contains("The tables already exist")) 
+			if(!e.getMessage().contains("already exist")) 
 			{
 				e.printStackTrace();
 			}			

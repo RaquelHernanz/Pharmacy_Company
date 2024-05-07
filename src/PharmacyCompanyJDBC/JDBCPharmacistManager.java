@@ -20,15 +20,14 @@ public class JDBCPharmacistManager implements PharmacistManager
 	
 	public void createPharmacist (Pharmacist a) {
 		try {
-			String sql = "INSERT INTO pharmacists (id,name,surname,phone_number,email)"
-					+ "VALUES(?,?,?,?,?)";
+			String sql = "INSERT INTO pharmacists (name,surname,phone_number,email)"
+					+ "VALUES(?,?,?,?)";
 			
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-			prep.setInt(1,a.getId());
-			prep.setString(2,a.getName());
-			prep.setString(3, a.getSurnmame());
-			prep.setInt(4,a.getPhone_number());
-			prep.setString(5,a.getEmail());
+			prep.setString(1,a.getName());
+			prep.setString(2, a.getSurnmame());
+			prep.setInt(3,a.getPhone_number());
+			prep.setString(4,a.getEmail());
 			prep.executeUpdate();
 			
 			
