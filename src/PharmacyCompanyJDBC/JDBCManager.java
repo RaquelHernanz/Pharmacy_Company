@@ -35,30 +35,37 @@ public class JDBCManager {
 			
 			String sql = "CREATE TABLE administrators ("
 					+ "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-					+ "name TEXT NOT NULL, surname TEXT NOT NULL, "
-					+ "email TEXT NOT NULL UNIQUE, phone_number INTEGER);";
+					+ "name TEXT NOT NULL, "
+					+ "surname TEXT NOT NULL, "
+					+ "email TEXT NOT NULL UNIQUE, "
+					+ "phone_number INTEGER);";
 			
 			stmt.executeUpdate(sql);
 			
 			sql = "CREATE TABLE clients ("
 					+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-					+ "name TEXT NOT NULL, surname TEXT NOT NULL, "
-					+ "email TEXT NOT NULL UNIQUE, phone_number INTEGER, "
+					+ "name TEXT NOT NULL, "
+					+ "surname TEXT NOT NULL, "
+					+ "email TEXT NOT NULL UNIQUE, "
+					+ "phone_number INTEGER, "
 					+ "address TEXT NOT NULL);";
 			stmt.executeUpdate(sql);
 			
 			sql = "CREATE TABLE pharmacists "
 					+"(id INTEGER PRIMARY KEY  AUTOINCREMENT, "
-					+" name TEXT NOT NULL, surmane TEXT NOT NULL, "
+					+" name TEXT NOT NULL, "
+					+ "surmane TEXT NOT NULL, "
 					+ "phone_number INTEGER, "
 					+ "email TEXT NOT NULL);";
 			stmt.executeUpdate(sql);
 			
 			sql = "CREATE TABLE doctors ("
 					+ "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-					+ "name TEXT NOT NULL, surname TEXT NOT NULL, "
-					+ "email TEXT NOT NULL UNIQUE, phone_number INTEGER, "
-					+ "address TEXT NOT NULL, prescriptions TEXT);";
+					+ "name TEXT NOT NULL, "
+					+ "surname TEXT NOT NULL, "
+					+ "email TEXT NOT NULL UNIQUE, "
+					+ "phone_number INTEGER, "
+					+ "address TEXT NOT NULL);";
 			stmt.executeUpdate(sql);
 			
 			sql = "CREATE TABLE medicines ("

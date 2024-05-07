@@ -24,27 +24,29 @@ public class JPAUserManager implements UserManager{
 
 	@Override
 	public User checkPassword(String email, String pass) {
+		// TODO Auto-generated method stub
 		User u = null;
-		Query q=em.createNativeQuery("SELECT * FROM users where email=?"+email +"and password=?"+pass, User.class);
-		q.setParameter(1,email);
+		
+		Query q = em.createNativeQuery("SELECT * from users where email =? and password=?", User.class);
+		q.setParameter(1, email);
 		
 		try {
 			
-			MessageDigest md= MessageDigest.getInstance("MD5");
+			MessageDigest md = MessageDigest.getInstance("MD5");
 			md.update(pass.getBytes());
 			byte[] pw = md.digest();
 			
-			q.setParameter(2,pw);
+			q.setParameter(2, pw);
 			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
+		}catch(Exception e)
+		{e.printStackTrace();}
+			
 		
 		try {
-			
-			u= (User) q.getSingleResult();
+			u = (User) q.getSingleResult();
 			
 		}catch(NoResultException e) {}
+		
 		return u;
 	}
 
@@ -115,6 +117,11 @@ public class JPAUserManager implements UserManager{
 		Query q=em.createNativeQuery("SELECT * FROM users where email="+email, User.class);
 		User u= (User) q.getSingleResult();
 		return u;
+	}
+	
+	public void changePassword(User u, String new_passwd) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	//in order to delete, we have to do remove;

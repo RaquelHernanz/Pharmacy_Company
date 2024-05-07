@@ -59,8 +59,6 @@ public class JDBCDoctorManager implements DoctorManager{
 					Doctor c = new Doctor (id, name,surname,address,phone_number,email);
 					doctors.add(c);
 				}
-				/*Integer id, String name, String surnmame, String address, Integer phone_number, String email*/
-				/*String name, String surnmame, String address, Integer phone_number, String email*/
 				rs.close();
 				stmt.close();
 				

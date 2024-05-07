@@ -3,6 +3,8 @@ package UI_Package;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
+import java.util.List;
+
 import PharmacyCompanyInterfaces.AdministratorManager;
 import PharmacyCompanyInterfaces.ClientManager;
 import PharmacyCompanyInterfaces.DoctorManager;
@@ -20,6 +22,7 @@ import PharmacyCompanyPOJOs.Doctor;
 import PharmacyCompanyPOJOs.Pharmacist;
 import PharmacyCompanyPOJOs.Role;
 import PharmacyCompanyPOJOs.User;
+
 
 
 
@@ -75,6 +78,7 @@ public class MainMenu {
     			  /*singUpUser();*/
     				  
     				createAdministrator ();
+    				
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -86,9 +90,13 @@ public class MainMenu {
     			  System.out.println("At least this doesnt fail");
     			  System.exit(0);
     		  }
+    		  case 3 ->
+    		  {
+    			  getAlladministrators();
+    		  }
     		  }
     		  
-    	  }while(choice > -1);
+    	  }while(choice != 0);
     	  
 
 	}catch(Exception e) 
@@ -100,50 +108,61 @@ public class MainMenu {
 	
 	private static void login() throws Exception {
 		// TODO Auto-generated method stub
-		System.out.println("Email: ");
-		String email=reader.readLine();
-		System.out.println("Password: ");
-		String password=reader.readLine();
+		System.out.println("Introduce your password: ");
+		String email = reader.readLine();
 		
-		User u= usermanager.checkPassword(email, password);
+		System.out.println("Introduce your password: ");
+		String passwd = reader.readLine();
 		
-        if(u!=null && u.getRole().getName().equals("doctor")&& u.getRole().getName().equals("client")
-        		&& u.getRole().getName().equals("pharmacist") && u.getRole().getName().equals("administrator")) {
-        	System.out.println("Login of user successful");
-        	//Llamar al método para cada usuario
-        	
-    }else 
-    {
-    	 System.out.println("Login not successful");
-    }
+		User u = usermanager.checkPassword(email, passwd);
+		
+		if(u!=null & u.getRole().getName().equals("client"))
+		{
+			System.out.println("Login of client successful!");
+			//We can now call a menu for each type of user
+			
+		} 
+		else if (u!=null & u.getRole().getName().equals("doctor")) 
+		{
+			System.out.println("Login of client successful!");
+			
+		}else if (u != null & u.getRole().getName().equals("administrator")) 
+		{
+			System.out.println("Login of administrator successful!");
+			
+		}else 
+		{
+			System.out.println("Login of pharmacist successful!");
+		}
 		
 	}
-
-	private static void singUpUser() throws Exception {
+	
+	private static void signUpUser() {
 		// TODO Auto-generated method stub
 		try {
-			System.out.println("Introduce your email of the user: ");
-			String email=reader.readLine();
-			System.out.println("Introduce your password: ");
-			String password=reader.readLine();
+			System.out.println("Write an email for your account: ");
+			String email = reader.readLine();
+			System.out.println("Write a password for your account");
+			String password = reader.readLine();
 			
 			MessageDigest md= MessageDigest.getInstance("MD5");
 			md.update(password.getBytes());
 			byte[] pass = md.digest();
 			
-			System.out.println("Introduce the role of the user. ");
-			System.out.println("1:client, 2:doctor 3:administrator 4:pharmacist ");
-			Integer role= Integer.parseInt(reader.readLine());
-			Role r = usermanager.getRole(role);
-			User u= new User(email,pass,r);
+			System.out.println("Introduce the role of the user");
+			System.out.println("1: client, 2: doctor 3: administrator 4: pharmacist");
+			Integer rol = Integer.parseInt(reader.readLine());
+			Role r = usermanager.getRole(rol);
+			User u = new User(email, pass, r);
 			usermanager.newUser(u);
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
 		
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			}
 	}
-
+	
 	
 	public static void createAdministrator () throws Exception
 	{
@@ -157,12 +176,21 @@ public class MainMenu {
 		System.out.println("Introduce your phone number");
 		Integer phonenumber = Integer.parseInt(reader.readLine());
 		Administrator a = new Administrator (name,surname,phonenumber,email);
-		System.out.println(a.toString());
 		if (administratormanager == null) 
 		{
 			System.out.println("	Error");
 		}
 		administratormanager.createAdministrator(a);
+	}
+	
+    private static void getAlladministrators() throws Exception{
+		
+		List<Administrator> administrators = null;
+		
+		administrators = administratormanager.getListOfAdministrators();
+		
+		System.out.println(administrators);
+		
 	}
 	
 	
@@ -214,6 +242,8 @@ public class MainMenu {
 		System.out.println(d.toString());
 		doctormanager.createDoctor(d);
 	}
+	
+	
 	
 }
 
