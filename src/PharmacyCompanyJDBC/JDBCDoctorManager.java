@@ -23,7 +23,7 @@ public class JDBCDoctorManager implements DoctorManager{
 			// TODO Auto-generated method stub
 			try {
 				String sql="INSERT INTO doctors (name,surname,phone_number,email,address)"
-						+ "VALUES(?,?,?,?)";
+						+ "VALUES(?,?,?,?,?)";
 				PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 				prep.setString(1,c.getName());
 				prep.setString(2, c.getSurnmame());
@@ -107,11 +107,38 @@ public class JDBCDoctorManager implements DoctorManager{
 			
 			prep.executeUpdate();			
 			
-		}catch(Exception e)
-		{
+		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	public Doctor searchDoctorByEmail (String email_d) throws Exception
+	{
+			// TODO Auto-generated method stub
+			Doctor d = null;	
+			try 
+			{
+				Statement stmt = manager.getConnection().createStatement();
+				String sql = "SELECT * FROM doctors WHERE email=" + email_d;
+			
+				ResultSet rs = stmt.executeQuery(sql);
+				
+				Integer d_id = rs.getInt("id");
+				String name = rs.getString("name");
+				String surname = rs.getString("surname");
+				Integer phone_number = rs.getInt("phone_number");
+				String email = rs.getString("email");
+				String address = rs.getString("address");
+				d = new Doctor (d_id, name,surname,address,phone_number,email);
+			    
+			    rs.close();
+			    stmt.close();
+			    
+			}catch(Exception e) {e.printStackTrace();}
+			
+		return d;
+	}
+
 		
 		
 }

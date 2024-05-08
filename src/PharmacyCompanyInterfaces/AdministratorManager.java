@@ -9,4 +9,5 @@ public interface AdministratorManager {
   public List<Administrator> getListOfAdministrators();
   public Administrator searchAdministratorById (Integer id);
   public void deleteAdministratorbyId (Integer id) throws Exception;
+  public Administrator searchAdministratorByEmail (String email_a) throws Exception;
 }

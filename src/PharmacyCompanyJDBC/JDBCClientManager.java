@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import PharmacyCompanyInterfaces.ClientManager;
+import PharmacyCompanyPOJOs.Administrator;
 import PharmacyCompanyPOJOs.Client;
 
 public class JDBCClientManager implements ClientManager{
@@ -22,7 +23,7 @@ public class JDBCClientManager implements ClientManager{
 		// TODO Auto-generated method stub
 		try {
 			String sql="INSERT INTO clients (name, surname, phone_number, email, address)"
-					+ "VALUES (?,?,?,?)";
+					+ "VALUES (?,?,?,?,?)";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setString(1,c.getName());
 			prep.setString(2, c.getSurnmame());
@@ -119,6 +120,37 @@ public class JDBCClientManager implements ClientManager{
 			e.printStackTrace();
 		}
 	}
+	
+	public Client searchClientByEmail (String email_c) throws Exception
+	{
+		// TODO Auto-generated method stub
+				Client c = null;
+				
+				try 
+				{
+					Statement stmt = manager.getConnection().createStatement();
+					String sql = "SELECT * FROM clients WHERE email=" + email_c;
+				
+					ResultSet rs = stmt.executeQuery(sql);
+					
+					Integer c_id = rs.getInt("id");
+					String name = rs.getString("name");
+					String surname = rs.getString("surname");
+					Integer phone_number = rs.getInt("phone_number");
+					String email = rs.getString("email");
+					String address = rs.getString("address");
+					
+					
+					c = new Client (c_id, name,surname,phone_number,email,address);
+				    
+				    rs.close();
+				    stmt.close();
+				    
+				}catch(Exception e) {e.printStackTrace();}
+				
+				
+		return c;
+ }
 	
 	
 }

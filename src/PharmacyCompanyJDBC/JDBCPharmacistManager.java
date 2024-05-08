@@ -113,4 +113,32 @@ public class JDBCPharmacistManager implements PharmacistManager
 			e.printStackTrace();
 		}
 	}
+	
+	public Pharmacist searchPharmacistByEmail (String email_p) throws Exception
+	{
+	// TODO Auto-generated method stub
+			Pharmacist p = null;
+			try 
+			{
+				Statement stmt = manager.getConnection().createStatement();
+				String sql = "SELECT * FROM pharmacists WHERE email=" +email_p;
+			
+				ResultSet rs = stmt.executeQuery(sql);
+				
+				Integer p_id = rs.getInt("id");
+				String name = rs.getString("name");
+				String surname = rs.getString("surname");
+				Integer phone_number = rs.getInt("phone_number");
+				String email = rs.getString("email");
+				
+				p = new Pharmacist (p_id, name,surname,phone_number,email);
+			    
+			    rs.close();
+			    stmt.close();
+			    
+			}catch(Exception e) {e.printStackTrace();}
+				
+		return p;
+			
+	}
 }

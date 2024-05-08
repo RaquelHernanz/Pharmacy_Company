@@ -55,8 +55,9 @@ public class MainMenu {
     	  do {
     		  System.out.println("Choose an initial option");
     		  System.out.println("1. Login User");
-    		  System.out.println("2. Sing-up new user");
-    		  System.out.println("0. Exit");
+    		  System.out.println("2. Add new administrator");
+    		  System.out.println("3. Get all administrators");
+    		  System.out.println("4. Sign up");
     		  //Después de realizar el login user o el sign-up según el usuario se pondrá el menú
     		  choice = Integer.parseInt(reader.readLine());
     		  
@@ -67,9 +68,12 @@ public class MainMenu {
     			  login();
     			  }catch (java.sql.SQLException e)
     			  {
-    				  e.printStackTrace();
+    				  /*e.printStackTrace();*/
     				  System.out.println("Resolve it");
-    			  } 
+    			  }catch (Exception e) 
+    			  {
+    				  System.out.println("");
+    			  }
     			  
     		  }
     		  case 2 ->
@@ -94,6 +98,15 @@ public class MainMenu {
     		  {
     			  getAlladministrators();
     		  }
+    		  case 4 ->
+    		  {
+    			  signUpUser();
+    		  }
+    		  case 5 ->
+    		  {
+    			  createClient ();
+    			  getAllClients ();
+    		  }
     		  }
     		  
     	  }while(choice != 0);
@@ -106,15 +119,20 @@ public class MainMenu {
   	  }
 	}
 	
-	private static void login() throws Exception {
+	private static void login() throws java.sql.SQLException, Exception {
 		// TODO Auto-generated method stub
-		System.out.println("Introduce your password: ");
+		System.out.println("Introduce your email: ");
 		String email = reader.readLine();
 		
 		System.out.println("Introduce your password: ");
 		String passwd = reader.readLine();
 		
 		User u = usermanager.checkPassword(email, passwd);
+		
+		if (u == null) 
+		{
+			System.out.println("Not able to login");
+		}
 		
 		if(u!=null & u.getRole().getName().equals("client"))
 		{
@@ -126,16 +144,19 @@ public class MainMenu {
 		{
 			System.out.println("Login of client successful!");
 			
-		}else if (u != null & u.getRole().getName().equals("administrator")) 
+		}else if (u != null & u.getRole().getName().equals("pharmacist")) 
+		{
+			System.out.println("Login of pharmacist successful!");
+			
+		}else if (u != null & u.getRole().getName().equals("administrator"))
 		{
 			System.out.println("Login of administrator successful!");
 			
-		}else 
-		{
-			System.out.println("Login of pharmacist successful!");
 		}
 		
 	}
+	
+	
 	
 	private static void signUpUser() {
 		// TODO Auto-generated method stub
@@ -160,7 +181,7 @@ public class MainMenu {
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			}
+		}
 	}
 	
 	
@@ -176,10 +197,6 @@ public class MainMenu {
 		System.out.println("Introduce your phone number");
 		Integer phonenumber = Integer.parseInt(reader.readLine());
 		Administrator a = new Administrator (name,surname,phonenumber,email);
-		if (administratormanager == null) 
-		{
-			System.out.println("	Error");
-		}
 		administratormanager.createAdministrator(a);
 	}
 	
@@ -209,6 +226,13 @@ public class MainMenu {
 		Client c = new Client (name,surname,address,phonenumber,email);
 		System.out.println(c.toString());
 		clientmanager.createClient(c);
+	}
+	
+	private static void getAllClients ()throws Exception 
+	{
+		List <Client> clients = null;
+		clients = clientmanager.getListOfClients();
+		System.out.println(clients);
 	}
 	
 	private static void createPharmacist () throws Exception 

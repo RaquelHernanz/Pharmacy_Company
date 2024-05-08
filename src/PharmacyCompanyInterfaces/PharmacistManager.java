@@ -10,4 +10,5 @@ public interface PharmacistManager
 	public List <Pharmacist> getListOfPharmacist();
 	public Pharmacist searchPharmacistById (Integer id);
 	public void deletePharmacistbyId (Integer id) throws Exception;
+	public Pharmacist searchPharmacistByEmail (String email_p) throws Exception;
 }
