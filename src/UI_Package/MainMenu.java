@@ -55,10 +55,8 @@ public class MainMenu {
     	  do {
     		  System.out.println("Choose an initial option");
     		  System.out.println("1. Login User");
-    		  System.out.println("2. Add new administrator");
-    		  System.out.println("3. Get all administrators");
-    		  System.out.println("4. Sign up");
-    		  //Después de realizar el login user o el sign-up según el usuario se pondrá el menú
+    		  System.out.println("2. SignUp User");
+    		  System.out.println("0. Exit the aplication");
     		  choice = Integer.parseInt(reader.readLine());
     		  
     		  switch(choice) {
@@ -78,34 +76,20 @@ public class MainMenu {
     		  }
     		  case 2 ->
     		  {
-    			  try {
-    			  /*singUpUser();*/
-    				  
-    				createAdministrator ();
-    				
+    			  try 
+    			  {
+    				  signUpUser();
     			  }catch (Exception e)
     			  {
-    				  e.printStackTrace();
+    				  /*e.printStackTrace();*/
     				  System.out.println("Resolve it");
     			  } 
     		  }
     		  case 0 ->  
-    		  {   jdbcmanager.disconnect();
+    		  {   
+    			  jdbcmanager.disconnect();
     			  System.out.println("At least this doesnt fail");
     			  System.exit(0);
-    		  }
-    		  case 3 ->
-    		  {
-    			  getAlladministrators();
-    		  }
-    		  case 4 ->
-    		  {
-    			  signUpUser();
-    		  }
-    		  case 5 ->
-    		  {
-    			  createClient ();
-    			  getAllClients ();
     		  }
     		  }
     		  
@@ -119,7 +103,8 @@ public class MainMenu {
   	  }
 	}
 	
-	private static void login() throws java.sql.SQLException, Exception {
+	private static void login() throws java.sql.SQLException, Exception 
+	{
 		// TODO Auto-generated method stub
 		System.out.println("Introduce your email: ");
 		String email = reader.readLine();
@@ -133,25 +118,24 @@ public class MainMenu {
 		{
 			System.out.println("Not able to login");
 		}
-		
 		if(u!=null & u.getRole().getName().equals("client"))
 		{
 			System.out.println("Login of client successful!");
+			menuClient(email);
 			//We can now call a menu for each type of user
-			
 		} 
 		else if (u!=null & u.getRole().getName().equals("doctor")) 
 		{
-			System.out.println("Login of client successful!");
+			System.out.println("Login of doctor successful!");
 			
-		}else if (u != null & u.getRole().getName().equals("pharmacist")) 
-		{
-			System.out.println("Login of pharmacist successful!");
-			
-		}else if (u != null & u.getRole().getName().equals("administrator"))
+		}else if (u != null & u.getRole().getName().equals("administrator")) 
 		{
 			System.out.println("Login of administrator successful!");
+			menuAdministrator(email);
 			
+		}else if (u != null & u.getRole().getName().equals("pharmacist"))
+		{
+			System.out.println("Login of pharmacist successful!");
 		}
 		
 	}
@@ -161,11 +145,10 @@ public class MainMenu {
 	private static void signUpUser() {
 		// TODO Auto-generated method stub
 		try {
-			System.out.println("Write an email for your account: ");
+			System.out.print("Write an email for your account: ");
 			String email = reader.readLine();
-			System.out.println("Write a password for your account");
+			System.out.print("Write a password for your account: ");
 			String password = reader.readLine();
-			
 			MessageDigest md= MessageDigest.getInstance("MD5");
 			md.update(password.getBytes());
 			byte[] pass = md.digest();
@@ -176,7 +159,7 @@ public class MainMenu {
 			Role r = usermanager.getRole(rol);
 			User u = new User(email, pass, r);
 			usermanager.newUser(u);
-		
+			System.out.println("Sign-up done, now try to login");
 		}
 		catch(Exception e)
 		{
@@ -184,6 +167,117 @@ public class MainMenu {
 		}
 	}
 	
+	
+	private static void menuAdministrator (String email) throws Exception
+	{
+		Administrator a = null;
+		Integer adchoice;
+		try {
+			
+			a = administratormanager.searchAdministratorByEmail(email);
+			if (a == null) 
+			{
+				System.out.println("Write down your information into the system");
+				System.out.println("Remember that your email must be equal to the login");
+				createAdministrator();
+				//This part is required in order to gurantee the info was kept
+		    }
+		do {	
+		//Comprobar que el adminitrator
+		System.out.println("Choose an initial option");
+		System.out.println("1. Add new adminitrator to the system");
+		System.out.println("2. Add new client to the system");
+		System.out.println("3. Add new pharmacist to the system");
+		/*System.out.println("4. Add new doctor to the system");
+		System.out.println("5. Remove administrator by Email");
+		System.out.println("6. Remove client by Email");
+		System.out.println("7. Remove pharmacist by Email");
+		System.out.println("8. Remove doctor by Email");
+		System.out.println("9. ");*/
+		adchoice = Integer.parseInt(reader.readLine());
+		switch (adchoice) 
+		{
+		  case 1->
+		  {
+			createAdministrator();
+		  }
+		  case 2 ->
+		  {
+			createClient();
+		  }
+		  case 3 ->
+		  {
+			createPharmacist();  
+		  }
+		  case 4 ->
+		  {
+			createDoctor();
+		  }
+		}
+		
+		}while (adchoice !=0);
+		
+		}catch (Exception e) 
+		{
+			e.printStackTrace();
+			System.out.println("Not found");
+		}
+	}
+	
+	private static void menuClient (String email) throws Exception
+	{
+		Client c = null;
+		Integer adchoice = 12;
+		try {
+		do 
+		{	
+		if (clientmanager.searchClientByEmail(email) == null) 
+		{
+			System.out.println("Write down your information into the system");
+			System.out.println("Remember that your email must be equal to the login");
+			createClient();
+			//This part is required in order to gurantee the info was kept
+		}
+		else 
+		{
+		System.out.println("Choose an initial option");
+		System.out.println("1. Add new adminitrator to the system");
+		System.out.println("2. Add new client to the system");
+		System.out.println("3. Add new pharmacist to the system");
+		/*System.out.println("4. Add new doctor to the system");
+		System.out.println("5. Remove administrator by Email");
+		System.out.println("6. Remove client by Email");
+		System.out.println("7. Remove pharmacist by Email");
+		System.out.println("8. Remove doctor by Email");
+		System.out.println("9. ");*/
+		adchoice = Integer.parseInt(reader.readLine());
+		switch (adchoice) 
+		{
+		  case 1->
+		  {
+			createAdministrator();
+		  }
+		  case 2 ->
+		  {
+			createClient();
+		  }
+		  case 3 ->
+		  {
+			createPharmacist();  
+		  }
+		  case 4 ->
+		  {
+			createDoctor();
+		  }
+		}
+		}
+		}while (adchoice !=0);
+		
+		}catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+	}
 	
 	public static void createAdministrator () throws Exception
 	{

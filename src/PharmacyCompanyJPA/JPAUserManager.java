@@ -60,16 +60,18 @@ public class JPAUserManager implements UserManager{
 		em.createNativeQuery("PRAGMA foreing_keys = ON").executeUpdate();
 		em.getTransaction().commit();
 		
-		if(this.getRoles().isEmpty()) {
+		if(this.getRoles().isEmpty()) 
+		{
 			
 			Role client = new Role ("client");
 			Role doctor = new Role("doctor");
-			Role administrator = new Role ("adiministrator");
+			Role administrator = new Role ("administrator");
 			Role pharmacist = new Role ("pharmacist");
 			this.newRole(client);
 			this.newRole(doctor);
 			this.newRole(administrator);
 			this.newRole(pharmacist);
+			//no funciona el administrator
 		}
 	}
 

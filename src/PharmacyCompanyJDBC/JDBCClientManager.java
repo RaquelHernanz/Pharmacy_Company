@@ -148,7 +148,7 @@ public class JDBCClientManager implements ClientManager{
 				    
 				}catch(Exception e) {e.printStackTrace();}
 				
-				
+		c.toString();		
 		return c;
  }
 	
