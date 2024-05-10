@@ -178,5 +178,10 @@ public class JDBCMedicineManager implements MedicineManager
 		}
 		
 	}
+	
+	public void updateStock (Integer quantity) throws Exception
+	{
+		
+	}
     
 }

@@ -160,7 +160,7 @@ public class JDBCOrderManager implements OrderManager
 		//TODO Auto-generated method stub
 		try 
 		{
-			String sql = "INSERT INTO update_medicines (client_id, medicine_id)"
+			String sql = "INSERT INTO update_medicines (order_id, medicine_id)"
 					+ "VALUES (?,?)";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setInt (1,order_id);

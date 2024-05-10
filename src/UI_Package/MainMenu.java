@@ -24,7 +24,6 @@ import PharmacyCompanyPOJOs.User;
 
 
 
-
 public class MainMenu {
 
 	private static JDBCManager jdbcmanager;
@@ -183,7 +182,8 @@ public class MainMenu {
 			Role r = usermanager.getRole(rol);
 			User u = new User(email, pass, r);
 			usermanager.newUser(u);
-			System.out.println("Sign-up done, now try to login");
+			//Hay que añadir crear cada tipo de usuarios
+			System.out.println("Sign-Up and Registration in the system done, now try to login");
 		}
 		catch(Exception e)
 		{
@@ -309,6 +309,7 @@ public class MainMenu {
 		Client c = new Client (name,surname,address,phonenumber,email);
 		System.out.println(c.toString());
 		clientmanager.createClient(c);
+		//Pilar, ya sabes que hay que quitar los souts
 	}
 	
 	private static void getAllClients ()throws Exception 
@@ -350,7 +351,40 @@ public class MainMenu {
 		doctormanager.createDoctor(d);
 	}
 	
+	private static void AddMedicinetoCatalogue (Integer pharmacist_id) throws Exception 
+	{
+		//Rellenar los datos de la medicina, incluyendo un stock inicial.
+		
+	}
 	
+	private static void ClientBuyMedicine (Integer client_id) throws Exception
+	{
+		//Tiene que comprar con el nombre de la medicina
+		//Poner la cantidad que quieren
+		//Le imprimirá la factura con la cantidad de medicinas.
+		//Una vez comprado, hay que modificar automáticamente el atributo stock, aunque podemos hacerlo fuera de este método
+	}
+	
+	private static void DoctorBuyMedicine (Integer doctor_id) throws Exception
+	{
+		
+	}
+	
+	private static void AdmintratorMakeOrder (Integer administrator_id) 
+	{
+		//El administrator hará una order de reestock automática.
+		//El médicamento y el pharmacist deben de coindidir (no puedes perdirle el stock a otro pharmacist).
+		//Automáticamente el stock se actualizará a la cantidad que siempre pondremos.
+		//También podemos imprimir la factura de los artículos y el precio total basado en un porcentaje del precio original.
+	}
+	
+	//¿Qué métodos de modificación incluimos?
+	//Los atributos básicos de cada usuario
+	//Los de modifica la médicina, excepto el stock y id.
+	//No podemos modificar las comprar
+	
+	//Métodos para ver listados de datos
+	//De todo tipo, medicinas, ordenes, clientes... Otra cosa es quien pueda acceder a todos.
 }
 
 	
