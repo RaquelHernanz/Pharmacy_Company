@@ -121,7 +121,7 @@ public class JDBCClientManager implements ClientManager{
 		}
 	}
 	
-	public Client searchClientByEmail (String email_c) throws Exception
+	public Client searchClientByName (String name_c) throws Exception
 	{
 		// TODO Auto-generated method stub
 				Client c = null;
@@ -129,7 +129,7 @@ public class JDBCClientManager implements ClientManager{
 				try 
 				{
 					Statement stmt = manager.getConnection().createStatement();
-					String sql = "SELECT * FROM clients WHERE email=" + email_c;
+					String sql = "SELECT * FROM clients WHERE name=" + name_c;
 				
 					ResultSet rs = stmt.executeQuery(sql);
 					
@@ -151,7 +151,6 @@ public class JDBCClientManager implements ClientManager{
 		c.toString();		
 		return c;
  }
-	
 	
 }
 

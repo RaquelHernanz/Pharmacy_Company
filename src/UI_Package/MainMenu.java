@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.util.List;
-
 import PharmacyCompanyInterfaces.AdministratorManager;
 import PharmacyCompanyInterfaces.ClientManager;
 import PharmacyCompanyInterfaces.DoctorManager;
@@ -46,10 +45,6 @@ public class MainMenu {
       pharmacistmanager = new JDBCPharmacistManager (jdbcmanager);
       usermanager= new JPAUserManager();
       
-      if ( administratormanager == null ) 
-      {
-    	  System.out.println("Resolve it");
-      }
       try {
     	  int choice;
     	  do {
@@ -62,26 +57,56 @@ public class MainMenu {
     		  switch(choice) {
     		  case 1 -> //
     		  {
-    			  try {
-    			  login();
-    			  }catch (java.sql.SQLException e)
+    			  try 
+    			  {
+    				  createClient();
+    			  }catch (Exception e)
     			  {
     				  /*e.printStackTrace();*/
     				  System.out.println("Resolve it");
-    			  }catch (Exception e) 
-    			  {
-    				  System.out.println("");
-    			  }
-    			  
+    			  } 
     		  }
     		  case 2 ->
     		  {
     			  try 
     			  {
-    				  signUpUser();
+    				  createAdministrator();
     			  }catch (Exception e)
     			  {
     				  /*e.printStackTrace();*/
+    				  System.out.println("Resolve it");
+    			  } 
+    		  }
+    		  case 3 ->
+    		  {
+    			  try 
+    			  {
+    				  getAlladministrators();
+    			  }catch (Exception e)
+    			  {
+    				  e.printStackTrace();
+    				  System.out.println("Resolve it");
+    			  } 
+    		  }
+    		  case 4 ->
+    		  {
+    			  try 
+    			  {
+    				  searchAdministrator();
+    			  }catch (Exception e)
+    			  {
+    				  e.printStackTrace();
+    				  System.out.println("Resolve it");
+    			  } 
+    		  }
+    		  case 5 ->
+    		  {
+    			  try 
+    			  {
+    				  searchAdministratorbyId ();
+    			  }catch (Exception e)
+    			  {
+    				  e.printStackTrace();
     				  System.out.println("Resolve it");
     			  } 
     		  }
@@ -121,7 +146,7 @@ public class MainMenu {
 		if(u!=null & u.getRole().getName().equals("client"))
 		{
 			System.out.println("Login of client successful!");
-			menuClient(email);
+			
 			//We can now call a menu for each type of user
 		} 
 		else if (u!=null & u.getRole().getName().equals("doctor")) 
@@ -131,7 +156,6 @@ public class MainMenu {
 		}else if (u != null & u.getRole().getName().equals("administrator")) 
 		{
 			System.out.println("Login of administrator successful!");
-			menuAdministrator(email);
 			
 		}else if (u != null & u.getRole().getName().equals("pharmacist"))
 		{
@@ -168,13 +192,13 @@ public class MainMenu {
 	}
 	
 	
-	private static void menuAdministrator (String email) throws Exception
+	/*private static void menuAdministrator (String email) throws Exception
 	{
 		Administrator a = null;
 		Integer adchoice;
 		try {
 			
-			a = administratormanager.searchAdministratorByEmail(email);
+			a = administratormanager.searchAdministratorByName();
 			if (a == null) 
 			{
 				System.out.println("Write down your information into the system");
@@ -193,7 +217,7 @@ public class MainMenu {
 		System.out.println("6. Remove client by Email");
 		System.out.println("7. Remove pharmacist by Email");
 		System.out.println("8. Remove doctor by Email");
-		System.out.println("9. ");*/
+		System.out.println("9. ");
 		adchoice = Integer.parseInt(reader.readLine());
 		switch (adchoice) 
 		{
@@ -222,62 +246,9 @@ public class MainMenu {
 			e.printStackTrace();
 			System.out.println("Not found");
 		}
-	}
+	}*/
 	
-	private static void menuClient (String email) throws Exception
-	{
-		Client c = null;
-		Integer adchoice = 12;
-		try {
-		do 
-		{	
-		if (clientmanager.searchClientByEmail(email) == null) 
-		{
-			System.out.println("Write down your information into the system");
-			System.out.println("Remember that your email must be equal to the login");
-			createClient();
-			//This part is required in order to gurantee the info was kept
-		}
-		else 
-		{
-		System.out.println("Choose an initial option");
-		System.out.println("1. Add new adminitrator to the system");
-		System.out.println("2. Add new client to the system");
-		System.out.println("3. Add new pharmacist to the system");
-		/*System.out.println("4. Add new doctor to the system");
-		System.out.println("5. Remove administrator by Email");
-		System.out.println("6. Remove client by Email");
-		System.out.println("7. Remove pharmacist by Email");
-		System.out.println("8. Remove doctor by Email");
-		System.out.println("9. ");*/
-		adchoice = Integer.parseInt(reader.readLine());
-		switch (adchoice) 
-		{
-		  case 1->
-		  {
-			createAdministrator();
-		  }
-		  case 2 ->
-		  {
-			createClient();
-		  }
-		  case 3 ->
-		  {
-			createPharmacist();  
-		  }
-		  case 4 ->
-		  {
-			createDoctor();
-		  }
-		}
-		}
-		}while (adchoice !=0);
-		
-		}catch (Exception e) 
-		{
-			e.printStackTrace();
-		}
-	}
+	
 	
 	public static void createAdministrator () throws Exception
 	{
@@ -292,6 +263,24 @@ public class MainMenu {
 		Integer phonenumber = Integer.parseInt(reader.readLine());
 		Administrator a = new Administrator (name,surname,phonenumber,email);
 		administratormanager.createAdministrator(a);
+	}
+	
+	private static void searchAdministrator()throws Exception
+	{
+		System.out.println("Write the name of the person");
+		String name = reader.readLine();
+		System.out.println("Write the surname of the person");
+		String surname = reader.readLine();
+		Administrator a = administratormanager.searchAdministratorByName(name,surname);
+		System.out.println(a.toString());
+	}
+	
+	private static void searchAdministratorbyId()throws Exception
+	{
+		System.out.println("Write the id of the person");
+		Integer id = Integer.parseInt(reader.readLine());
+		Administrator a = administratormanager.searchAdministratorById(id);
+		System.out.println(a.toString());
 	}
 	
     private static void getAlladministrators() throws Exception{
@@ -360,7 +349,6 @@ public class MainMenu {
 		System.out.println(d.toString());
 		doctormanager.createDoctor(d);
 	}
-	
 	
 	
 }

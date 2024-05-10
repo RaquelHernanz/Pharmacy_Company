@@ -7,7 +7,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-
 import PharmacyCompanyInterfaces.UserManager;
 import PharmacyCompanyPOJOs.Role;
 import PharmacyCompanyPOJOs.User;

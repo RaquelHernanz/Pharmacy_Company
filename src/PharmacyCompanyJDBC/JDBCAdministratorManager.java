@@ -73,14 +73,10 @@ public class JDBCAdministratorManager implements AdministratorManager {
 	{
 		// TODO Auto-generated method stub
 		Administrator a = null;
-		
-		
 		try {
 			Statement stmt = manager.getConnection().createStatement();
 			String sql = "SELECT * FROM administrators WHERE id=" + id;
-		
 			ResultSet rs = stmt.executeQuery(sql);
-			
 			Integer a_id = rs.getInt("id");
 			String name = rs.getString("name");
 			String surname = rs.getString("surname");
@@ -88,7 +84,6 @@ public class JDBCAdministratorManager implements AdministratorManager {
 			String email = rs.getString("email");
 			
 			a = new Administrator (a_id, name,surname,phone_number,email);
-		    
 		    rs.close();
 		    stmt.close();
 		    
@@ -115,16 +110,13 @@ public class JDBCAdministratorManager implements AdministratorManager {
 		}
 	}
     
-    public Administrator searchAdministratorByEmail (String email_a) throws Exception
+    public Administrator searchAdministratorByName (String name_a, String surname_a) throws Exception
 	{
 		// TODO Auto-generated method stub
 		Administrator a = null;
-		
-		
 		try {
 			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM administrators WHERE email=" + email_a;
-		
+			String sql = "SELECT * FROM administrators WHERE name="+ name_a+" AND surname ="+surname_a;
 			ResultSet rs = stmt.executeQuery(sql);
 			Integer a_id = rs.getInt("id");
 			String name = rs.getString("name");
@@ -133,7 +125,6 @@ public class JDBCAdministratorManager implements AdministratorManager {
 			String email = rs.getString("email");
 			
 			a = new Administrator (a_id, name,surname,phone_number,email);
-		    
 		    rs.close();
 		    stmt.close();
 		    
@@ -142,5 +133,6 @@ public class JDBCAdministratorManager implements AdministratorManager {
 		
 		return a;
 	}
+    
 	
 }
