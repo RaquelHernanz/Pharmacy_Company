@@ -119,7 +119,7 @@ public class JDBCDoctorManager implements DoctorManager{
 			try 
 			{
 				Statement stmt = manager.getConnection().createStatement();
-				String sql = "SELECT * FROM doctors WHERE email=" + email_d;
+				String sql = "SELECT * FROM doctors WHERE email= '"+ email_d+"'";
 			
 				ResultSet rs = stmt.executeQuery(sql);
 				
@@ -139,6 +139,31 @@ public class JDBCDoctorManager implements DoctorManager{
 		return d;
 	}
 
-		
+	public Doctor searchDoctorByNameEmail (String name_d, String surname_d,String email_d) throws Exception
+	{
+			// TODO Auto-generated method stub
+			Doctor d = null;	
+			try 
+			{
+				Statement stmt = manager.getConnection().createStatement();
+				String sql = "SELECT * FROM doctors WHERE name = '"+name_d+"' AND surname = '"+surname_d+"' AND email= '"+ email_d+"'";
+			
+				ResultSet rs = stmt.executeQuery(sql);
+				
+				Integer d_id = rs.getInt("id");
+				String name = rs.getString("name");
+				String surname = rs.getString("surname");
+				Integer phone_number = rs.getInt("phone_number");
+				String email = rs.getString("email");
+				String address = rs.getString("address");
+				d = new Doctor (d_id, name,surname,address,phone_number,email);
+			    
+			    rs.close();
+			    stmt.close();
+			    
+			}catch(Exception e) {e.printStackTrace();}
+			
+		return d;
+	}	
 		
 }

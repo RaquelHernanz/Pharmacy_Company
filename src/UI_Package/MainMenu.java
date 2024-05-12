@@ -1,23 +1,40 @@
 package UI_Package;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
+import java.sql.Blob;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+
+import javax.sql.rowset.serial.SerialBlob;
+
 import PharmacyCompanyInterfaces.AdministratorManager;
 import PharmacyCompanyInterfaces.ClientManager;
 import PharmacyCompanyInterfaces.DoctorManager;
+import PharmacyCompanyInterfaces.MedicineManager;
+import PharmacyCompanyInterfaces.OrderManager;
 import PharmacyCompanyInterfaces.PharmacistManager;
 import PharmacyCompanyInterfaces.UserManager;
 import PharmacyCompanyJDBC.JDBCAdministratorManager;
 import PharmacyCompanyJDBC.JDBCClientManager;
 import PharmacyCompanyJDBC.JDBCDoctorManager;
 import PharmacyCompanyJDBC.JDBCManager;
+import PharmacyCompanyJDBC.JDBCMedicineManager;
+import PharmacyCompanyJDBC.JDBCOrderManager;
 import PharmacyCompanyJDBC.JDBCPharmacistManager;
 import PharmacyCompanyJPA.JPAUserManager;
 import PharmacyCompanyPOJOs.Administrator;
 import PharmacyCompanyPOJOs.Client;
 import PharmacyCompanyPOJOs.Doctor;
+import PharmacyCompanyPOJOs.Medicine;
+import PharmacyCompanyPOJOs.Order;
 import PharmacyCompanyPOJOs.Pharmacist;
 import PharmacyCompanyPOJOs.Role;
 import PharmacyCompanyPOJOs.User;
@@ -31,6 +48,8 @@ public class MainMenu {
 	private static ClientManager clientmanager;
 	private static PharmacistManager pharmacistmanager;
 	private static DoctorManager doctormanager;
+	private static MedicineManager medicinemanager;
+	private static OrderManager ordermanager;
 	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	private static UserManager usermanager;
 	
@@ -42,7 +61,15 @@ public class MainMenu {
       clientmanager = new JDBCClientManager(jdbcmanager);
       doctormanager = new JDBCDoctorManager (jdbcmanager);
       pharmacistmanager = new JDBCPharmacistManager (jdbcmanager);
+      medicinemanager = new JDBCMedicineManager (jdbcmanager);
+      ordermanager = new JDBCOrderManager (jdbcmanager);
       usermanager= new JPAUserManager();
+      Administrator a = null;
+      Client c = null;
+      Doctor d = null;
+      Pharmacist p = null;
+      Order o = null;
+      Medicine m = null;
       
       try {
     	  int choice;
@@ -58,7 +85,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  createClient();
+    				 signUpUser();
     			  }catch (Exception e)
     			  {
     				  /*e.printStackTrace();*/
@@ -69,7 +96,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  createAdministrator();
+    				  login();
     			  }catch (Exception e)
     			  {
     				  /*e.printStackTrace();*/
@@ -80,7 +107,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  getAlladministrators();
+    				  updatePassword();
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -91,7 +118,10 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  searchAdministrator();
+    				  System.out.println("Introduce the id of the person: ");
+    				  Integer id  = Integer.parseInt(reader.readLine());
+    				  a = administratormanager.searchAdministratorById(id);
+    				  System.out.println(a.toString());
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -102,13 +132,70 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  searchAdministratorbyId ();
+    				  System.out.println("Introduce your email: ");
+    				  String email = reader.readLine();
+    				  a = administratormanager.searchAdministratorByNameEmail("john","smith",email);
+    				  System.out.println(a.toString());
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
     				  System.out.println("Resolve it");
     			  } 
     		  }
+    		  case 6 ->
+    		  {
+    			  try 
+    			  {
+    				  
+    				  createPharmacist();
+    				 
+    			  }catch (Exception e)
+    			  {
+    				  e.printStackTrace();
+    				  System.out.println("Resolve it");
+    			  } 
+    		  }
+    		  case 7 ->
+    		  {
+    			  try 
+    			  {
+    				  System.out.println("Introduce the id of the person: ");
+    				  Integer id  = Integer.parseInt(reader.readLine());
+    				  p = pharmacistmanager.searchPharmacistById(id);
+    				  addMedicinetoCatalogue(p);
+    				 
+    			  }catch (Exception e)
+    			  {
+    				  e.printStackTrace();
+    				  System.out.println("Resolve it");
+    			  } 
+    		  }
+    		  case 8 ->
+    		  {
+    			  try 
+    			  {
+    				  getAllMedicine();
+    				 
+    			  }catch (Exception e)
+    			  {
+    				  e.printStackTrace();
+    				  System.out.println("Resolve it");
+    			  } 
+    		  }
+    		  case 9 ->
+    		  {
+    			  try 
+    			  {
+    				  System.out.println("Introduce the id of the person: ");
+    				  Integer code  = Integer.parseInt(reader.readLine());
+    				  medicinemanager.deleteMedicinebyCode(code);
+    			  }catch (Exception e)
+    			  {
+    				  e.printStackTrace();
+    				  System.out.println("Resolve it");
+    			  } 
+    		  }
+    		  
     		  case 0 ->  
     		  {   
     			  jdbcmanager.disconnect();
@@ -155,6 +242,8 @@ public class MainMenu {
 		}else if (u != null & u.getRole().getName().equals("administrator")) 
 		{
 			System.out.println("Login of administrator successful!");
+			Administrator a = administratormanager.searchAdministratorByEmail(email);
+			System.out.println(a.toString());
 			
 		}else if (u != null & u.getRole().getName().equals("pharmacist"))
 		{
@@ -182,7 +271,6 @@ public class MainMenu {
 			Role r = usermanager.getRole(rol);
 			User u = new User(email, pass, r);
 			usermanager.newUser(u);
-			//Hay que añadir crear cada tipo de usuarios
 			System.out.println("Sign-Up and Registration in the system done, now try to login");
 		}
 		catch(Exception e)
@@ -191,62 +279,27 @@ public class MainMenu {
 		}
 	}
 	
-	
-	/*private static void menuAdministrator (String email) throws Exception
-	{
-		Administrator a = null;
-		Integer adchoice;
-		try {
-			
-			a = administratormanager.searchAdministratorByName();
-			if (a == null) 
-			{
-				System.out.println("Write down your information into the system");
-				System.out.println("Remember that your email must be equal to the login");
-				createAdministrator();
-				//This part is required in order to gurantee the info was kept
-		    }
-		do {	
-		//Comprobar que el adminitrator
-		System.out.println("Choose an initial option");
-		System.out.println("1. Add new adminitrator to the system");
-		System.out.println("2. Add new client to the system");
-		System.out.println("3. Add new pharmacist to the system");
-		/*System.out.println("4. Add new doctor to the system");
-		System.out.println("5. Remove administrator by Email");
-		System.out.println("6. Remove client by Email");
-		System.out.println("7. Remove pharmacist by Email");
-		System.out.println("8. Remove doctor by Email");
-		System.out.println("9. ");
-		adchoice = Integer.parseInt(reader.readLine());
-		switch (adchoice) 
-		{
-		  case 1->
-		  {
-			createAdministrator();
-		  }
-		  case 2 ->
-		  {
-			createClient();
-		  }
-		  case 3 ->
-		  {
-			createPharmacist();  
-		  }
-		  case 4 ->
-		  {
-			createDoctor();
-		  }
-		}
+       private static void updatePassword() throws Exception {
 		
-		}while (adchoice !=0);
+		System.out.println("Email: ");
+		String email = reader.readLine();
+				
+		System.out.println("Enter current Password");
+		String passwd = reader.readLine();
 		
-		}catch (Exception e) 
+		System.out.println("Enter new Password");
+		String new_passwd = reader.readLine();
+				
+		User u = usermanager.checkPassword(email, passwd);
+				
+		if(u!=null)
 		{
-			e.printStackTrace();
-			System.out.println("Not found");
+			System.out.println("Login of owner successful!");
+			usermanager.changePassword(u, new_passwd);
+			//El método de changePassword está incompleto 
 		}
-	}*/
+				
+	   }
 	
 	
 	
@@ -265,30 +318,11 @@ public class MainMenu {
 		administratormanager.createAdministrator(a);
 	}
 	
-	private static void searchAdministrator()throws Exception
-	{
-		System.out.println("Write the name of the person");
-		String name = reader.readLine();
-		System.out.println("Write the surname of the person");
-		String surname = reader.readLine();
-		Administrator a = administratormanager.searchAdministratorByName(name,surname);
-		System.out.println(a.toString());
-	}
-	
-	private static void searchAdministratorbyId()throws Exception
-	{
-		System.out.println("Write the id of the person");
-		Integer id = Integer.parseInt(reader.readLine());
-		Administrator a = administratormanager.searchAdministratorById(id);
-		System.out.println(a.toString());
-	}
 	
     private static void getAlladministrators() throws Exception{
 		
 		List<Administrator> administrators = null;
-		
 		administrators = administratormanager.getListOfAdministrators();
-		
 		System.out.println(administrators);
 		
 	}
@@ -351,11 +385,72 @@ public class MainMenu {
 		doctormanager.createDoctor(d);
 	}
 	
-	private static void AddMedicinetoCatalogue (Integer pharmacist_id) throws Exception 
+	private static void addMedicinetoCatalogue (Pharmacist pharmacist) throws Exception, SQLException 
 	{
 		//Rellenar los datos de la medicina, incluyendo un stock inicial.
 		
+		/*String name, Float price,String instructions, Integer stock, Date expirations, Pharmacist pharmacist,
+			Blob image*/
+		
+		/*Ver el tema del blob, si no funciona lo omitiremos como algo opcional*/
+		System.out.print("Introduce your name:");
+		String name = reader.readLine();
+		System.out.print("Introduce the price: ");
+		Float price = Float.parseFloat(reader.readLine());
+		System.out.print("Introduce the instructions:");
+		String instructions = reader.readLine();
+		System.out.print("Introduce the initial stock:");
+		Integer stock = Integer.parseInt(reader.readLine());
+		System.out.print("Introduce a date in this structure YYYY-MM-DD:");
+		String date_string = reader.readLine();
+		Date date = Date.valueOf(date_string);
+		/*System.out.println("Introduce the route of your blob:");
+		String blobString =  reader.readLine();*/
+		Blob image = null;
+		//No funciona la integración del blob 
+		/*try {
+			image = BlobManual (blobString);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Later try to update the image");
+			e.printStackTrace();
+			image = null;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Later try to update the image");
+			e.printStackTrace();
+			image = null;
+		}*/
+		
+		Medicine m = new Medicine (name,price,instructions,stock,date,pharmacist,image);
+		medicinemanager.addMedicine(m);
 	}
+	
+     private static void getAllMedicine() throws Exception{
+		
+		List<Medicine> medicines = null;
+		medicines = medicinemanager.getListofMedicines();
+		System.out.println(medicines);
+		
+	}
+	
+     
+	/*public static Blob BlobManual (String blobString)throws Exception, SQLException 
+	{
+		File file = new File (blobString);
+		try (FileInputStream inputStream = new FileInputStream(file))
+		{
+			
+			byte [] bytes = new byte [(int) file.length()];
+			inputStream.read(bytes);
+			return new SerialBlob (bytes);
+		}catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return null;
+	}*/
 	
 	private static void ClientBuyMedicine (Integer client_id) throws Exception
 	{

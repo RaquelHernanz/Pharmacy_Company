@@ -18,6 +18,7 @@ public class JDBCAdministratorManager implements AdministratorManager {
 		this.manager = m;
 	}
 	
+	//Funciona
 	public void createAdministrator(Administrator a) {
 		try {
 			String sql = "INSERT INTO administrators (name,surname,phone_number,email)"
@@ -69,6 +70,7 @@ public class JDBCAdministratorManager implements AdministratorManager {
 		return administrators;
 	}
 	
+	//Funciona
 	public Administrator searchAdministratorById (Integer id) 
 	{
 		// TODO Auto-generated method stub
@@ -89,10 +91,57 @@ public class JDBCAdministratorManager implements AdministratorManager {
 		    
 		}catch(Exception e) {e.printStackTrace();}
 		
+		return a;
+	}
+	
+	//Funciona
+	public Administrator searchAdministratorByNameEmail (String name_a, String surname_a,String email_a) throws Exception
+	{
+		// TODO Auto-generated method stub
+		Administrator a = null;
+		try {
+			Statement stmt = manager.getConnection().createStatement();
+			String sql = "SELECT * FROM administrators WHERE name = '"+name_a+"' AND surname = '"+surname_a+"' AND email = '"+email_a+"'";
+			ResultSet rs = stmt.executeQuery(sql);
+			Integer a_id = rs.getInt("id");
+			String name = rs.getString("name");
+			String surname = rs.getString("surname");
+			Integer phone_number = rs.getInt("phone_number");
+			String email = rs.getString("email");
+			a = new Administrator (a_id, name,surname,phone_number,email);
+		    rs.close();
+		    stmt.close();
+		    
+		}catch(Exception e) {e.printStackTrace();}
+	
+		return a;
+	}
+	
+	
+	//Funciona
+	public Administrator searchAdministratorByEmail (String email) throws Exception
+	{
+		// TODO Auto-generated method stub
+		Administrator a = null;
+		try {
+			Statement stmt = manager.getConnection().createStatement();
+			String sql = "SELECT * FROM administrators WHERE email ='"+email+"'";
+			ResultSet rs = stmt.executeQuery(sql);
+			Integer a_id = rs.getInt("id");
+			String name = rs.getString("name");
+			String surname = rs.getString("surname");
+			Integer phone_number = rs.getInt("phone_number");
+			String email_a = rs.getString("email");
+			a = new Administrator (a_id, name,surname,phone_number,email_a);
+		    rs.close();
+		    stmt.close();
+		    
+		}catch(Exception e) {e.printStackTrace();}
 		
 		return a;
 	}
 	
+	//Funciona
     public void deleteAdministratorbyId (Integer id) throws Exception 
 	{
 		// TODO Auto-generated method stub
@@ -110,34 +159,6 @@ public class JDBCAdministratorManager implements AdministratorManager {
 		}
 	}
     
-    public Administrator searchAdministratorByName (String name_a, String surname_a) throws Exception
-	{
-		// TODO Auto-generated method stub
-		Administrator a = null;
-		try {
-			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM administrators WHERE administrators.name ="+ name_a+" AND administrators.surname ="+surname_a;
-			ResultSet rs = stmt.executeQuery(sql);
-			Integer a_id = rs.getInt("id");
-			System.out.println(a_id);
-			String name = rs.getString("name");
-			System.out.println(name);
-			String surname = rs.getString("surname");
-			System.out.println(surname);
-			Integer phone_number = rs.getInt("phone_number");
-			System.out.println(phone_number);
-			String email = rs.getString("email");
-			System.out.println(email);
-			a = new Administrator (a_id, name,surname,phone_number,email);
-			System.out.println(a.toString());
-		    rs.close();
-		    stmt.close();
-		    
-		}catch(Exception e) {e.printStackTrace();}
-		
-		//¿Por qué no funciona?
-		return a;
-	}
     
 	
 }

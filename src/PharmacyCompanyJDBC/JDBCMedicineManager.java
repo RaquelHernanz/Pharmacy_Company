@@ -29,18 +29,19 @@ public class JDBCMedicineManager implements MedicineManager
 	public void addMedicine(Medicine m) {
 		// TODO Auto-generated method stub
 		try {
-		 String sql = "INSERT INTO medicines (name,price,stock,expirations,instructions,pharmacist_id,image)"
-				 + "VALUES(?,?,?,?,?,?,?)";
+		 String sql = "INSERT INTO medicines (name_med,price,stock,expirations,intructions,pharmacist_id)"
+				 + "VALUES(?,?,?,?,?,?)";
+		 //Faltaría image, pero hay problemas
 		 
 		 PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 		 
-		 prep.setInt(1, m.getCode());
+		 prep.setString(1, m.getName());
 		 prep.setFloat(2, m.getPrice());
 		 prep.setInt(3, m.getStock());
 		 prep.setDate(4, m.getExpirations());
 		 prep.setString(5, m.getInstructions());
 		 prep.setInt(6,m.getPharmacist().getId());
-		 prep.setBlob (7,m.getImage());
+		 /*prep.setBlob (7,m.getImage());*/
 			
 		 prep.executeUpdate();
 		 
@@ -65,15 +66,14 @@ public class JDBCMedicineManager implements MedicineManager
 			while(rs.next())
 			{
 				Integer code = rs.getInt("code");
-				String name = rs.getString("name");
+				String name = rs.getString("name_med");
 				Float price = rs.getFloat("price");
-				String instructions = rs.getString("instructions");
+				String instructions = rs.getString("intructions");
 				Integer stock  = rs.getInt("stock");
 				Integer pharmacist_id = rs.getInt("pharmacist_id");
 				Date expirations = rs.getDate("expirations");
 				Blob image = rs.getBlob("image");
 				Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
-
 				Medicine m = new Medicine (code,name,price,instructions,stock,expirations,p,image);
 				medicines.add(m);
 			}
@@ -101,9 +101,9 @@ public class JDBCMedicineManager implements MedicineManager
 			while(rs.next())
 			{
 				Integer code = rs.getInt("code");
-				String name = rs.getString("name");
+				String name = rs.getString("name_med");
 				Float price = rs.getFloat("price");
-				String instructions = rs.getString("instructions");
+				String instructions = rs.getString("intructions");
 				Integer stock  = rs.getInt("stock");
 				Date expirations = rs.getDate("expirations");
 				Blob image = rs.getBlob("image");
@@ -179,9 +179,21 @@ public class JDBCMedicineManager implements MedicineManager
 		
 	}
 	
-	public void updateStock (Integer quantity) throws Exception
+	public void updateStock (Integer quantity, Integer medicine_code) throws Exception
 	{
-		
+		try {
+			String sql = "UPDATE medicines SET stock = ? WHERE id = ?;";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			
+			prep.setInt(1, quantity);
+			prep.setInt(2,medicine_code);
+			
+			prep.executeQuery();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			
+		}		
 	}
     
 }

@@ -10,5 +10,6 @@ public interface ClientManager {
 	public List<Client> getListOfClients();
 	public Client searchClientById (Integer id);
 	public void deleteClientbyId (Integer id) throws Exception;
-	public Client searchClientByName (String name_c) throws Exception;
+	public Client searchClientByNameEmail (String name_c,String surname_c,String email) throws Exception;
+	public Client searchClientByEmail (String email) throws Exception;
 }

@@ -11,4 +11,5 @@ public interface DoctorManager
 	public Doctor searchDoctorById (Integer id);
 	public void deleteDoctorbyId (Integer id) throws Exception;
 	public Doctor searchDoctorByEmail (String email) throws Exception;
+	public Doctor searchDoctorByNameEmail (String name_d,String surname_d,String email_d) throws Exception;
 }
