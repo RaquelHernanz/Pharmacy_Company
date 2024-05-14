@@ -120,9 +120,25 @@ public class JPAUserManager implements UserManager{
 		return u;
 	}
 	
-	public void changePassword(User u, String new_passwd) {
+	public void changePassword(User u, String new_passwd) 
+	{
+		//Preguntar cómo acabar el método de changepassword, no funciona 
 		// TODO Auto-generated method stub
-		
+		em.getTransaction().begin();
+		User new_u = u;
+		new_u.setPassword(new_passwd.getBytes());
+		//Cambiamos la contraseña
+		em.remove(u);
+		//Removemos del sistema el antiguo usuario la esa contraseña
+		em.persist(new_u);
+		em.getTransaction().commit();
+	}
+	
+	public void deleteUser (User u) 
+	{
+		em.getTransaction().begin();
+		em.remove(u);
+		em.getTransaction().commit();
 	}
 	
 	//in order to delete, we have to do remove;

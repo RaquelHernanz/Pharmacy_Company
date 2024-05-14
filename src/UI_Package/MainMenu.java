@@ -85,7 +85,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				 signUpUser();
+    				 createDoctor ();
     			  }catch (Exception e)
     			  {
     				  /*e.printStackTrace();*/
@@ -96,7 +96,11 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  login();
+    				  d = doctormanager.searchDoctorByNameEmail("Kevin", "Parker", "kevin@gmail.com");
+    				  System.out.println(d.toString());	  
+    				  doctormanager.updatePhoneNumber(d.getId(),33792739);
+    				  d = doctormanager.searchDoctorByNameEmail("Kevin", "Parker", "kevin@gmail.com");
+    				  System.out.println(d.toString());	
     			  }catch (Exception e)
     			  {
     				  /*e.printStackTrace();*/
@@ -107,7 +111,8 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  updatePassword();
+    				  d = doctormanager.searchDoctorByNameEmail("Kevin", "Parker", "kevin@gmail.com");
+    				  System.out.println(d.toString());	  
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -118,10 +123,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  System.out.println("Introduce the id of the person: ");
-    				  Integer id  = Integer.parseInt(reader.readLine());
-    				  a = administratormanager.searchAdministratorById(id);
-    				  System.out.println(a.toString());
+    				 
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -213,6 +215,7 @@ public class MainMenu {
   	     e.printStackTrace();
   	  }
 	}
+	//Se están haciendo pruebas de tipo 
 	
 	private static void login() throws java.sql.SQLException, Exception 
 	{
@@ -253,6 +256,7 @@ public class MainMenu {
 	}
 	
 	
+	//Algunos de los métodos pueden omitirse y ponerlos directamnente en los cases
 	
 	private static void signUpUser() {
 		// TODO Auto-generated method stub
@@ -264,7 +268,6 @@ public class MainMenu {
 			MessageDigest md= MessageDigest.getInstance("MD5");
 			md.update(password.getBytes());
 			byte[] pass = md.digest();
-			
 			System.out.println("Introduce the role of the user");
 			System.out.println("1: client, 2: doctor 3: administrator 4: pharmacist");
 			Integer rol = Integer.parseInt(reader.readLine());
@@ -294,7 +297,6 @@ public class MainMenu {
 				
 		if(u!=null)
 		{
-			System.out.println("Login of owner successful!");
 			usermanager.changePassword(u, new_passwd);
 			//El método de changePassword está incompleto 
 		}
@@ -393,7 +395,7 @@ public class MainMenu {
 			Blob image*/
 		
 		/*Ver el tema del blob, si no funciona lo omitiremos como algo opcional*/
-		System.out.print("Introduce your name:");
+		System.out.print("Introduce your name of the medicine:");
 		String name = reader.readLine();
 		System.out.print("Introduce the price: ");
 		Float price = Float.parseFloat(reader.readLine());
@@ -423,6 +425,7 @@ public class MainMenu {
 		}*/
 		
 		Medicine m = new Medicine (name,price,instructions,stock,date,pharmacist,image);
+		m.toString();
 		medicinemanager.addMedicine(m);
 	}
 	
@@ -451,6 +454,8 @@ public class MainMenu {
 		
 		return null;
 	}*/
+     
+     
 	
 	private static void ClientBuyMedicine (Integer client_id) throws Exception
 	{
@@ -458,11 +463,54 @@ public class MainMenu {
 		//Poner la cantidad que quieren
 		//Le imprimirá la factura con la cantidad de medicinas.
 		//Una vez comprado, hay que modificar automáticamente el atributo stock, aunque podemos hacerlo fuera de este método
+		medicinemanager.getListofMedicines();
+		System.out.print("Which medicine do you want to buy:");
+		String name_medicine = reader.readLine();
+		Medicine m = medicinemanager.searchMedicineByName(name_medicine);
+		System.out.print("How much do you want to buy?:");
+		Integer quantity = Integer.parseInt(reader.readLine());
+		
+		//Hay que garantizar que el stock es suficiente para la compra
+		if (quantity > m.getStock() && quantity <0 && quantity == 0)
+		{
+			System.out.print("You cannot buy anything with that quantity, try again");
+		}else 
+		{
+			System.out.print("Purchase verified");
+			Integer medicine_code = m.getCode();
+			Float bill_number = quantity*(m.getPrice());
+			String Bill = "Medicine:"+name_medicine+" Quantity: "+quantity+" Bill: "+bill_number;
+			System.out.print(Bill);
+			medicinemanager.assignMedicinetoClient(client_id, medicine_code, bill_number, quantity);
+			medicinemanager.updateStock(m.getStock()-quantity, medicine_code);
+		}
+		
 	}
+	
+	
 	
 	private static void DoctorBuyMedicine (Integer doctor_id) throws Exception
 	{
+		medicinemanager.getListofMedicines();
+		System.out.print("Which medicine do you want to buy:");
+		String name_medicine = reader.readLine();
+		Medicine m = medicinemanager.searchMedicineByName(name_medicine);
+		System.out.print("How much do you want to buy?:");
+		Integer quantity = Integer.parseInt(reader.readLine());
 		
+		//Hay que garantizar que el stock es suficiente para la compra
+		if (quantity > m.getStock() && quantity <0 && quantity == 0)
+		{
+			System.out.print("You cannot buy anything with that quantity, try again");
+		}else 
+		{
+			System.out.print("Purchase verified");
+			Integer medicine_code = m.getCode();
+			Float bill_number = quantity*(m.getPrice());
+			String Bill = "Medicine:"+name_medicine+" Quantity: "+quantity+" Bill: "+bill_number+"€";
+			System.out.print(Bill);
+			medicinemanager.assignMedicinetoClient(doctor_id, medicine_code, bill_number, quantity);
+		}
 	}
 	
 	private static void AdmintratorMakeOrder (Integer administrator_id) 

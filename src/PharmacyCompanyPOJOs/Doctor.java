@@ -25,6 +25,14 @@ public class Doctor implements Serializable
 	
 	
 	@Override
+	public String toString() {
+		return "Doctor [name=" + name + ", surnmame=" + surnmame + ", address=" + address
+				+ ", phone_number=" + phone_number + ", email=" + email + ", medicines=" + medicines + "]";
+	}
+
+
+
+	@Override
 	public int hashCode() {
 		return Objects.hash(address, email, id, medicines, name, phone_number, surnmame);
 	}

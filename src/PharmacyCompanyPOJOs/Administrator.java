@@ -10,7 +10,6 @@ public class Administrator implements Serializable
 {
 	
 	private static final long serialVersionUID = 98763412L;
-	/*Recordar tener cuidado con la implementación de INSERT*/
 	private Integer id;
 	private String name;
 	private String surnmame;

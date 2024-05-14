@@ -155,16 +155,18 @@ public class JDBCOrderManager implements OrderManager
 		return orders;
 	}
 	
-	public void assignMedicinetoOrder (Integer medicine_id,Integer order_id) throws Exception
+	public void assignMedicinetoOrder (Integer medicine_id,Integer order_id,Float total_price, Integer quantity) throws Exception
 	{
 		//TODO Auto-generated method stub
 		try 
 		{
-			String sql = "INSERT INTO update_medicines (order_id, medicine_id)"
-					+ "VALUES (?,?)";
+			String sql = "INSERT INTO update_medicines (order_id, medicine_id,total_price,quantity)"
+					+ "VALUES (?,?,?,?)";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setInt (1,order_id);
 			prep.setInt(2,medicine_id);
+			prep.setFloat(3,total_price);
+			prep.setInt(4,quantity);
 			prep.executeUpdate();			
 			
 		}catch(Exception e)

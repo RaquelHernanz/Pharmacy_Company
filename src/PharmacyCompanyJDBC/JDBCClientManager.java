@@ -178,5 +178,69 @@ public class JDBCClientManager implements ClientManager{
 		return c;
  }
 	
+	public void updateName (Integer id, String name) throws Exception
+    {
+		try {
+			String sql = "UPDATE clients SET name = ? WHERE id = ?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			
+			prep.setString(1,name);
+			prep.setInt(2,id);
+			prep.executeUpdate();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			
+		}		
+    }
+    
+    public void updateSurname (Integer id, String surname) throws Exception 
+    {
+    	try {
+			String sql = "UPDATE clients SET surname = ? WHERE id = ?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			
+			prep.setString(1,surname);
+			prep.setInt(2,id);
+			prep.executeUpdate();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			
+		}		
+    }
+    
+    public void updatePhoneNumber (Integer id, Integer phone_number) 
+    {
+    	try {
+			String sql = "UPDATE clients SET phone_number = ? WHERE id = ?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			
+			prep.setInt(1,phone_number);
+			prep.setInt(2,id);
+			prep.executeUpdate();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			
+		}		
+    }
+    
+    public void updateAddress (Integer id,String address) throws Exception 
+    {
+    	try {
+			String sql = "UPDATE clients SET address = ? WHERE id = ?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			
+			prep.setString(1,address);
+			prep.setInt(2,id);
+			prep.executeUpdate();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			
+		}		
+    }
+	
 }
 

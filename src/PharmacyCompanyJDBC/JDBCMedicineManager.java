@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import PharmacyCompanyInterfaces.MedicineManager;
+import PharmacyCompanyPOJOs.Administrator;
 import PharmacyCompanyPOJOs.Medicine;
 import PharmacyCompanyPOJOs.Pharmacist;
 
@@ -29,8 +30,8 @@ public class JDBCMedicineManager implements MedicineManager
 	public void addMedicine(Medicine m) {
 		// TODO Auto-generated method stub
 		try {
-		 String sql = "INSERT INTO medicines (name_med,price,stock,expirations,intructions,pharmacist_id)"
-				 + "VALUES(?,?,?,?,?,?)";
+		 String sql = "INSERT INTO medicines (name_med,price,stock,expirations,intructions,pharmacist_id,image)"
+				 + "VALUES(?,?,?,?,?,?,?)";
 		 //Faltaría image, pero hay problemas
 		 
 		 PreparedStatement prep = manager.getConnection().prepareStatement(sql);
@@ -41,7 +42,7 @@ public class JDBCMedicineManager implements MedicineManager
 		 prep.setDate(4, m.getExpirations());
 		 prep.setString(5, m.getInstructions());
 		 prep.setInt(6,m.getPharmacist().getId());
-		 /*prep.setBlob (7,m.getImage());*/
+		 prep.setBlob (7,m.getImage());
 			
 		 prep.executeUpdate();
 		 
@@ -124,17 +125,46 @@ public class JDBCMedicineManager implements MedicineManager
 		return medicines;
 	}
 	
+	public Medicine searchMedicineByName (String name)throws Exception 
+	{
+		// TODO Auto-generated method stub
+				Medicine m = null;
+				
+				try {
+					Statement stmt = manager.getConnection().createStatement();
+					String sql = "SELECT * FROM medicines WHERE name_med='"+name+"'";
+					ResultSet rs = stmt.executeQuery(sql);
+					Integer code = rs.getInt("code");
+					String name_m = rs.getString("name_med");
+					Float price = rs.getFloat("price");
+					String instructions = rs.getString("intructions");
+					Integer stock  = rs.getInt("stock");
+					Date expirations = rs.getDate("expirations");
+					Blob image = rs.getBlob("image");
+					Integer pharmacist_id = rs.getInt("pharmacist_id");
+					Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
+					m = new Medicine (code,name_m,price,instructions,stock,expirations,p,image);
+				    rs.close();
+				    stmt.close();
+				    
+				}catch(Exception e) {e.printStackTrace();}
+				
+			return m;
+	}
 	
-	public void assignMedicinetoClient (Integer client_id,Integer code) throws Exception
+	
+	public void assignMedicinetoClient (Integer client_id,Integer code, Float bill,Integer quantity) throws Exception
 	{
 		//TODO Auto-generated method stub
 		try 
 		{
-			String sql = "INSERT INTO purchase_C (client_id, medicine_id)"
-					+ "VALUES (?,?)";
+			String sql = "INSERT INTO purchase_C (client_id, medicine_id,bill,quantity)"
+					+ "VALUES (?,?,?,?)";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setInt (1,client_id);
 			prep.setInt(2,code);
+			prep.setFloat(3,bill);
+			prep.setInt(4,quantity);
 			prep.executeUpdate();			
 			
 		}catch(Exception e)
@@ -143,16 +173,20 @@ public class JDBCMedicineManager implements MedicineManager
 		}
 	}
 	
-	public void assignMedicinetoDoctor (Integer doctor_id, Integer code) throws Exception
+	//Idea: usar un SELECT y JOIN con purchase_C, Medicine y Client para mostrar sus medicamentos comprados.
+	
+	public void assignMedicinetoDoctor (Integer doctor_id, Integer code, Float bill,Integer quantity) throws Exception
 	{
 		//TODO Auto-generated method stub
 				try 
 				{
-					String sql = "INSERT INTO purchase_C (client_id, medicine_id)"
-							+ "VALUES (?,?)";
+					String sql = "INSERT INTO purchase_C (client_id, medicine_id,bill,quantity)"
+							+ "VALUES (?,?,?,?)";
 					PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 					prep.setInt (1,doctor_id);
 					prep.setInt(2,code);
+					prep.setFloat(3,bill);
+					prep.setInt(4,quantity);
 					prep.executeUpdate();			
 					
 				}catch(Exception e)
@@ -179,16 +213,15 @@ public class JDBCMedicineManager implements MedicineManager
 		
 	}
 	
+	//Método necesario para realizar la actualización del stock al hacer órdenes
 	public void updateStock (Integer quantity, Integer medicine_code) throws Exception
 	{
 		try {
-			String sql = "UPDATE medicines SET stock = ? WHERE id = ?;";
+			String sql = "UPDATE medicines SET stock = ? WHERE code = ?;";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-			
 			prep.setInt(1, quantity);
 			prep.setInt(2,medicine_code);
-			
-			prep.executeQuery();
+			prep.executeUpdate();
 		}
 		catch(Exception e){
 			e.printStackTrace();

@@ -18,6 +18,14 @@ public class Medicine implements Serializable
 	private Pharmacist pharmacist;
 	private Blob image;
 	
+	
+	@Override
+	public String toString() {
+		return "Medicine [name=" + name + ", instructions=" + instructions + ", price=" + price + ", stock=" + stock
+				+ ", expirations=" + expirations + ", pharmacist=" + pharmacist.getName() +"]";
+	}
+
+
 	public Medicine() {
 		super();
 		this.pharmacist = new Pharmacist();

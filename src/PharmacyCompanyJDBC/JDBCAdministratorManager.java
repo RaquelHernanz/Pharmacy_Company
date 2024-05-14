@@ -159,6 +159,55 @@ public class JDBCAdministratorManager implements AdministratorManager {
 		}
 	}
     
+    //Funciona
+    public void updateName (Integer id, String name) throws Exception
+    {
+    	try {
+			String sql = "UPDATE administrators SET name = ? WHERE id = ?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			
+			prep.setString(1,name);
+			prep.setInt(2,id);
+			prep.executeUpdate();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			
+		}		
+    }
     
+    //Funciona
+    public void updateSurname (Integer id, String surname) throws Exception 
+    {
+    	try {
+			String sql = "UPDATE administrators SET surname = ? WHERE id = ?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			
+			prep.setString(1,surname);
+			prep.setInt(2,id);
+			prep.executeUpdate();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			
+		}		
+    }
+    
+    //Funciona
+    public void updatePhoneNumber (Integer id, Integer phone_number) throws Exception
+    {
+    	try {
+			String sql = "UPDATE administrators SET phone_number = ? WHERE id = ?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			
+			prep.setInt(1, phone_number);
+			prep.setInt(2,id);
+			prep.executeUpdate();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			
+		}		
+    }
 	
 }

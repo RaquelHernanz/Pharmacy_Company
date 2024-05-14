@@ -168,4 +168,53 @@ public class JDBCPharmacistManager implements PharmacistManager
 		return p;
 			
 	}
+	
+	public void updateName (Integer id, String name) throws Exception
+    {
+		try {
+			String sql = "UPDATE pharmacists SET name = ? WHERE id = ?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			
+			prep.setString(1,name);
+			prep.setInt(2,id);
+			prep.executeUpdate();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			
+		}		
+    }
+    
+    public void updateSurname (Integer id, String surname) throws Exception 
+    {
+    	try {
+			String sql = "UPDATE pharmacists SET surname = ? WHERE id = ?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			
+			prep.setString(1,surname);
+			prep.setInt(2,id);
+			prep.executeUpdate();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			
+		}		
+    }
+    
+    public void updatePhoneNumber (Integer id, Integer phone_number) 
+    {
+    	try {
+			String sql = "UPDATE pharmacists SET name = ? WHERE id = ?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			
+			prep.setInt(1,phone_number);
+			prep.setInt(2,id);
+			prep.executeUpdate();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			
+		}		
+    }
+    
 }

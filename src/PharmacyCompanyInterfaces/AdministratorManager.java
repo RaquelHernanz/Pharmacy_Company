@@ -10,6 +10,8 @@ public interface AdministratorManager {
   public Administrator searchAdministratorById (Integer id);
   public void deleteAdministratorbyId (Integer id) throws Exception;
   public Administrator searchAdministratorByEmail (String email) throws Exception;
-  //Tenemos name y email porque puede pasar que un usuario posea los mismos nombres que otro, pero no el mismo correo
   public Administrator searchAdministratorByNameEmail (String name_a,String surname_a, String email) throws Exception;
+  public void updateName (Integer id, String name) throws Exception;
+  public void updateSurname (Integer id, String surname) throws Exception;
+  public void updatePhoneNumber (Integer id, Integer phone_number) throws Exception;
 }
