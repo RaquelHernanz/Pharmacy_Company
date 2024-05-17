@@ -6,21 +6,37 @@ import java.sql.Date;
 import java.util.Arrays;
 import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="Medicine")
-@XmlType(propOrder = {})
+@XmlType(propOrder = {"name","price","stock","instructions","expirations","prescribed"})
 public class Medicine implements Serializable 
 {
 	private static final long serialVersionUID = 98763412L;
 	
+	@XmlTransient
 	private Integer code;
+	@XmlElement
 	private String name;
+	@XmlElement
 	private String instructions;
+	@XmlElement
 	private Float price;
+	@XmlElement
 	private Integer stock;
+	@XmlElement
 	private Date expirations;
+	@XmlTransient
 	private Pharmacist pharmacist;
+	@XmlTransient
 	private byte [] image;
+	@XmlElement
 	private Boolean prescribed;
 	
 
