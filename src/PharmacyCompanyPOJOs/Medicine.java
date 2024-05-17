@@ -6,6 +6,9 @@ import java.sql.Date;
 import java.util.Arrays;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name="Medicine")
+@XmlType(propOrder = {})
 public class Medicine implements Serializable 
 {
 	private static final long serialVersionUID = 98763412L;

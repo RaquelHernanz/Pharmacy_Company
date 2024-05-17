@@ -5,18 +5,30 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name="Administrator")
+@XmlType(propOrder = {})
 public class Administrator implements Serializable
 {
 	
+	
 	private static final long serialVersionUID = 98763412L;
-	//Consigue las liberías antes de hacer algo
-	//@XmlTransient
+	@XmlTransient
 	private Integer id;
-	//@XmlAttribute
+	
 	private String name;
+	
 	private String surnmame;
+	
 	private Integer phone_number;
+	@XmlAttribute
 	private String email;
 	private List <Order> orders;
 	

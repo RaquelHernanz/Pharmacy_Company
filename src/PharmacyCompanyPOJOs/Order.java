@@ -2,6 +2,9 @@ package PharmacyCompanyPOJOs;
 
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name="Order")
+@XmlType(propOrder = {})
 public class Order 
 {
 	private Integer code;

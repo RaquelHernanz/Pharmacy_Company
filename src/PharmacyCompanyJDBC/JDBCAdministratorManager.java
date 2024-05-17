@@ -210,4 +210,17 @@ public class JDBCAdministratorManager implements AdministratorManager {
 		}		
     }
 	
+    public void updateEmail(Integer id, String email) throws Exception{
+    	try {
+    		String sql = "UPDATE administrators SET email=? WHERE id=?";
+    		PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+    		
+    		prep.setString(1, email);
+    		prep.setInt(2, id);
+    		prep.executeUpdate();
+    		
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    }
 }

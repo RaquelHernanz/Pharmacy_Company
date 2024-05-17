@@ -1,10 +1,14 @@
 package PharmacyCompanyPOJOs;
 
 import java.io.Serializable;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name="Doctor")
+@XmlType(propOrder = {})
 public class Doctor implements Serializable
 {
 	

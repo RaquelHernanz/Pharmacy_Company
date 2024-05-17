@@ -17,4 +17,5 @@ public interface ClientManager
 	public void updateSurname (Integer id, String surname) throws Exception;
 	public void updatePhoneNumber (Integer id, Integer phone_number) throws Exception;
 	public void updateAddress (Integer id,String address) throws Exception;
+	public void updateEmail(Integer id, String email) throws Exception;
 }

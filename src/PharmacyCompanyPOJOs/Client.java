@@ -5,7 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name="Client")
+@XmlType(propOrder = {})
 public class Client implements Serializable
 {
 	private static final long serialVersionUID = 98763412L;

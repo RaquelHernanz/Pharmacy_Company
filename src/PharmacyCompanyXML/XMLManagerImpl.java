@@ -18,6 +18,7 @@ public class XMLManagerImpl implements XMLManager
 	OrderManager ordermanager;
 	MedicineManager medicinemanager;
 	
+	
 	//XML de client, pharmacist, doctor, administrator, medicine, order to xml
 	
 }

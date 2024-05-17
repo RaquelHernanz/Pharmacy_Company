@@ -11,5 +11,9 @@
 	<classpathentry kind="lib" path="lib_Package/sqlite-jdbc-3.8.7.jar"/>
 	<classpathentry kind="lib" path="src/PharmacyCompanyXMLUTILSs/SQLDateAdapter.java"/>
 	<classpathentry kind="lib" path="src/PharmacyCompanyXMLUTILSs/CustomErrorHandler.java"/>
+	<classpathentry kind="lib" path="lib_Package/istack-commons-runtime-3.0.7.jar"/>
+	<classpathentry kind="lib" path="lib_Package/javax.activation-api-1.2.0.jar"/>
+	<classpathentry kind="lib" path="lib_Package/jaxb-api-2.3.1.jar"/>
+	<classpathentry kind="lib" path="lib_Package/jaxb-impl-2.3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
