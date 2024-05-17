@@ -5,19 +5,36 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="Client")
-@XmlType(propOrder = {})
+@XmlType(propOrder = {"name","surname","email","phone_number","Medicines"})
 public class Client implements Serializable
 {
 	private static final long serialVersionUID = 98763412L;
 	
+	@XmlTransient
 	private Integer id;
+	@XmlElement
 	private String name;
+	@XmlElement
 	private String surnmame;
+	@XmlTransient
 	private String address;
+	@XmlElement
 	private Integer phone_number;
+	@XmlAttribute
 	private String email;
+	@XmlElement(name="Medicine")
+	@XmlElementWrapper(name="Medicines")
 	private List <Medicine> medicines;
 	
 	

@@ -8,30 +8,32 @@ import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="Administrator")
-@XmlType(propOrder = {})
+@XmlType(propOrder = {"name","surname","email","phone_number","Orders"})
 public class Administrator implements Serializable
 {
-	
 	
 	private static final long serialVersionUID = 98763412L;
 	@XmlTransient
 	private Integer id;
-	
+	@XmlElement
 	private String name;
-	
+	@XmlElement
 	private String surnmame;
-	
+	@XmlElement
 	private Integer phone_number;
 	@XmlAttribute
 	private String email;
+	@XmlElement (name = "Order")
+	@XmlElementWrapper(name = "Orders")
 	private List <Order> orders;
-	
 	
 	
 	public Administrator(Integer id, String name, String surnmame, Integer phone_number, String email) {

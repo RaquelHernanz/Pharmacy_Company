@@ -2,15 +2,27 @@ package PharmacyCompanyPOJOs;
 
 import java.util.Objects;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="Order")
-@XmlType(propOrder = {})
+@XmlType(propOrder = {"quantity","totalprice","pharmacist"})
 public class Order 
 {
+	@XmlTransient
 	private Integer code;
+	@XmlElement
 	private Float totalprice;
+	@XmlElement
 	private Integer quantity;
+	@XmlElement
 	private Pharmacist pharmacist;
+	@XmlTransient
 	private Administrator administrator;
 	
 	public Order() {
