@@ -10,7 +10,10 @@ public class Administrator implements Serializable
 {
 	
 	private static final long serialVersionUID = 98763412L;
+	//Consigue las liberías antes de hacer algo
+	//@XmlTransient
 	private Integer id;
+	//@XmlAttribute
 	private String name;
 	private String surnmame;
 	private Integer phone_number;

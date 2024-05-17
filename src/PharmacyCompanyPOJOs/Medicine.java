@@ -3,6 +3,7 @@ package PharmacyCompanyPOJOs;
 import java.io.Serializable;
 import java.sql.Blob;
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Medicine implements Serializable 
@@ -16,15 +17,9 @@ public class Medicine implements Serializable
 	private Integer stock;
 	private Date expirations;
 	private Pharmacist pharmacist;
-	private Blob image;
+	private byte [] image;
+	private Boolean prescribed;
 	
-	
-	@Override
-	public String toString() {
-		return "Medicine [name=" + name + ", instructions=" + instructions + ", price=" + price + ", stock=" + stock
-				+ ", expirations=" + expirations + ", pharmacist=" + pharmacist.getName() +"]";
-	}
-
 
 	public Medicine() {
 		super();
@@ -48,54 +43,36 @@ public class Medicine implements Serializable
 	}
 	
 	
-	@Override
-	public int hashCode() {
-		return Objects.hash(code, expirations, image, instructions, name, pharmacist, price, stock);
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Medicine other = (Medicine) obj;
-		return Objects.equals(code, other.code) && Objects.equals(expirations, other.expirations)
-				&& Objects.equals(image, other.image) && Objects.equals(instructions, other.instructions)
-				&& Objects.equals(name, other.name) && Objects.equals(pharmacist, other.pharmacist)
-				&& Objects.equals(price, other.price) && Objects.equals(stock, other.stock);
-	}
-
-
-	public Medicine(Integer code, String name, Float price,String instructions, Integer stock, Date expirations,
-			Pharmacist pharmacist_id, Blob image) {
+	
+	public Medicine(Integer code, String name, String instructions, Float price, Integer stock, Date expirations,
+			Pharmacist pharmacist, byte[] image, Boolean prescribed) {
 		super();
 		this.code = code;
 		this.name = name;
-		this.price = price;
 		this.instructions = instructions;
-		this.stock = stock;
-		this.expirations = expirations;
-		this.pharmacist = pharmacist_id;
-		this.image = image;
-	}
-	
-	public Medicine(String name, Float price,String instructions, Integer stock, Date expirations, Pharmacist pharmacist,
-			Blob image) {
-		super();
-		this.name = name;
 		this.price = price;
-		this.instructions = instructions;
 		this.stock = stock;
 		this.expirations = expirations;
 		this.pharmacist = pharmacist;
 		this.image = image;
+		this.prescribed = prescribed;
 	}
-	
-	
+
+
+	public Medicine(String name, String instructions, Float price, Integer stock, Date expirations,
+			Pharmacist pharmacist, byte[] image, Boolean prescribed) {
+		super();
+		this.name = name;
+		this.instructions = instructions;
+		this.price = price;
+		this.stock = stock;
+		this.expirations = expirations;
+		this.pharmacist = pharmacist;
+		this.image = image;
+		this.prescribed = prescribed;
+	}
+
+
 	public Integer getCode() {
 		return code;
 	}
@@ -128,13 +105,54 @@ public class Medicine implements Serializable
 		this.pharmacist = pharmacist;
 	}
 
-	public Blob getImage() {
+	public byte[] getImage() {
 		return image;
 	}
 
-	public void setImage(Blob image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(image);
+		result = prime * result
+				+ Objects.hash(code, expirations, instructions, name, pharmacist, prescribed, price, stock);
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Medicine other = (Medicine) obj;
+		return Objects.equals(code, other.code) && Objects.equals(expirations, other.expirations)
+				&& Arrays.equals(image, other.image) && Objects.equals(instructions, other.instructions)
+				&& Objects.equals(name, other.name) && Objects.equals(pharmacist, other.pharmacist)
+				&& Objects.equals(prescribed, other.prescribed) && Objects.equals(price, other.price)
+				&& Objects.equals(stock, other.stock);
+	}
+
+
+	public Boolean getPrescribed() {
+		return prescribed;
+	}
+
+
+	public void setPrescribed(Boolean prescribed) {
+		this.prescribed = prescribed;
+	}
+
+	
+	
 	
 	
 	

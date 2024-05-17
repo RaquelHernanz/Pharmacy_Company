@@ -15,5 +15,6 @@ public interface MedicineManager
 	public void deleteMedicinebyCode (Integer medicine_code) throws Exception;
 	public Medicine searchMedicineByName (String name)throws Exception;
 	public void updateStock (Integer quantity, Integer medicine_code) throws Exception;
+	public Medicine searchMedicineByCode (Integer code)throws Exception;
  
 ;}

@@ -70,7 +70,6 @@ public class JPAUserManager implements UserManager{
 			this.newRole(doctor);
 			this.newRole(administrator);
 			this.newRole(pharmacist);
-			//no funciona el administrator
 		}
 	}
 
@@ -122,15 +121,31 @@ public class JPAUserManager implements UserManager{
 	
 	public void changePassword(User u, String new_passwd) 
 	{
-		//Preguntar cómo acabar el método de changepassword, no funciona 
 		// TODO Auto-generated method stub
 		em.getTransaction().begin();
-		User new_u = u;
-		new_u.setPassword(new_passwd.getBytes());
-		//Cambiamos la contraseña
-		em.remove(u);
-		//Removemos del sistema el antiguo usuario la esa contraseña
-		em.persist(new_u);
+		try {
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		md.update(new_passwd.getBytes());
+		byte[] new_pw = md.digest();
+		u.setPassword(new_pw);
+		//Implementar el Digest antes del setpassword
+		}catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+		em.getTransaction().commit();
+	}
+	
+	public void changeEmail(User u, String new_email) 
+	{
+		// TODO Auto-generated method stub
+		em.getTransaction().begin();
+		try {
+		u.setEmail(new_email);
+		}catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
 		em.getTransaction().commit();
 	}
 	

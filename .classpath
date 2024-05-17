@@ -9,5 +9,7 @@
 	<classpathentry kind="lib" path="lib_Package/eclipselink-2.7.10.jar"/>
 	<classpathentry kind="lib" path="lib_Package/javax.persistence-2.1.1.v201509150925.jar"/>
 	<classpathentry kind="lib" path="lib_Package/sqlite-jdbc-3.8.7.jar"/>
+	<classpathentry kind="lib" path="src/PharmacyCompanyXMLUTILSs/SQLDateAdapter.java"/>
+	<classpathentry kind="lib" path="src/PharmacyCompanyXMLUTILSs/CustomErrorHandler.java"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

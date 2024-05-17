@@ -76,7 +76,8 @@ public class JDBCManager {
 					+ "stock INTEGER,"
 					+ "expirations DATE NOU NULL,"
 					+ "pharmacist_id INTEGER REFERENCES Pharmacists(id),"
-					+ "image BLOB);";
+					+ "image BLOB,"
+					+ "prescribed BOOLEAN NOT NULL);";
 			stmt.executeUpdate(sql);
 			
 			

@@ -111,8 +111,9 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  d = doctormanager.searchDoctorByNameEmail("Kevin", "Parker", "kevin@gmail.com");
-    				  System.out.println(d.toString());	  
+    				  /*d = doctormanager.searchDoctorByNameEmail("Kevin", "Parker", "kevin@gmail.com");
+    				  System.out.println(d.toString());*/
+    				  login();
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -123,7 +124,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				 
+    				 signUpUser ();
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -235,6 +236,8 @@ public class MainMenu {
 		if(u!=null & u.getRole().getName().equals("client"))
 		{
 			System.out.println("Login of client successful!");
+			Client c = clientmanager.searchClientByEmail(email);
+			System.out.println(c.toString());
 			
 			//We can now call a menu for each type of user
 		} 
@@ -282,7 +285,7 @@ public class MainMenu {
 		}
 	}
 	
-       private static void updatePassword() throws Exception {
+       private static void updatePassword(User u) throws Exception {
 		
 		System.out.println("Email: ");
 		String email = reader.readLine();
@@ -293,15 +296,37 @@ public class MainMenu {
 		System.out.println("Enter new Password");
 		String new_passwd = reader.readLine();
 				
-		User u = usermanager.checkPassword(email, passwd);
+		User u_string = usermanager.checkPassword(email, passwd);
 				
-		if(u!=null)
+		if(u_string!=null && u.equals(u_string))
 		{
 			usermanager.changePassword(u, new_passwd);
+			System.out.println("Change of password succesful");
 			//El método de changePassword está incompleto 
 		}
 				
 	   }
+       
+       private static void updateEmail(User u) throws Exception {
+   		
+   		System.out.println("Current email: ");
+   		String email = reader.readLine();
+   				
+   		System.out.println("Enter new email: ");
+   		String new_email = reader.readLine();
+   		
+   		System.out.println("Enter the password: ");
+   		String password = reader.readLine();
+   				
+   		User u_string = usermanager.checkPassword(email, password);
+   				
+   		if(u_string!=null && u.equals(u_string))
+   		{
+   			usermanager.changePassword(u,new_email);
+   			System.out.println("Change of email succesful");
+   		}
+   				
+   	   }
 	
 	
 	
@@ -391,8 +416,6 @@ public class MainMenu {
 	{
 		//Rellenar los datos de la medicina, incluyendo un stock inicial.
 		
-		/*String name, Float price,String instructions, Integer stock, Date expirations, Pharmacist pharmacist,
-			Blob image*/
 		
 		/*Ver el tema del blob, si no funciona lo omitiremos como algo opcional*/
 		System.out.print("Introduce your name of the medicine:");
@@ -406,25 +429,13 @@ public class MainMenu {
 		System.out.print("Introduce a date in this structure YYYY-MM-DD:");
 		String date_string = reader.readLine();
 		Date date = Date.valueOf(date_string);
-		/*System.out.println("Introduce the route of your blob:");
-		String blobString =  reader.readLine();*/
-		Blob image = null;
-		//No funciona la integración del blob 
-		/*try {
-			image = BlobManual (blobString);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Later try to update the image");
-			e.printStackTrace();
-			image = null;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println("Later try to update the image");
-			e.printStackTrace();
-			image = null;
-		}*/
+		System.out.print("Introduce if the medicine must be prescribed or not with TRUE or FALSE: ");
+		Boolean prescribed = Boolean.parseBoolean(reader.readLine());
+		System.out.println("Introduce the route of your blob:");
+		String bytesString = reader.readLine();
+		byte byteblob [] = bytesString.getBytes();
 		
-		Medicine m = new Medicine (name,price,instructions,stock,date,pharmacist,image);
+		Medicine m = new Medicine (name,instructions,price,stock,date,pharmacist,byteblob,prescribed);
 		m.toString();
 		medicinemanager.addMedicine(m);
 	}
@@ -437,23 +448,6 @@ public class MainMenu {
 		
 	}
 	
-     
-	/*public static Blob BlobManual (String blobString)throws Exception, SQLException 
-	{
-		File file = new File (blobString);
-		try (FileInputStream inputStream = new FileInputStream(file))
-		{
-			
-			byte [] bytes = new byte [(int) file.length()];
-			inputStream.read(bytes);
-			return new SerialBlob (bytes);
-		}catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		return null;
-	}*/
      
      
 	
