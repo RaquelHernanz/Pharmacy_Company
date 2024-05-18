@@ -76,7 +76,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				 createPharmacist ();
+    				 createDoctor();
     			  }catch (Exception e)
     			  {
     				  /*e.printStackTrace();*/
