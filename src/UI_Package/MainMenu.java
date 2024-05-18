@@ -1,18 +1,11 @@
 package UI_Package;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
-import java.sql.Blob;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import javax.sql.rowset.serial.SerialBlob;
 import PharmacyCompanyInterfaces.AdministratorManager;
 import PharmacyCompanyInterfaces.ClientManager;
 import PharmacyCompanyInterfaces.DoctorManager;
@@ -83,7 +76,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				 createDoctor ();
+    				 createPharmacist ();
     			  }catch (Exception e)
     			  {
     				  /*e.printStackTrace();*/
@@ -94,11 +87,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  d = doctormanager.searchDoctorByNameEmail("Kevin", "Parker", "kevin@gmail.com");
-    				  System.out.println(d.toString());	  
-    				  doctormanager.updatePhoneNumber(d.getId(),33792739);
-    				  d = doctormanager.searchDoctorByNameEmail("Kevin", "Parker", "kevin@gmail.com");
-    				  System.out.println(d.toString());	
+    				  
     			  }catch (Exception e)
     			  {
     				  /*e.printStackTrace();*/
@@ -392,7 +381,6 @@ public class MainMenu {
 		/*String name, Float price,String instructions, Integer stock, Date expirations, Pharmacist pharmacist,
 			Blob image*/
 		
-		/*Ver el tema del blob, si no funciona lo omitiremos como algo opcional*/
 		System.out.print("Introduce your name of the medicine:");
 		String name = reader.readLine();
 		System.out.print("Introduce the price: ");
@@ -404,26 +392,14 @@ public class MainMenu {
 		System.out.print("Introduce a date in this structure YYYY-MM-DD:");
 		String date_string = reader.readLine();
 		Date date = Date.valueOf(date_string);
-		/*System.out.println("Introduce the route of your blob:");
-		String blobString =  reader.readLine();*/
-		Blob image = null;
-		//No funciona la integración del blob 
-		/*try {
-			image = BlobManual (blobString);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Later try to update the image");
-			e.printStackTrace();
-			image = null;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println("Later try to update the image");
-			e.printStackTrace();
-			image = null;
-		}*/
+		System.out.print("Introduce a date in this structure YYYY-MM-DD:");
+		Boolean prescribed = Boolean.parseBoolean(reader.readLine());
+		System.out.println("Introduce the route of your blob:");
+		String blobString = reader.readLine();
+		byte [] blobBytes = blobString.getBytes();
 		
-		Medicine m = new Medicine (name,price,instructions,stock,date,pharmacist,image);
-		m.toString();
+		Medicine m = new Medicine (name,instructions,price,stock,date,pharmacist,blobBytes,prescribed);
+		System.out.println(m.toString());
 		medicinemanager.addMedicine(m);
 	}
 	
@@ -432,26 +408,8 @@ public class MainMenu {
 		List<Medicine> medicines = null;
 		medicines = medicinemanager.getListofMedicines();
 		System.out.println(medicines);
-		
 	}
 	
-     
-	/*public static Blob BlobManual (String blobString)throws Exception, SQLException 
-	{
-		File file = new File (blobString);
-		try (FileInputStream inputStream = new FileInputStream(file))
-		{
-			
-			byte [] bytes = new byte [(int) file.length()];
-			inputStream.read(bytes);
-			return new SerialBlob (bytes);
-		}catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		return null;
-	}*/
      
      
 	
@@ -511,7 +469,7 @@ public class MainMenu {
 		}
 	}
 	
-	private static void AdmintratorMakeOrder (Integer administrator_id) 
+	private static void PharmacistMakeOrder (Integer pharmacist_id) 
 	{
 		//El administrator hará una order de reestock automática.
 		//El médicamento y el pharmacist deben de coindidir (no puedes perdirle el stock a otro pharmacist).

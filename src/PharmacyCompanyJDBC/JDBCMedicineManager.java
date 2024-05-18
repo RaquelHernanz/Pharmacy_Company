@@ -66,20 +66,29 @@ public class JDBCMedicineManager implements MedicineManager
 			while(rs.next())
 			{
 				Integer code = rs.getInt("code");
+				System.out.println(code);
 				String name = rs.getString("name_med");
+				System.out.println(name);
 				Float price = rs.getFloat("price");
+				System.out.println(price);
 				String instructions = rs.getString("intructions");
+				System.out.println(instructions);
 				Integer stock  = rs.getInt("stock");
+				System.out.println(stock);
 				Integer pharmacist_id = rs.getInt("pharmacist_id");
+				System.out.println(pharmacist_id);
 				Date expirations = rs.getDate("expirations");
+				System.out.println(expirations);
 				Boolean prescribed = rs.getBoolean("prescribed");
+				System.out.println(prescribed);
 				
-				InputStream blobStream = rs.getBinaryStream("image");
+				/*InputStream blobStream = rs.getBinaryStream("image");
 				byte [] blobArray= new byte [blobStream.available()];
-				blobStream.read(blobArray);
+				blobStream.read(blobArray);*/
 				
 				Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
-				Medicine m = new Medicine (code,name,instructions,price,stock,expirations,p,blobArray,prescribed);
+				Medicine m = new Medicine (code,name,instructions,price,stock,expirations,p,null,prescribed);
+				System.out.println(m.toString());
 				medicines.add(m);
 			}
 			

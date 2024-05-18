@@ -170,6 +170,15 @@ public class Medicine implements Serializable
 		this.prescribed = prescribed;
 	}
 
+
+	@Override
+	public String toString() {
+		return "Medicine [name=" + name + ", instructions=" + instructions + ", price=" + price + ", stock=" + stock
+				+ "]";
+	}
+
+
+	
 	
 	
 	
