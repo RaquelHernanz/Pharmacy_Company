@@ -228,10 +228,18 @@ public class JDBCDoctorManager implements DoctorManager{
 		}		
     }
 	
-    public void updateEmail(Integer id, String email) throws Exception{
+    public void updateEmail(Integer id, String email) throws Exception
+    {
     	try {
-    		
-    	} catch(Excep)
+    		String sql = "UPDATE doctors SET email = ? WHERE id = ?";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			prep.setString(1,email);
+			prep.setInt(2,id);
+			prep.executeUpdate();
+    	} catch(Exception e)
+    	{
+			e.printStackTrace();
     }
     
+  }
 }
