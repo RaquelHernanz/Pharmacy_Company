@@ -1,6 +1,6 @@
 package PharmacyCompanyJDBC;
 
-import java.io.InputStream;
+
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -66,29 +66,16 @@ public class JDBCMedicineManager implements MedicineManager
 			while(rs.next())
 			{
 				Integer code = rs.getInt("code");
-				System.out.println(code);
 				String name = rs.getString("name_med");
-				System.out.println(name);
 				Float price = rs.getFloat("price");
-				System.out.println(price);
 				String instructions = rs.getString("intructions");
-				System.out.println(instructions);
 				Integer stock  = rs.getInt("stock");
-				System.out.println(stock);
 				Integer pharmacist_id = rs.getInt("pharmacist_id");
-				System.out.println(pharmacist_id);
 				Date expirations = rs.getDate("expirations");
-				System.out.println(expirations);
 				Boolean prescribed = rs.getBoolean("prescribed");
-				System.out.println(prescribed);
-				
-				/*InputStream blobStream = rs.getBinaryStream("image");
-				byte [] blobArray= new byte [blobStream.available()];
-				blobStream.read(blobArray);*/
-				
+				byte [] image = rs.getBytes("image");
 				Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
-				Medicine m = new Medicine (code,name,instructions,price,stock,expirations,p,null,prescribed);
-				System.out.println(m.toString());
+				Medicine m = new Medicine (code,name,instructions,price,stock,expirations,p,image,prescribed);
 				medicines.add(m);
 			}
 			
@@ -120,12 +107,10 @@ public class JDBCMedicineManager implements MedicineManager
 				String instructions = rs.getString("intructions");
 				Integer stock  = rs.getInt("stock");
 				Date expirations = rs.getDate("expirations");
-				InputStream blobStream = rs.getBinaryStream("image");
-				byte [] blobArray= new byte [blobStream.available()];
-				blobStream.read(blobArray);
 				Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
 				Boolean prescribed = rs.getBoolean("prescribed");
-				Medicine m = new Medicine (code,name,instructions,price,stock,expirations,p,blobArray,prescribed);
+				byte [] image = rs.getBytes("image");
+				Medicine m = new Medicine (code,name,instructions,price,stock,expirations,p,image,prescribed);
 				medicines.add(m);
 			}
 			
@@ -184,16 +169,11 @@ public class JDBCMedicineManager implements MedicineManager
 					String instructions = rs.getString("intructions");
 					Integer stock  = rs.getInt("stock");
 					Date expirations = rs.getDate("expirations");
-					
-					InputStream blobStream = rs.getBinaryStream("image");
-					byte [] blobArray= new byte [blobStream.available()];
-					blobStream.read(blobArray);
-					
+					byte [] image = rs.getBytes("image");
 					Integer pharmacist_id = rs.getInt("pharmacist_id");
 					Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
-					
 					Boolean prescribed = rs.getBoolean("prescribed");
-					m = new Medicine (code,name_m,instructions,price,stock,expirations,p,blobArray,prescribed);
+					m = new Medicine (code,name_m,instructions,price,stock,expirations,p,image,prescribed);
 				    rs.close();
 				    stmt.close();
 				    
@@ -218,16 +198,11 @@ public class JDBCMedicineManager implements MedicineManager
 					String instructions = rs.getString("intructions");
 					Integer stock  = rs.getInt("stock");
 					Date expirations = rs.getDate("expirations");
-					
-					InputStream blobStream = rs.getBinaryStream("image");
-					byte [] blobArray= new byte [blobStream.available()];
-					blobStream.read(blobArray);
-					
+					byte [] image = rs.getBytes("image");
 					Integer pharmacist_id = rs.getInt("pharmacist_id");
 					Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
-					
 					Boolean prescribed = rs.getBoolean("prescribed");
-					m = new Medicine (code_m,name_m,instructions,price,stock,expirations,p,blobArray,prescribed);
+					m = new Medicine (code_m,name_m,instructions,price,stock,expirations,p,image,prescribed);
 				    rs.close();
 				    stmt.close();
 				    

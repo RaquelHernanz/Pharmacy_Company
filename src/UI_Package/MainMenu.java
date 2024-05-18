@@ -164,6 +164,8 @@ public class MainMenu {
     			  try 
     			  {
     				  getAllMedicine();
+    				  /*createClient();
+    				  ClientBuyMedicine(1);*/
     				 
     			  }catch (Exception e)
     			  {
@@ -378,8 +380,6 @@ public class MainMenu {
 	{
 		//Rellenar los datos de la medicina, incluyendo un stock inicial.
 		
-		/*String name, Float price,String instructions, Integer stock, Date expirations, Pharmacist pharmacist,
-			Blob image*/
 		
 		System.out.print("Introduce your name of the medicine:");
 		String name = reader.readLine();
@@ -392,14 +392,13 @@ public class MainMenu {
 		System.out.print("Introduce a date in this structure YYYY-MM-DD:");
 		String date_string = reader.readLine();
 		Date date = Date.valueOf(date_string);
-		System.out.print("Introduce a date in this structure YYYY-MM-DD:");
+		System.out.print("Introduce if the product must have a prescription by TRUE or FALSE:");
 		Boolean prescribed = Boolean.parseBoolean(reader.readLine());
 		System.out.println("Introduce the route of your blob:");
 		String blobString = reader.readLine();
 		byte [] blobBytes = blobString.getBytes();
 		
 		Medicine m = new Medicine (name,instructions,price,stock,date,pharmacist,blobBytes,prescribed);
-		System.out.println(m.toString());
 		medicinemanager.addMedicine(m);
 	}
 	
@@ -410,7 +409,12 @@ public class MainMenu {
 		System.out.println(medicines);
 	}
 	
-     
+     private static void getAllMedicineofPharmacist(Integer pharmacist_id) throws Exception{
+ 		
+ 		List<Medicine> medicines = null;
+ 		medicines = medicinemanager.getMedicinesofPharmacist(pharmacist_id);
+ 		System.out.println(medicines);
+ 	} 
      
 	
 	private static void ClientBuyMedicine (Integer client_id) throws Exception
@@ -420,6 +424,7 @@ public class MainMenu {
 		//Le imprimirá la factura con la cantidad de medicinas.
 		//Una vez comprado, hay que modificar automáticamente el atributo stock, aunque podemos hacerlo fuera de este método
 		medicinemanager.getListofMedicines();
+		//Cambiar el método para solo las médicinas sin prescripción.
 		System.out.print("Which medicine do you want to buy:");
 		String name_medicine = reader.readLine();
 		Medicine m = medicinemanager.searchMedicineByName(name_medicine);
@@ -427,7 +432,7 @@ public class MainMenu {
 		Integer quantity = Integer.parseInt(reader.readLine());
 		
 		//Hay que garantizar que el stock es suficiente para la compra
-		if (quantity > m.getStock() && quantity <0 && quantity == 0)
+		if (quantity > m.getStock() || quantity <0 || quantity == 0)
 		{
 			System.out.print("You cannot buy anything with that quantity, try again");
 		}else 
@@ -455,7 +460,7 @@ public class MainMenu {
 		Integer quantity = Integer.parseInt(reader.readLine());
 		
 		//Hay que garantizar que el stock es suficiente para la compra
-		if (quantity > m.getStock() && quantity <0 && quantity == 0)
+		if (quantity > m.getStock() || quantity <0 || quantity == 0)
 		{
 			System.out.print("You cannot buy anything with that quantity, try again");
 		}else 
@@ -466,15 +471,13 @@ public class MainMenu {
 			String Bill = "Medicine:"+name_medicine+" Quantity: "+quantity+" Bill: "+bill_number+"€";
 			System.out.print(Bill);
 			medicinemanager.assignMedicinetoClient(doctor_id, medicine_code, bill_number, quantity);
+			medicinemanager.updateStock(m.getStock()-quantity, medicine_code);
 		}
 	}
 	
 	private static void PharmacistMakeOrder (Integer pharmacist_id) 
 	{
-		//El administrator hará una order de reestock automática.
-		//El médicamento y el pharmacist deben de coindidir (no puedes perdirle el stock a otro pharmacist).
-		//Automáticamente el stock se actualizará a la cantidad que siempre pondremos.
-		//También podemos imprimir la factura de los artículos y el precio total basado en un porcentaje del precio original.
+		
 	}
 	
 	//¿Qué métodos de modificación incluimos?
