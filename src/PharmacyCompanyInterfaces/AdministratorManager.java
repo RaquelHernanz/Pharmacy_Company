@@ -3,6 +3,7 @@ package PharmacyCompanyInterfaces;
 import java.util.List;
 
 import PharmacyCompanyPOJOs.Administrator;
+import PharmacyCompanyPOJOs.Order;
 
 public interface AdministratorManager {
   public void createAdministrator(Administrator a);

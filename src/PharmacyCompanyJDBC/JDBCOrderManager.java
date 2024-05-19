@@ -50,6 +50,30 @@ public class JDBCOrderManager implements OrderManager
 				
 	}
 	
+	public Order searchOrderByCode(Integer code) {
+		Order o = null;
+		try {
+			Statement stmt = manager.getConnection().createStatement();
+			String sql= "SELECT * FROM orders WHERE code="+code;
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			Integer code_o = rs.getInt("code");
+			Float totalprice = rs.getFloat("totalprice");
+			Integer quantity = rs.getInt("quantity");
+			Integer pharmacist_id = rs.getInt("pharmacist_id");
+			Integer administrator_id  = rs.getInt("administrator_id");
+			Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
+			Administrator a = administratormanager.searchAdministratorById(administrator_id);
+			
+			rs.close();
+			stmt.close();
+
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return o;
+	}
+	
 	
 	public List <Order> getListOfOrders ()
 	{

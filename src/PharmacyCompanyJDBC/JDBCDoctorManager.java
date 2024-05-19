@@ -231,7 +231,9 @@ public class JDBCDoctorManager implements DoctorManager{
     public void updateEmail(Integer id, String email) throws Exception{
     	try {
     		
-    	} catch(Excep)
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
     }
     
 }
