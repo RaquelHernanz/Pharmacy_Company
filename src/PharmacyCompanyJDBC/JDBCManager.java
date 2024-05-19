@@ -103,7 +103,7 @@ public class JDBCManager {
 			sql = "CREATE TABLE purchase_D ("
 					+ "medicine_id INTEGER REFERENCES Medicines (code),"
 					+ "doctor_id INTEGER REFERENCES Doctors (id))"
-					+ "quanity INTEGER,"
+					+ "quantity INTEGER,"
 					+ "bill REAL,"
 					+ "date DATE,"
 					+ "PRIMARY KEY (doctor_id, medicine_id);";
@@ -111,8 +111,8 @@ public class JDBCManager {
 			stmt.executeUpdate(sql);
 			
 			sql = "CREATE TABLE update_medicines ("
-					+ "order_id INTEGER REFERENCES Orders (code)"
-					+ "medicine_id INTEGER REFERENCES Medicines (code)"
+					+ "order_id INTEGER REFERENCES orders (code_o),"
+					+ "medicine_id INTEGER REFERENCES medicines (code)"
 					+ ");";
 			stmt.executeUpdate(sql);
 			

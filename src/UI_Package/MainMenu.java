@@ -76,7 +76,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				 createDoctor();
+    				 createAdministrator();
     			  }catch (Exception e)
     			  {
     				  /*e.printStackTrace();*/
@@ -87,7 +87,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  
+    				  PharmacistMakeOrder(1);
     			  }catch (Exception e)
     			  {
     				  /*e.printStackTrace();*/
@@ -110,6 +110,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
+    				  getAlladministrators();
     				 
     			  }catch (Exception e)
     			  {
@@ -163,9 +164,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  getAllMedicine();
-    				  /*createClient();
-    				  ClientBuyMedicine(1);*/
+    				  ClientBuyMedicine(1);
     				 
     			  }catch (Exception e)
     			  {
@@ -419,20 +418,18 @@ public class MainMenu {
 	
 	private static void ClientBuyMedicine (Integer client_id) throws Exception
 	{
-		//Tiene que comprar con el nombre de la medicina
-		//Poner la cantidad que quieren
-		//Le imprimirá la factura con la cantidad de medicinas.
-		//Una vez comprado, hay que modificar automáticamente el atributo stock, aunque podemos hacerlo fuera de este método
-		medicinemanager.getListofMedicines();
-		//Cambiar el método para solo las médicinas sin prescripción.
 		System.out.print("Which medicine do you want to buy:");
 		String name_medicine = reader.readLine();
 		Medicine m = medicinemanager.searchMedicineByName(name_medicine);
 		System.out.print("How much do you want to buy?:");
 		Integer quantity = Integer.parseInt(reader.readLine());
 		
+		if (m.equals(null) || m.getPrescribed() == false) 
+		{
+			System.out.print("You cannot buy a medicine that isn't in the list");
+		}
 		//Hay que garantizar que el stock es suficiente para la compra
-		if (quantity > m.getStock() || quantity <0 || quantity == 0)
+		else if (quantity > m.getStock() || quantity <0 || quantity == 0)
 		{
 			System.out.print("You cannot buy anything with that quantity, try again");
 		}else 
@@ -456,10 +453,14 @@ public class MainMenu {
 		System.out.print("Which medicine do you want to buy:");
 		String name_medicine = reader.readLine();
 		Medicine m = medicinemanager.searchMedicineByName(name_medicine);
-		System.out.print("How much do you want to buy?:");
+		System.out.print("How much quantity do you want to buy?:");
 		Integer quantity = Integer.parseInt(reader.readLine());
 		
-		//Hay que garantizar que el stock es suficiente para la compra
+		//Puede comprar medicamentos que no sean prescritos o no
+		if (m.equals(null)) 
+		{
+			System.out.print("You cannot buy a medicine that isn't in the list");
+		}
 		if (quantity > m.getStock() || quantity <0 || quantity == 0)
 		{
 			System.out.print("You cannot buy anything with that quantity, try again");
@@ -475,15 +476,50 @@ public class MainMenu {
 		}
 	}
 	
-	private static void PharmacistMakeOrder (Integer pharmacist_id) 
+	private static void PharmacistMakeOrder (Integer pharmacist_id) throws Exception
 	{
+		Pharmacist pharmacist = pharmacistmanager.searchPharmacistById(pharmacist_id);
+		System.out.println(medicinemanager.getMedicinesofPharmacist(pharmacist_id));
+		System.out.print("Which medicine do you want to restock?: ");
+		String name_medicine = reader.readLine();
+		Medicine m = medicinemanager.searchMedicineByName(name_medicine);
+		System.out.print("The email of the administrator you want to assign the order: ");
+		String email = reader.readLine();
+		System.out.print("The name of the administrator: ");
+		String name_ad = reader.readLine();
+		System.out.print("The surname of the administrator: ");
+		String surnmane_ad = reader.readLine();
+		/*String name_a, String surname_a,String email_a*/
+		Administrator assigned = administratormanager.searchAdministratorByNameEmail(name_ad, surnmane_ad, email);
 		
+		if (medicinemanager.checkListofMedicinesPharmacist(pharmacist_id, name_medicine) && assigned != null) 
+		{
+		System.out.print("How much stock do you want to add?:");
+		Integer quantity = Integer.parseInt(reader.readLine());
+		
+		if (quantity <0 || quantity == 0)
+		{
+			System.out.print("You cannot update the stock with that quantity, try again later");
+		}else 
+		{
+			System.out.println("Order verified");
+			Integer medicine_code = m.getCode();
+			Float total_price = quantity*(m.getPrice())*80/100;
+			String order_string = "Medicine:"+name_medicine+" Quantity: "+quantity+" Bill: "+total_price+"€";
+			System.out.println(order_string);
+			Order order = new Order (total_price,quantity,pharmacist,assigned);
+			ordermanager.addOrder(order);
+			medicinemanager.updateStock(m.getStock()+quantity, medicine_code);
+			//El método es para obtener el código de la order;
+			Order order_inDataBase = ordermanager.getOrderByInfo(pharmacist_id, assigned.getId(), quantity, total_price);
+			ordermanager.assignMedicinetoOrder(medicine_code, order_inDataBase.getCode());
+			System.out.print("Order verified");
+		}
+		}else 
+		{
+			System.out.print("You cannot update the stock");
+		}
 	}
-	
-	//¿Qué métodos de modificación incluimos?
-	//Los atributos básicos de cada usuario
-	//Los de modifica la médicina, excepto el stock y id.
-	//No podemos modificar las comprar
 	
 	//Métodos para ver listados de datos
 	//De todo tipo, medicinas, ordenes, clientes... Otra cosa es quien pueda acceder a todos.

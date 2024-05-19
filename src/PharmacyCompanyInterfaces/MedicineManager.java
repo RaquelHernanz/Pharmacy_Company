@@ -16,5 +16,6 @@ public interface MedicineManager
 	public Medicine searchMedicineByName (String name)throws Exception;
 	public void updateStock (Integer quantity, Integer medicine_code) throws Exception;
 	public Medicine searchMedicineByCode (Integer code)throws Exception;
- 
+	public List <Medicine> getListofMedicinesPurchasedClient (Integer client_id) throws Exception;
+	public Boolean checkListofMedicinesPharmacist (Integer pharmacist_id, String name_med) throws Exception;
 ;}

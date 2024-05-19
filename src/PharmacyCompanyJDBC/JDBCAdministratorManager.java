@@ -141,6 +141,7 @@ public class JDBCAdministratorManager implements AdministratorManager {
 		return a;
 	}
 	
+	
 	//Funciona
     public void deleteAdministratorbyId (Integer id) throws Exception 
 	{

@@ -175,8 +175,7 @@ public class Medicine implements Serializable
 	@Override
 	public String toString() {
 		return "Medicine [name=" + name + ", instructions=" + instructions + ", price=" + price
-				+ ", stock=" + stock + ", expirations=" + expirations.toString() + ", pharmacist=" + pharmacist.getEmail() + ", image="
-				+ Arrays.toString(image) + ", prescribed=" + prescribed.toString() + "]";
+				+ ", stock=" + stock + ", expirations=" + expirations.toString()+ ", Image loaded in database]";
 	}
 
 

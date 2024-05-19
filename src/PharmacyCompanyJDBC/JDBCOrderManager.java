@@ -30,16 +30,15 @@ public class JDBCOrderManager implements OrderManager
 	{
 		// TODO Auto-generated method stub
 				try {
-				 String sql = "INSERT INTO medicines (code,totalprice,quantity,pharmacist_id,administrator_id)"
-						 + "VALUES(?,?,?,?,?)";
+				 String sql = "INSERT INTO orders (total_price,quantity,pharmacist_id,administrator_id)"
+						 + "VALUES(?,?,?,?)";
 				 
 				 PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 				 
-				 prep.setInt(1, o.getCode());
-				 prep.setFloat(2, o.getTotalprice());
-				 prep.setInt(3,o.getQuantity());
-				 prep.setInt(4,o.getPharmacist().getId());
-				 prep.setInt(5,o.getAdministrator().getId());
+				 prep.setFloat(1, o.getTotalprice());
+				 prep.setInt(2,o.getQuantity());
+				 prep.setInt(3,o.getPharmacist().getId());
+				 prep.setInt(4,o.getAdministrator().getId());
 				 
 				 prep.executeUpdate();
 				 
@@ -63,7 +62,7 @@ public class JDBCOrderManager implements OrderManager
 			
 			while(rs.next())
 			{
-				Integer code = rs.getInt("code");
+				Integer code = rs.getInt("code_o");
 				Float totalprice = rs.getFloat("total_price");
 				Integer quantity  = rs.getInt("quantity");
 				Integer pharmacist_id = rs.getInt("pharmacist_id");
@@ -98,7 +97,7 @@ public class JDBCOrderManager implements OrderManager
 			
 			while(rs.next())
 			{
-				Integer code = rs.getInt("code");
+				Integer code = rs.getInt("code_o");
 				Float totalprice = rs.getFloat("total_price");
 				Integer quantity  = rs.getInt("quantity");
 				Integer administrator_id = rs.getInt("administrator_id");
@@ -117,6 +116,41 @@ public class JDBCOrderManager implements OrderManager
 			e.printStackTrace();
 		}
 		return orders;
+		
+	}
+	
+	public Order getOrderByInfo (Integer pharmacist_id, Integer administrator_id, Integer quantity, Float total_price) throws Exception
+	{
+		Order o = null;
+		
+		try {
+			
+			Statement stmt = manager.getConnection().createStatement();
+			String sql = "SELECT * FROM orders WHERE pharmacist_id = "+pharmacist_id+" AND administrator_id ="+administrator_id+" "
+					+ "AND quantity = "+quantity+" AND total_price = "+total_price+"";
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				Integer code = rs.getInt("code_o");
+				Float totalprice = rs.getFloat("total_price");
+				Integer quantity_o  = rs.getInt("quantity");
+				Integer administrator_id_o = rs.getInt("administrator_id");
+				Integer pharmacist_id_o = rs.getInt("pharmacist_id");
+				Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id_o);
+				Administrator a = administratormanager.searchAdministratorById(administrator_id_o);
+				
+				o = new Order (code,totalprice,quantity_o,p,a);
+				
+			}
+			
+			rs.close();
+			stmt.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return o;
 		
 	}
 	
@@ -155,18 +189,16 @@ public class JDBCOrderManager implements OrderManager
 		return orders;
 	}
 	
-	public void assignMedicinetoOrder (Integer medicine_id,Integer order_id,Float total_price, Integer quantity) throws Exception
+	public void assignMedicinetoOrder (Integer medicine_id,Integer order_id) throws Exception
 	{
 		//TODO Auto-generated method stub
 		try 
 		{
-			String sql = "INSERT INTO update_medicines (order_id, medicine_id,total_price,quantity)"
-					+ "VALUES (?,?,?,?)";
+			String sql = "INSERT INTO update_medicines (order_id, medicine_id)"
+					+ "VALUES (?,?)";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setInt (1,order_id);
 			prep.setInt(2,medicine_id);
-			prep.setFloat(3,total_price);
-			prep.setInt(4,quantity);
 			prep.executeUpdate();			
 			
 		}catch(Exception e)
