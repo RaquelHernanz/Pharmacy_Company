@@ -77,6 +77,7 @@ public class MainMenu {
     			  try 
     			  {
     				 createAdministrator();
+    				 createPharmacist();
     			  }catch (Exception e)
     			  {
     				  /*e.printStackTrace();*/
@@ -87,10 +88,12 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  PharmacistMakeOrder(1);
+    				  o = ordermanager.searchOrderByInfo(10,127.2);
+    				  System.out.println(o.toString());
+    				  /*PharmacistMakeOrder(1);*/
     			  }catch (Exception e)
     			  {
-    				  /*e.printStackTrace();*/
+    				  e.printStackTrace();
     				  System.out.println("Resolve it");
     			  } 
     		  }
@@ -98,8 +101,8 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  d = doctormanager.searchDoctorByNameEmail("Kevin", "Parker", "kevin@gmail.com");
-    				  System.out.println(d.toString());	  
+    				  p = pharmacistmanager.searchPharmacistById(1);
+    				  addMedicinetoCatalogue(p);
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -110,8 +113,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  getAlladministrators();
-    				 
+    				  System.out.println(ordermanager.getListOfOrders());
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -122,10 +124,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  System.out.println("Introduce your email: ");
-    				  String email = reader.readLine();
-    				  a = administratormanager.searchAdministratorByNameEmail("john","smith",email);
-    				  System.out.println(a.toString());
+    				  System.out.println(ordermanager.getOrderOfPharmacist(1));
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -137,7 +136,6 @@ public class MainMenu {
     			  try 
     			  {
     				  
-    				  createPharmacist();
     				 
     			  }catch (Exception e)
     			  {
@@ -393,10 +391,8 @@ public class MainMenu {
 		Date date = Date.valueOf(date_string);
 		System.out.print("Introduce if the product must have a prescription by TRUE or FALSE:");
 		Boolean prescribed = Boolean.parseBoolean(reader.readLine());
-		System.out.println("Introduce the route of your blob:");
-		String blobString = reader.readLine();
+		String blobString = "paracetamol-500mg-caplets-x-32-p278-1003_zoom.png";
 		byte [] blobBytes = blobString.getBytes();
-		
 		Medicine m = new Medicine (name,instructions,price,stock,date,pharmacist,blobBytes,prescribed);
 		medicinemanager.addMedicine(m);
 	}
@@ -502,7 +498,7 @@ public class MainMenu {
 			System.out.print("You cannot update the stock with that quantity, try again later");
 		}else 
 		{
-			System.out.println("Order verified");
+			System.out.println("Data verified verified");
 			Integer medicine_code = m.getCode();
 			Float total_price = quantity*(m.getPrice())*80/100;
 			String order_string = "Medicine:"+name_medicine+" Quantity: "+quantity+" Bill: "+total_price+"€";
@@ -510,19 +506,14 @@ public class MainMenu {
 			Order order = new Order (total_price,quantity,pharmacist,assigned);
 			ordermanager.addOrder(order);
 			medicinemanager.updateStock(m.getStock()+quantity, medicine_code);
-			//El método es para obtener el código de la order;
-			Order order_inDataBase = ordermanager.getOrderByInfo(pharmacist_id, assigned.getId(), quantity, total_price);
-			ordermanager.assignMedicinetoOrder(medicine_code, order_inDataBase.getCode());
-			System.out.print("Order verified");
-		}
-		}else 
-		{
-			System.out.print("You cannot update the stock");
+			ordermanager.assignMedicinetoOrder(medicine_code,9);
+			System.out.println("Order verified and uploaded");
 		}
 	}
 	
 	//Métodos para ver listados de datos
 	//De todo tipo, medicinas, ordenes, clientes... Otra cosa es quien pueda acceder a todos.
+  }
 }
 
 	

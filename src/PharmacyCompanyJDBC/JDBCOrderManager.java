@@ -49,6 +49,38 @@ public class JDBCOrderManager implements OrderManager
 				
 	}
 	
+	public Order searchOrderByInfo (Integer quantity, Double total_price) throws Exception 
+	{
+		
+		// TODO Auto-generated method stub
+        Order o = null;
+		
+		try {
+			
+			Statement stmt = manager.getConnection().createStatement();
+			String sql = "SELECT * FROM orders WHERE quantity ="+quantity+" AND total_price ="+total_price;
+			ResultSet rs = stmt.executeQuery(sql);
+			Integer code = rs.getInt("code_o");
+			Float totalprice = rs.getFloat("total_price");
+			Integer quantity_o  = rs.getInt("quantity");
+			Integer pharmacist_id = rs.getInt("pharmacist_id");
+			Integer administrator_id = rs.getInt("administrator_id");
+			Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
+			Administrator a = administratormanager.searchAdministratorById(administrator_id);
+				
+			o = new Order (code,totalprice,quantity_o,p,a);
+				
+			
+			rs.close();
+			stmt.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return o;
+	}
+	
 	
 	public List <Order> getListOfOrders ()
 	{
@@ -119,41 +151,6 @@ public class JDBCOrderManager implements OrderManager
 		
 	}
 	
-	public Order getOrderByInfo (Integer pharmacist_id, Integer administrator_id, Integer quantity, Float total_price) throws Exception
-	{
-		Order o = null;
-		
-		try {
-			
-			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM orders WHERE pharmacist_id = "+pharmacist_id+" AND administrator_id ="+administrator_id+" "
-					+ "AND quantity = "+quantity+" AND total_price = "+total_price+"";
-			ResultSet rs = stmt.executeQuery(sql);
-			
-			while(rs.next())
-			{
-				Integer code = rs.getInt("code_o");
-				Float totalprice = rs.getFloat("total_price");
-				Integer quantity_o  = rs.getInt("quantity");
-				Integer administrator_id_o = rs.getInt("administrator_id");
-				Integer pharmacist_id_o = rs.getInt("pharmacist_id");
-				Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id_o);
-				Administrator a = administratormanager.searchAdministratorById(administrator_id_o);
-				
-				o = new Order (code,totalprice,quantity_o,p,a);
-				
-			}
-			
-			rs.close();
-			stmt.close();
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return o;
-		
-	}
-	
 	
 	public List <Order> getOrderOfAdministrator (Integer administrator_id)
 	{
@@ -168,7 +165,7 @@ public class JDBCOrderManager implements OrderManager
 			
 			while(rs.next())
 			{
-				Integer code = rs.getInt("code");
+				Integer code = rs.getInt("code_o");
 				Float totalprice = rs.getFloat("total_price");
 				Integer quantity  = rs.getInt("quantity");
 				Integer pharmacist_id = rs.getInt("pharmacist_id");
