@@ -197,6 +197,41 @@ public class JDBCMedicineManager implements MedicineManager
 	     
 	}
 	
+	public List <Medicine> getListofMedicinesPurchasedDoctor (Integer doctor_id) throws Exception
+	{
+	     List <Medicine> medicines = new ArrayList <Medicine>();
+	     
+	     try {
+				Statement stmt = manager.getConnection().createStatement();
+				String sql = "SELECT * FROM purchase_D WHERE doctor_id="+doctor_id;
+				
+				ResultSet rs = stmt.executeQuery(sql);
+				
+				while(rs.next())
+				{
+					Integer id_obtained = rs.getInt("medicine_id");
+					Medicine m = searchMedicineByCode(id_obtained);
+					Integer stock_purchase = rs.getInt("quantity");
+					Float price_purchase = rs.getFloat("bill");
+					//Este pequeño cambio lo hacemos para cuando se imprima podamos ver la cantidad comprada
+					//No va a cambiar los datos de la tablas.
+					m.setStock(stock_purchase);
+					m.setPrice(price_purchase);
+					medicines.add(m);
+				}
+				
+				rs.close();
+				stmt.close();
+				
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			
+			return medicines;
+	     
+	}
+	
 	public Medicine searchMedicineByName (String name)throws Exception 
 	{
 		// TODO Auto-generated method stub

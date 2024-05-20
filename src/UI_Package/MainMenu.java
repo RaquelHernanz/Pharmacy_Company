@@ -80,7 +80,7 @@ public class MainMenu {
     				 createPharmacist();
     			  }catch (Exception e)
     			  {
-    				  /*e.printStackTrace();*/
+    				  e.printStackTrace();
     				  System.out.println("Resolve it");
     			  } 
     		  }
@@ -163,19 +163,6 @@ public class MainMenu {
     			  {
     				  ClientBuyMedicine(1);
     				 
-    			  }catch (Exception e)
-    			  {
-    				  e.printStackTrace();
-    				  System.out.println("Resolve it");
-    			  } 
-    		  }
-    		  case 9 ->
-    		  {
-    			  try 
-    			  {
-    				  System.out.println("Introduce the id of the person: ");
-    				  Integer code  = Integer.parseInt(reader.readLine());
-    				  medicinemanager.deleteMedicinebyCode(code);
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -499,13 +486,17 @@ public class MainMenu {
 		{
 			System.out.println("Data verified verified");
 			Integer medicine_code = m.getCode();
-			Float total_price = quantity*(m.getPrice())*80/100;
+			//Cada iteración tendrá un precio distinto, ya que las empresas podrán comprar en ocasciones a precios bajos o altos
+			//Además es para grantizar la recuperación de la orden.
+			Integer valuepercentage = (int) Math.random()*((100-50+1)+50);
+			Float total_price = quantity*(m.getPrice())*valuepercentage/100;
 			String order_string = "Medicine:"+name_medicine+" Quantity: "+quantity+" Bill: "+total_price+"€";
 			System.out.println(order_string);
 			Order order = new Order (total_price,quantity,pharmacist,assigned);
 			ordermanager.addOrder(order);
 			medicinemanager.updateStock(m.getStock()+quantity, medicine_code);
-			ordermanager.assignMedicinetoOrder(medicine_code,9);
+			Order database = ordermanager.searchOrderByPrice(total_price);
+			ordermanager.assignMedicinetoOrder(medicine_code,database.getCode());
 			System.out.println("Order verified and uploaded");
 		}
 	}

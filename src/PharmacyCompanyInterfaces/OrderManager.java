@@ -12,6 +12,7 @@ public interface OrderManager
 	public List <Order> getOrderOfAdministrator (Integer administrator_id);
 	public void assignMedicinetoOrder (Integer medicine_code, Integer order_code) throws Exception;
 	public void deleteOrderbyCode (Integer order_code) throws Exception;
-	public Order searchOrderByInfo (Integer pharmacist_id,Integer quantity, Float total_price) throws Exception;
+	public Order searchOrderByPrice (Float total_price);
+	public Order searchOrderByCode (Integer code) throws Exception;
 }
 

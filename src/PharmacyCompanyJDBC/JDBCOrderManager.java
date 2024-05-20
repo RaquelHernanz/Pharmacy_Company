@@ -49,7 +49,7 @@ public class JDBCOrderManager implements OrderManager
 				
 	}
 	
-	public Order searchOrderByInfo (Integer pharmacist_id, Integer quantity, Float total_price) throws Exception 
+	public Order searchOrderByPrice (Float total_price) 
 	{
 		
 		// TODO Auto-generated method stub
@@ -58,7 +58,7 @@ public class JDBCOrderManager implements OrderManager
 		try {
 			
 			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM orders WHERE quantity ="+quantity+" AND total_price ="+total_price+" AND pharmacist_id = "+pharmacist_id;
+			String sql = "SELECT * FROM orders WHERE  total_price ="+total_price;
 			ResultSet rs = stmt.executeQuery(sql);
 			Integer code = rs.getInt("code_o");
 			Float totalprice = rs.getFloat("total_price");
@@ -114,6 +114,36 @@ public class JDBCOrderManager implements OrderManager
 			e.printStackTrace();
 		}
 		return orders;
+	}
+	
+	public Order searchOrderByCode (Integer code) throws Exception
+	{
+		Order o = null;
+		try {
+			
+			Statement stmt = manager.getConnection().createStatement();
+			String sql = "SELECT * FROM orders WHERE code_o ="+code;
+			ResultSet rs = stmt.executeQuery(sql);
+			
+		
+				Integer code_o = rs.getInt("code_o");
+				Float totalprice = rs.getFloat("total_price");
+				Integer quantity  = rs.getInt("quantity");
+				Integer administrator_id = rs.getInt("administrator_id");
+				Integer pharmacist_id = rs.getInt("pharmacist_id");
+				Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
+				Administrator a = administratormanager.searchAdministratorById(administrator_id);
+				
+				o = new Order (code_o,totalprice,quantity,p,a);
+			
+			rs.close();
+			stmt.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return o;
+		
 	}
 	
 	
