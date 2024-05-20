@@ -49,7 +49,7 @@ public class JDBCOrderManager implements OrderManager
 				
 	}
 	
-	public Order searchOrderByInfo (Integer quantity, Double total_price) throws Exception 
+	public Order searchOrderByInfo (Integer pharmacist_id, Integer quantity, Float total_price) throws Exception 
 	{
 		
 		// TODO Auto-generated method stub
@@ -58,14 +58,14 @@ public class JDBCOrderManager implements OrderManager
 		try {
 			
 			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM orders WHERE quantity ="+quantity+" AND total_price ="+total_price;
+			String sql = "SELECT * FROM orders WHERE quantity ="+quantity+" AND total_price ="+total_price+" AND pharmacist_id = "+pharmacist_id;
 			ResultSet rs = stmt.executeQuery(sql);
 			Integer code = rs.getInt("code_o");
 			Float totalprice = rs.getFloat("total_price");
 			Integer quantity_o  = rs.getInt("quantity");
-			Integer pharmacist_id = rs.getInt("pharmacist_id");
+			Integer pharmacist = rs.getInt("pharmacist_id");
 			Integer administrator_id = rs.getInt("administrator_id");
-			Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
+			Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist);
 			Administrator a = administratormanager.searchAdministratorById(administrator_id);
 				
 			o = new Order (code,totalprice,quantity_o,p,a);

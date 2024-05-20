@@ -88,8 +88,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  o = ordermanager.searchOrderByInfo(10,127.2);
-    				  System.out.println(o.toString());
+    				  
     				  /*PharmacistMakeOrder(1);*/
     			  }catch (Exception e)
     			  {
