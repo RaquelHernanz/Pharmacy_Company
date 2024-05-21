@@ -38,6 +38,7 @@ public class XMLManagerImpl implements XMLManager
 	OrderManager ordermanager;
 	MedicineManager medicinemanager;
 	
+	@Override
 	public void administrator2Xml(Integer id) throws Exception 
 	{
 		Administrator a = null;
@@ -66,6 +67,7 @@ public class XMLManagerImpl implements XMLManager
 		}
 	}
 	
+	@Override
 	public void client2Xml(Integer id) throws Exception 
 	{
 		Client c = null;
@@ -92,6 +94,7 @@ public class XMLManagerImpl implements XMLManager
 		}
 	}
 	
+	@Override
 	public void pharmacist2Xml(Integer id) throws Exception 
 	{
 		Pharmacist p = null;
@@ -119,6 +122,7 @@ public class XMLManagerImpl implements XMLManager
 		}
 	}
 	
+	@Override
 	public void doctor2Xml(Integer id) throws Exception 
 	{
 		Doctor d = null;
@@ -143,6 +147,7 @@ public class XMLManagerImpl implements XMLManager
 		}
 	}
 	
+	@Override
 	public void Medicine2Xml(Integer code) throws Exception 
 	{
 		Medicine m = null;
@@ -164,6 +169,7 @@ public class XMLManagerImpl implements XMLManager
 		}
 	}
 	
+	@Override
 	public void Order2Xml(Integer code) throws Exception 
 	{
 		Order o = null;
@@ -187,6 +193,7 @@ public class XMLManagerImpl implements XMLManager
 		
 	}
 	
+	@Override
 	public Client xmltoClient (File xml) throws Exception 
 	{
 		Client c = null;
@@ -194,29 +201,36 @@ public class XMLManagerImpl implements XMLManager
 		return c;
 	}
 	
+	
+	@Override
 	public Administrator xmltoAdministrator (File xml) throws Exception 
 	{
 		Administrator a = null;
 		return a;
 	}
 	
+	@Override
 	public Doctor xmltoDoctor (File xml) throws Exception 
 	{
 		Doctor d = null;
 		return d;
 	}
 	
+	@Override
 	public Pharmacist xmltoPharmacist (File xml) throws Exception 
 	{
 		Pharmacist p = null;
 		return p;
 	}
 	
+	@Override
 	public Medicine xmltoMedicine (File xml) throws Exception 
 	{
 		Medicine m = null;
 		return m;
 	}
+	
+	@Override
 	public Order xmltoOrder (File xml) throws Exception 
 	{
 		Order o = null;

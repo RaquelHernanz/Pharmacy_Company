@@ -11,6 +11,7 @@ import java.util.List;
 
 import PharmacyCompanyInterfaces.MedicineManager;
 import PharmacyCompanyPOJOs.Medicine;
+import PharmacyCompanyPOJOs.Order;
 import PharmacyCompanyPOJOs.Pharmacist;
 
 
@@ -86,6 +87,34 @@ public class JDBCMedicineManager implements MedicineManager
 			e.printStackTrace();
 		}
 		return medicines;
+	}
+	
+	public List <Medicine> getListofMedicinesfromStock () throws Exception
+	{
+		List <Medicine> medicines = new LinkedList <>();
+		
+       try {
+			
+			Statement stmt = manager.getConnection().createStatement();
+			String sql = "SELECT * FROM update_medicines";
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				
+				Integer code_med = rs.getInt("medicine_id");
+				Medicine m = searchMedicineByCode(code_med);
+				medicines.add(m);
+			}
+			
+			rs.close();
+			stmt.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+       return medicines;
 	}
 	
 	public List<Medicine> getMedicinesofPharmacist(Integer pharmacist_id)

@@ -6,6 +6,8 @@ import java.security.MessageDigest;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Random;
+
 import PharmacyCompanyInterfaces.AdministratorManager;
 import PharmacyCompanyInterfaces.ClientManager;
 import PharmacyCompanyInterfaces.DoctorManager;
@@ -89,7 +91,7 @@ public class MainMenu {
     			  try 
     			  {
     				  
-    				  /*PharmacistMakeOrder(1);*/
+    				  PharmacistMakeOrder(1);
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -300,6 +302,24 @@ public class MainMenu {
 		System.out.println(administrators);
 		
 	}
+    
+    private static void getAllRestockOrders () throws Exception 
+    {
+    	List <Order> orders = ordermanager.getListofOrdersfromStock();
+		List <Medicine> medicines = medicinemanager.getListofMedicinesfromStock();
+		int i =1;
+		int t =1;
+		  for (Order order: orders) 
+		  {
+			System.out.println(i+". Order: "+order);
+			i++;
+		  }
+		  for (Medicine medicine: medicines) 
+		  {
+			System.out.println(t+". Medicine: "+medicine);
+			t++;
+		  }
+    }
 	
 	
 	private static void createClient () throws Exception 
@@ -315,7 +335,6 @@ public class MainMenu {
 		System.out.println("Introduce your address for deliveries");
 		String address = reader.readLine();
 		Client c = new Client (name,surname,address,phonenumber,email);
-		System.out.println(c.toString());
 		clientmanager.createClient(c);
 		//Pilar, ya sabes que hay que quitar los souts
 	}
@@ -338,7 +357,6 @@ public class MainMenu {
 		System.out.println("Introduce your phone number");
 		Integer phonenumber = Integer.parseInt(reader.readLine());
 		Pharmacist p = new Pharmacist (name,surname,phonenumber,email);
-		System.out.println(p.toString());
 		pharmacistmanager.createPharmacist(p);
 	}
 	
@@ -355,7 +373,6 @@ public class MainMenu {
 		System.out.println("Introduce your address for deliveries");
 		String address = reader.readLine();
 		Doctor d = new Doctor (name,surname,address,phonenumber,email);
-		System.out.println(d.toString());
 		doctormanager.createDoctor(d);
 	}
 	
@@ -488,15 +505,16 @@ public class MainMenu {
 			Integer medicine_code = m.getCode();
 			//Cada iteración tendrá un precio distinto, ya que las empresas podrán comprar en ocasciones a precios bajos o altos
 			//Además es para grantizar la recuperación de la orden.
-			Integer valuepercentage = (int) Math.random()*((100-50+1)+50);
-			Float total_price = quantity*(m.getPrice())*valuepercentage/100;
+			Random percentage = new Random(100);
+			Integer valuepercentage = percentage.nextInt(100-50+1)+50;
+			Float total_price = (float) Math.round(quantity*(m.getPrice())*valuepercentage/100);
 			String order_string = "Medicine:"+name_medicine+" Quantity: "+quantity+" Bill: "+total_price+"€";
 			System.out.println(order_string);
 			Order order = new Order (total_price,quantity,pharmacist,assigned);
 			ordermanager.addOrder(order);
-			medicinemanager.updateStock(m.getStock()+quantity, medicine_code);
 			Order database = ordermanager.searchOrderByPrice(total_price);
 			ordermanager.assignMedicinetoOrder(medicine_code,database.getCode());
+			medicinemanager.updateStock(m.getStock()+quantity, medicine_code);
 			System.out.println("Order verified and uploaded");
 		}
 	}
