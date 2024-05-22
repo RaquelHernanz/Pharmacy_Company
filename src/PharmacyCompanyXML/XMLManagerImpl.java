@@ -3,10 +3,7 @@ package PharmacyCompanyXML;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
-<<<<<<< HEAD
-=======
 
->>>>>>> eae076a8824584903368626caae0938c3ab4e75c
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import PharmacyCompanyInterfaces.AdministratorManager;
@@ -50,16 +47,9 @@ public class XMLManagerImpl implements XMLManager
 
 		List<Order> orders = new LinkedList<Order>(); 
 		
-		try {
-			
-			orders = administratormanager.getListOfOrders(); //falta hacer este método en JDBCAdministratorManager
-			a = administratormanager.searchAdministratorById(id);
-			a.getOrders();
-		List<Order> orders = new LinkedList <Order>();
 		
 		try {
 			
-			//El método estaba en order, no en administrator
 			a = administratormanager.searchAdministratorById(id);
 			orders = ordermanager.getOrderOfAdministrator(id);
 			a.setOrders(orders);
@@ -87,11 +77,8 @@ public class XMLManagerImpl implements XMLManager
 		
 		try {
 			
-			medicines = clientmanager.getListOfMedicines(); //falta hacer este método en JDBCClientManager
-			c = clientmanager.searchClientById(id);
-			c.getMedicines();
 
-			medicines = medicinemanager.getListofMedicinesPurchasedClient(id); //falta hacer este método en JDBCClientManager
+			medicines = medicinemanager.getListofMedicinesPurchasedClient(id);
 			c = clientmanager.searchClientById(id);
 			c.setMedicines(medicines);
 			
@@ -108,7 +95,7 @@ public class XMLManagerImpl implements XMLManager
 		}
 	}
 	
-	public void pharmacist2Xml(Integer id) {
+
 
 	@Override
 	public void pharmacist2Xml(Integer id) throws Exception 
@@ -117,12 +104,6 @@ public class XMLManagerImpl implements XMLManager
 		manager = new JDBCManager();
 		pharmacistmanager = new JDBCPharmacistManager(manager);
 		List<Medicine> medicines = new LinkedList<Medicine>();
-		
-		try {
-			medicines = pharmacistmanager.getListOfMedicines(); //falta
-			p = pharmacistmanager.searchPharmacistById(id);
-			p.getMedicines_created();
-
 		List <Order> orders = new LinkedList<Order>();
 		
 		try {
@@ -144,17 +125,6 @@ public class XMLManagerImpl implements XMLManager
 		}
 	}
 	
-	public void doctor2Xml(Integer id) {
-		Doctor d = null;
-		manager = new JDBCManager();
-		doctormanager = new JDBCDoctorManager(manager);
-		List<Medicine> medicines = new LinkedList<Medicine>();
-		
-		try {
-			medicines = doctormanager.getListOfMedicines(); //falta
-			d = doctormanager.searchDoctorById(id);
-			d.getMedicines();
-
 	@Override
 	public void doctor2Xml(Integer id) throws Exception 
 	{
@@ -180,7 +150,7 @@ public class XMLManagerImpl implements XMLManager
 		}
 	}
 	
-	public void Medicine2Xml(Integer code) {
+	
 	@Override
 	public void Medicine2Xml(Integer code) throws Exception 
 	{
@@ -202,6 +172,7 @@ public class XMLManagerImpl implements XMLManager
 			e.printStackTrace();
 		}
 	}
+	
 	@Override
 	public void Order2Xml(Integer code) throws Exception 
 	{

@@ -49,34 +49,8 @@ public class JDBCOrderManager implements OrderManager
 				
 	}
 	
-<<<<<<< HEAD
-<<<<<<< HEAD
-	public Order searchOrderByCode(Integer code) {
-		Order o = null;
-		try {
-			Statement stmt = manager.getConnection().createStatement();
-			String sql= "SELECT * FROM orders WHERE code="+code;
-			ResultSet rs = stmt.executeQuery(sql);
-			
-			Integer code_o = rs.getInt("code");
-			Float totalprice = rs.getFloat("totalprice");
-			Integer quantity = rs.getInt("quantity");
-			Integer pharmacist_id = rs.getInt("pharmacist_id");
-			Integer administrator_id  = rs.getInt("administrator_id");
-			Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
-			Administrator a = administratormanager.searchAdministratorById(administrator_id);
-			
-			rs.close();
-			stmt.close();
 
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-=======
-	public Order searchOrderByInfo (Integer pharmacist_id, Integer quantity, Float total_price) throws Exception 
-=======
 	public Order searchOrderByPrice (Float total_price) 
->>>>>>> eae076a8824584903368626caae0938c3ab4e75c
 	{
 		
 		// TODO Auto-generated method stub
@@ -104,8 +78,6 @@ public class JDBCOrderManager implements OrderManager
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
->>>>>>> branch 'master' of https://github.com/RaquelHernanz/Pharmacy_Company.git
 		return o;
 	}
 	

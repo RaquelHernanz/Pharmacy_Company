@@ -231,22 +231,15 @@ public class JDBCDoctorManager implements DoctorManager{
     public void updateEmail(Integer id, String email) throws Exception
     {
     	try {
-<<<<<<< HEAD
-    		
-    	} catch(Exception e) {
-    		e.printStackTrace();
-    	}
-=======
     		String sql = "UPDATE doctors SET email = ? WHERE id = ?";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setString(1,email);
 			prep.setInt(2,id);
 			prep.executeUpdate();
-    	} catch(Exception e)
-    	{
-			e.printStackTrace();
->>>>>>> branch 'master' of https://github.com/RaquelHernanz/Pharmacy_Company.git
+    		
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+
     }
-    
-  }
 }
