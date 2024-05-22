@@ -1,7 +1,6 @@
 package PharmacyCompanyPOJOs;
 
 import java.io.Serializable;
-import java.sql.Blob;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.Objects;

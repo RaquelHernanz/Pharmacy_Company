@@ -510,6 +510,7 @@ public class MainMenu {
 			Float total_price = (float) Math.round(quantity*(m.getPrice())*valuepercentage/100);
 			String order_string = "Medicine:"+name_medicine+" Quantity: "+quantity+" Bill: "+total_price+"€";
 			System.out.println(order_string);
+			
 			Order order = new Order (total_price,quantity,pharmacist,assigned);
 			ordermanager.addOrder(order);
 			Order database = ordermanager.searchOrderByPrice(total_price);
