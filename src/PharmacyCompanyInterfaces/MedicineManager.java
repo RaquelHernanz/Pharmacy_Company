@@ -18,4 +18,6 @@ public interface MedicineManager
 	public Medicine searchMedicineByCode (Integer code)throws Exception;
 	public List <Medicine> getListofMedicinesPurchasedClient (Integer client_id) throws Exception;
 	public Boolean checkListofMedicinesPharmacist (Integer pharmacist_id, String name_med) throws Exception;
+	public List <Medicine> getListofMedicinesPurchasedDoctor (Integer doctor_id) throws Exception;
+	public List <Medicine> getListofMedicinesfromStock () throws Exception;
 ;}

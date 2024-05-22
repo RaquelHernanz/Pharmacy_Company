@@ -11,6 +11,7 @@ import java.util.List;
 
 import PharmacyCompanyInterfaces.MedicineManager;
 import PharmacyCompanyPOJOs.Medicine;
+import PharmacyCompanyPOJOs.Order;
 import PharmacyCompanyPOJOs.Pharmacist;
 
 
@@ -86,6 +87,34 @@ public class JDBCMedicineManager implements MedicineManager
 			e.printStackTrace();
 		}
 		return medicines;
+	}
+	
+	public List <Medicine> getListofMedicinesfromStock () throws Exception
+	{
+		List <Medicine> medicines = new LinkedList <>();
+		
+       try {
+			
+			Statement stmt = manager.getConnection().createStatement();
+			String sql = "SELECT * FROM update_medicines";
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				
+				Integer code_med = rs.getInt("medicine_id");
+				Medicine m = searchMedicineByCode(code_med);
+				medicines.add(m);
+			}
+			
+			rs.close();
+			stmt.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+       return medicines;
 	}
 	
 	public List<Medicine> getMedicinesofPharmacist(Integer pharmacist_id)
@@ -169,6 +198,41 @@ public class JDBCMedicineManager implements MedicineManager
 	     try {
 				Statement stmt = manager.getConnection().createStatement();
 				String sql = "SELECT * FROM purchase_C WHERE client_id="+client_id;
+				
+				ResultSet rs = stmt.executeQuery(sql);
+				
+				while(rs.next())
+				{
+					Integer id_obtained = rs.getInt("medicine_id");
+					Medicine m = searchMedicineByCode(id_obtained);
+					Integer stock_purchase = rs.getInt("quantity");
+					Float price_purchase = rs.getFloat("bill");
+					//Este pequeño cambio lo hacemos para cuando se imprima podamos ver la cantidad comprada
+					//No va a cambiar los datos de la tablas.
+					m.setStock(stock_purchase);
+					m.setPrice(price_purchase);
+					medicines.add(m);
+				}
+				
+				rs.close();
+				stmt.close();
+				
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			
+			return medicines;
+	     
+	}
+	
+	public List <Medicine> getListofMedicinesPurchasedDoctor (Integer doctor_id) throws Exception
+	{
+	     List <Medicine> medicines = new ArrayList <Medicine>();
+	     
+	     try {
+				Statement stmt = manager.getConnection().createStatement();
+				String sql = "SELECT * FROM purchase_D WHERE doctor_id="+doctor_id;
 				
 				ResultSet rs = stmt.executeQuery(sql);
 				
