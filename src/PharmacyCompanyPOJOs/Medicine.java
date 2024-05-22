@@ -166,10 +166,22 @@ public class Medicine implements Serializable
 	}
 
 
-	public void setPrescribed(Boolean prescribed) {
+	public void setPrescribed(Boolean prescribed) 
+	{
 		this.prescribed = prescribed;
 	}
 
+
+	@Override
+	public String toString() {
+		return "Medicine [name=" + name + ", instructions=" + instructions + ", price=" + price
+				+ ", stock=" + stock + ", expirations=" + expirations.toString()+ ", Image loaded in database]";
+	}
+
+
+	
+
+	
 	
 	
 	

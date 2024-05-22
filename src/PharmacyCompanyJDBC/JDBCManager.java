@@ -71,11 +71,11 @@ public class JDBCManager {
 			sql = "CREATE TABLE medicines ("
 					+ "code INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ "name TEXT UNIQUE,"
-					+ "price NUMERIC (10,2),"
+					+ "price REAL,"
 					+ "instructions TEXT,"
 					+ "stock INTEGER,"
 					+ "expirations DATE NOU NULL,"
-					+ "pharmacist_id INTEGER REFERENCES Pharmacists(id),"
+					+ "pharmacist_id INTEGER REFERENCES pharmacists(id),"
 					+ "image BLOB,"
 					+ "prescribed BOOLEAN NOT NULL);";
 			stmt.executeUpdate(sql);
@@ -83,16 +83,16 @@ public class JDBCManager {
 			
 			sql = "CREATE TABLE orders ("
 					+ "code_o INTEGER PRIMARY KEY AUTOINCREMENT,"
-					+ "total_price NUMERIC (1000,2),"
+					+ "total_price REAL,"
 					+ "quantity INTEGER"
-					+ "administrator id INTEGER REFERENCES Administrators (id),"
-					+ "pharmacist_id INTEGER REFERENCES Pharmacist (id)"
+					+ "administrator id INTEGER REFERENCES administrators (id),"
+					+ "pharmacist_id INTEGER REFERENCES pharmacists (id)"
 					+ ");";
 			stmt.executeUpdate(sql);
 			
 			sql = "CREATE TABLE purchase_C ("
-					+ "cliend_id INTEGER REFERENCES Clients (id),"
-					+ "medicine_id INTEGER REFERENCES Medicines (code),"
+					+ "cliend_id INTEGER REFERENCES clients (id),"
+					+ "medicine_id INTEGER REFERENCES medicines (code),"
 					+ "quantity INTEGER,"
 					+ "bill REAL,"
 					+ "date DATE,"
@@ -101,9 +101,9 @@ public class JDBCManager {
 			
 			
 			sql = "CREATE TABLE purchase_D ("
-					+ "medicine_id INTEGER REFERENCES Medicines (code),"
-					+ "doctor_id INTEGER REFERENCES Doctors (id))"
-					+ "quanity INTEGER,"
+					+ "medicine_id INTEGER REFERENCES medicines (code),"
+					+ "doctor_id INTEGER REFERENCES doctors (id))"
+					+ "quantity INTEGER,"
 					+ "bill REAL,"
 					+ "date DATE,"
 					+ "PRIMARY KEY (doctor_id, medicine_id);";
@@ -111,8 +111,8 @@ public class JDBCManager {
 			stmt.executeUpdate(sql);
 			
 			sql = "CREATE TABLE update_medicines ("
-					+ "order_id INTEGER REFERENCES Orders (code)"
-					+ "medicine_id INTEGER REFERENCES Medicines (code)"
+					+ "order_id INTEGER REFERENCES orders (code_o),"
+					+ "medicine_id INTEGER REFERENCES medicines (code)"
 					+ ");";
 			stmt.executeUpdate(sql);
 			

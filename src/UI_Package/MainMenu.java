@@ -1,18 +1,11 @@
 package UI_Package;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.security.MessageDigest;
-import java.sql.Blob;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
-import javax.sql.rowset.serial.SerialBlob;
 import PharmacyCompanyInterfaces.AdministratorManager;
 import PharmacyCompanyInterfaces.ClientManager;
 import PharmacyCompanyInterfaces.DoctorManager;
@@ -83,7 +76,8 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				 createDoctor ();
+    				 createAdministrator();
+    				 createPharmacist();
     			  }catch (Exception e)
     			  {
     				  /*e.printStackTrace();*/
@@ -94,14 +88,11 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  d = doctormanager.searchDoctorByNameEmail("Kevin", "Parker", "kevin@gmail.com");
-    				  System.out.println(d.toString());	  
-    				  doctormanager.updatePhoneNumber(d.getId(),33792739);
-    				  d = doctormanager.searchDoctorByNameEmail("Kevin", "Parker", "kevin@gmail.com");
-    				  System.out.println(d.toString());	
+    				  
+    				  /*PharmacistMakeOrder(1);*/
     			  }catch (Exception e)
     			  {
-    				  /*e.printStackTrace();*/
+    				  e.printStackTrace();
     				  System.out.println("Resolve it");
     			  } 
     		  }
@@ -109,8 +100,8 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  d = doctormanager.searchDoctorByNameEmail("Kevin", "Parker", "kevin@gmail.com");
-    				  System.out.println(d.toString());	  
+    				  p = pharmacistmanager.searchPharmacistById(1);
+    				  addMedicinetoCatalogue(p);
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -121,7 +112,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				 
+    				  System.out.println(ordermanager.getListOfOrders());
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -132,10 +123,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  System.out.println("Introduce your email: ");
-    				  String email = reader.readLine();
-    				  a = administratormanager.searchAdministratorByNameEmail("john","smith",email);
-    				  System.out.println(a.toString());
+    				  System.out.println(ordermanager.getOrderOfPharmacist(1));
     			  }catch (Exception e)
     			  {
     				  e.printStackTrace();
@@ -147,7 +135,6 @@ public class MainMenu {
     			  try 
     			  {
     				  
-    				  createPharmacist();
     				 
     			  }catch (Exception e)
     			  {
@@ -174,7 +161,7 @@ public class MainMenu {
     		  {
     			  try 
     			  {
-    				  getAllMedicine();
+    				  ClientBuyMedicine(1);
     				 
     			  }catch (Exception e)
     			  {
@@ -389,10 +376,7 @@ public class MainMenu {
 	{
 		//Rellenar los datos de la medicina, incluyendo un stock inicial.
 		
-		/*String name, Float price,String instructions, Integer stock, Date expirations, Pharmacist pharmacist,
-			Blob image*/
 		
-		/*Ver el tema del blob, si no funciona lo omitiremos como algo opcional*/
 		System.out.print("Introduce your name of the medicine:");
 		String name = reader.readLine();
 		System.out.print("Introduce the price: ");
@@ -404,26 +388,11 @@ public class MainMenu {
 		System.out.print("Introduce a date in this structure YYYY-MM-DD:");
 		String date_string = reader.readLine();
 		Date date = Date.valueOf(date_string);
-		/*System.out.println("Introduce the route of your blob:");
-		String blobString =  reader.readLine();*/
-		Blob image = null;
-		//No funciona la integración del blob 
-		/*try {
-			image = BlobManual (blobString);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Later try to update the image");
-			e.printStackTrace();
-			image = null;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			System.out.println("Later try to update the image");
-			e.printStackTrace();
-			image = null;
-		}*/
-		
-		Medicine m = new Medicine (name,price,instructions,stock,date,pharmacist,image);
-		m.toString();
+		System.out.print("Introduce if the product must have a prescription by TRUE or FALSE:");
+		Boolean prescribed = Boolean.parseBoolean(reader.readLine());
+		String blobString = "paracetamol-500mg-caplets-x-32-p278-1003_zoom.png";
+		byte [] blobBytes = blobString.getBytes();
+		Medicine m = new Medicine (name,instructions,price,stock,date,pharmacist,blobBytes,prescribed);
 		medicinemanager.addMedicine(m);
 	}
 	
@@ -432,44 +401,30 @@ public class MainMenu {
 		List<Medicine> medicines = null;
 		medicines = medicinemanager.getListofMedicines();
 		System.out.println(medicines);
-		
 	}
 	
-     
-	/*public static Blob BlobManual (String blobString)throws Exception, SQLException 
-	{
-		File file = new File (blobString);
-		try (FileInputStream inputStream = new FileInputStream(file))
-		{
-			
-			byte [] bytes = new byte [(int) file.length()];
-			inputStream.read(bytes);
-			return new SerialBlob (bytes);
-		}catch (SQLException e) 
-		{
-			e.printStackTrace();
-		}
-		
-		return null;
-	}*/
-     
+     private static void getAllMedicineofPharmacist(Integer pharmacist_id) throws Exception{
+ 		
+ 		List<Medicine> medicines = null;
+ 		medicines = medicinemanager.getMedicinesofPharmacist(pharmacist_id);
+ 		System.out.println(medicines);
+ 	} 
      
 	
 	private static void ClientBuyMedicine (Integer client_id) throws Exception
 	{
-		//Tiene que comprar con el nombre de la medicina
-		//Poner la cantidad que quieren
-		//Le imprimirá la factura con la cantidad de medicinas.
-		//Una vez comprado, hay que modificar automáticamente el atributo stock, aunque podemos hacerlo fuera de este método
-		medicinemanager.getListofMedicines();
 		System.out.print("Which medicine do you want to buy:");
 		String name_medicine = reader.readLine();
 		Medicine m = medicinemanager.searchMedicineByName(name_medicine);
 		System.out.print("How much do you want to buy?:");
 		Integer quantity = Integer.parseInt(reader.readLine());
 		
+		if (m.equals(null) || m.getPrescribed() == false) 
+		{
+			System.out.print("You cannot buy a medicine that isn't in the list");
+		}
 		//Hay que garantizar que el stock es suficiente para la compra
-		if (quantity > m.getStock() && quantity <0 && quantity == 0)
+		else if (quantity > m.getStock() || quantity <0 || quantity == 0)
 		{
 			System.out.print("You cannot buy anything with that quantity, try again");
 		}else 
@@ -493,11 +448,15 @@ public class MainMenu {
 		System.out.print("Which medicine do you want to buy:");
 		String name_medicine = reader.readLine();
 		Medicine m = medicinemanager.searchMedicineByName(name_medicine);
-		System.out.print("How much do you want to buy?:");
+		System.out.print("How much quantity do you want to buy?:");
 		Integer quantity = Integer.parseInt(reader.readLine());
 		
-		//Hay que garantizar que el stock es suficiente para la compra
-		if (quantity > m.getStock() && quantity <0 && quantity == 0)
+		//Puede comprar medicamentos que no sean prescritos o no
+		if (m.equals(null)) 
+		{
+			System.out.print("You cannot buy a medicine that isn't in the list");
+		}
+		if (quantity > m.getStock() || quantity <0 || quantity == 0)
 		{
 			System.out.print("You cannot buy anything with that quantity, try again");
 		}else 
@@ -508,24 +467,52 @@ public class MainMenu {
 			String Bill = "Medicine:"+name_medicine+" Quantity: "+quantity+" Bill: "+bill_number+"€";
 			System.out.print(Bill);
 			medicinemanager.assignMedicinetoClient(doctor_id, medicine_code, bill_number, quantity);
+			medicinemanager.updateStock(m.getStock()-quantity, medicine_code);
 		}
 	}
 	
-	private static void AdmintratorMakeOrder (Integer administrator_id) 
+	private static void PharmacistMakeOrder (Integer pharmacist_id) throws Exception
 	{
-		//El administrator hará una order de reestock automática.
-		//El médicamento y el pharmacist deben de coindidir (no puedes perdirle el stock a otro pharmacist).
-		//Automáticamente el stock se actualizará a la cantidad que siempre pondremos.
-		//También podemos imprimir la factura de los artículos y el precio total basado en un porcentaje del precio original.
+		Pharmacist pharmacist = pharmacistmanager.searchPharmacistById(pharmacist_id);
+		System.out.println(medicinemanager.getMedicinesofPharmacist(pharmacist_id));
+		System.out.print("Which medicine do you want to restock?: ");
+		String name_medicine = reader.readLine();
+		Medicine m = medicinemanager.searchMedicineByName(name_medicine);
+		System.out.print("The email of the administrator you want to assign the order: ");
+		String email = reader.readLine();
+		System.out.print("The name of the administrator: ");
+		String name_ad = reader.readLine();
+		System.out.print("The surname of the administrator: ");
+		String surnmane_ad = reader.readLine();
+		/*String name_a, String surname_a,String email_a*/
+		Administrator assigned = administratormanager.searchAdministratorByNameEmail(name_ad, surnmane_ad, email);
+		
+		if (medicinemanager.checkListofMedicinesPharmacist(pharmacist_id, name_medicine) && assigned != null) 
+		{
+		System.out.print("How much stock do you want to add?:");
+		Integer quantity = Integer.parseInt(reader.readLine());
+		
+		if (quantity <0 || quantity == 0)
+		{
+			System.out.print("You cannot update the stock with that quantity, try again later");
+		}else 
+		{
+			System.out.println("Data verified verified");
+			Integer medicine_code = m.getCode();
+			Float total_price = quantity*(m.getPrice())*80/100;
+			String order_string = "Medicine:"+name_medicine+" Quantity: "+quantity+" Bill: "+total_price+"€";
+			System.out.println(order_string);
+			Order order = new Order (total_price,quantity,pharmacist,assigned);
+			ordermanager.addOrder(order);
+			medicinemanager.updateStock(m.getStock()+quantity, medicine_code);
+			ordermanager.assignMedicinetoOrder(medicine_code,9);
+			System.out.println("Order verified and uploaded");
+		}
 	}
-	
-	//¿Qué métodos de modificación incluimos?
-	//Los atributos básicos de cada usuario
-	//Los de modifica la médicina, excepto el stock y id.
-	//No podemos modificar las comprar
 	
 	//Métodos para ver listados de datos
 	//De todo tipo, medicinas, ordenes, clientes... Otra cosa es quien pueda acceder a todos.
+  }
 }
 
 	
