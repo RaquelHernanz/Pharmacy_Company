@@ -1,6 +1,5 @@
 package PharmacyCompanyJDBC;
 
-
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,374 +12,338 @@ import PharmacyCompanyInterfaces.MedicineManager;
 import PharmacyCompanyPOJOs.Medicine;
 import PharmacyCompanyPOJOs.Pharmacist;
 
-
-
-public class JDBCMedicineManager implements MedicineManager 
-{
+public class JDBCMedicineManager implements MedicineManager {
 	private JDBCManager manager;
 	private JDBCPharmacistManager pharmacistmanager;
-	public JDBCMedicineManager (JDBCManager m) 
-	{
+
+	public JDBCMedicineManager(JDBCManager m) {
 		this.manager = m;
 		this.pharmacistmanager = new JDBCPharmacistManager(manager);
 	}
-	
+
 	@Override
 	public void addMedicine(Medicine m) {
 		// TODO Auto-generated method stub
 		try {
-		 String sql = "INSERT INTO medicines (name_med,price,stock,expirations,intructions,pharmacist_id,image,prescribed)"
-				 + "VALUES(?,?,?,?,?,?,?,?)";
-		 
-		 PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-		 
-		 prep.setString(1, m.getName());
-		 prep.setFloat(2, m.getPrice());
-		 prep.setInt(3, m.getStock());
-		 prep.setDate(4, m.getExpirations());
-		 prep.setString(5, m.getInstructions());
-		 prep.setInt(6,m.getPharmacist().getId());
-		 prep.setBytes(7,m.getImage());
-		 prep.setBoolean(8,m.getPrescribed());
-			
-		 prep.executeUpdate();
-		 
-		}catch(Exception e)
-		{
+			String sql = "INSERT INTO medicines (name_med,price,stock,expirations,intructions,pharmacist_id,image,prescribed)"
+					+ "VALUES(?,?,?,?,?,?,?,?)";
+
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+
+			prep.setString(1, m.getName());
+			prep.setFloat(2, m.getPrice());
+			prep.setInt(3, m.getStock());
+			prep.setDate(4, m.getExpirations());
+			prep.setString(5, m.getInstructions());
+			prep.setInt(6, m.getPharmacist().getId());
+			prep.setBytes(7, m.getImage());
+			prep.setBoolean(8, m.getPrescribed());
+
+			prep.executeUpdate();
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
-	
-	public List <Medicine> getListofMedicines ()
-	{
-       List<Medicine> medicines = new LinkedList <Medicine>();
-		
+	public List<Medicine> getListofMedicines() {
+		List<Medicine> medicines = new LinkedList<Medicine>();
+
 		try {
-			
+
 			Statement stmt = manager.getConnection().createStatement();
 			String sql = "SELECT * FROM medicines";
 			ResultSet rs = stmt.executeQuery(sql);
-			
-			while(rs.next())
-			{
+
+			while (rs.next()) {
 				Integer code = rs.getInt("code");
 				String name = rs.getString("name_med");
 				Float price = rs.getFloat("price");
 				String instructions = rs.getString("intructions");
-				Integer stock  = rs.getInt("stock");
+				Integer stock = rs.getInt("stock");
 				Integer pharmacist_id = rs.getInt("pharmacist_id");
 				Date expirations = rs.getDate("expirations");
 				Boolean prescribed = rs.getBoolean("prescribed");
-				byte [] image = rs.getBytes("image");
+				byte[] image = rs.getBytes("image");
 				Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
-				Medicine m = new Medicine (code,name,instructions,price,stock,expirations,p,image,prescribed);
+				Medicine m = new Medicine(code, name, instructions, price, stock, expirations, p, image, prescribed);
 				medicines.add(m);
 			}
-			
+
 			rs.close();
 			stmt.close();
-			
-		}catch(Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return medicines;
 	}
-	
-	public List<Medicine> getMedicinesofPharmacist(Integer pharmacist_id)
-	{
-		List <Medicine> medicines = new ArrayList <Medicine>();
-		
-		
+
+	public List<Medicine> getMedicinesofPharmacist(Integer pharmacist_id) {
+		List<Medicine> medicines = new ArrayList<Medicine>();
+
 		try {
 			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM medicines WHERE pharmacist_id="+pharmacist_id;
-			
+			String sql = "SELECT * FROM medicines WHERE pharmacist_id=" + pharmacist_id;
+
 			ResultSet rs = stmt.executeQuery(sql);
-			
-			while(rs.next())
-			{
+
+			while (rs.next()) {
 				Integer code = rs.getInt("code");
 				String name = rs.getString("name_med");
 				Float price = rs.getFloat("price");
 				String instructions = rs.getString("intructions");
-				Integer stock  = rs.getInt("stock");
+				Integer stock = rs.getInt("stock");
 				Date expirations = rs.getDate("expirations");
 				Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
 				Boolean prescribed = rs.getBoolean("prescribed");
-				byte [] image = rs.getBytes("image");
-				Medicine m = new Medicine (code,name,instructions,price,stock,expirations,p,image,prescribed);
+				byte[] image = rs.getBytes("image");
+				Medicine m = new Medicine(code, name, instructions, price, stock, expirations, p, image, prescribed);
 				medicines.add(m);
 			}
-			
+
 			rs.close();
 			stmt.close();
-			
-		}catch(Exception e)
-		{
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return medicines;
 	}
-	
-	public Boolean checkListofMedicinesPharmacist (Integer pharmacist_id, String name_med) throws Exception 
-	{
+
+	public Boolean checkListofMedicinesPharmacist(Integer pharmacist_id, String name_med) throws Exception {
 		Medicine m = null;
 		try {
 			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM medicines WHERE pharmacist_id="+pharmacist_id+" AND name_med = '"+name_med+"'";
-			
+			String sql = "SELECT * FROM medicines WHERE pharmacist_id=" + pharmacist_id + " AND name_med = '" + name_med
+					+ "'";
+
 			ResultSet rs = stmt.executeQuery(sql);
-			
-			
+
 			Integer code = rs.getInt("code");
 			String name = rs.getString("name_med");
 			Float price = rs.getFloat("price");
 			String instructions = rs.getString("intructions");
-			Integer stock  = rs.getInt("stock");
+			Integer stock = rs.getInt("stock");
 			Date expirations = rs.getDate("expirations");
 			Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
 			Boolean prescribed = rs.getBoolean("prescribed");
-			byte [] image = rs.getBytes("image");
-			m = new Medicine (code,name,instructions,price,stock,expirations,p,image,prescribed);
-			
+			byte[] image = rs.getBytes("image");
+			m = new Medicine(code, name, instructions, price, stock, expirations, p, image, prescribed);
+
 			rs.close();
 			stmt.close();
-			
-		}catch(Exception e)
-		{
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		if (m != null) 
-		{
+
+		if (m != null) {
 			return true;
 		}
-		
+
 		return false;
 	}
-	
-	public List <Medicine> getListofMedicinesPurchasedClient (Integer client_id) throws Exception
-	{
-	     List <Medicine> medicines = new ArrayList <Medicine>();
-	     
-	     try {
-				Statement stmt = manager.getConnection().createStatement();
-				String sql = "SELECT * FROM purchase_C WHERE client_id="+client_id;
-				
-				ResultSet rs = stmt.executeQuery(sql);
-				
-				while(rs.next())
-				{
-					Integer id_obtained = rs.getInt("medicine_id");
-					Medicine m = searchMedicineByCode(id_obtained);
-					Integer stock_purchase = rs.getInt("quantity");
-					Float price_purchase = rs.getFloat("bill");
-					//Este pequeño cambio lo hacemos para cuando se imprima podamos ver la cantidad comprada
-					//No va a cambiar los datos de la tablas.
-					m.setStock(stock_purchase);
-					m.setPrice(price_purchase);
-					medicines.add(m);
-				}
-				
-				rs.close();
-				stmt.close();
-				
-			}catch(Exception e)
-			{
-				e.printStackTrace();
+
+	public List<Medicine> getListofMedicinesPurchasedClient(Integer client_id) throws Exception {
+		List<Medicine> medicines = new ArrayList<Medicine>();
+
+		try {
+			Statement stmt = manager.getConnection().createStatement();
+			String sql = "SELECT * FROM purchase_C WHERE client_id=" + client_id;
+
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				Integer id_obtained = rs.getInt("medicine_id");
+				Medicine m = searchMedicineByCode(id_obtained);
+				Integer stock_purchase = rs.getInt("quantity");
+				Float price_purchase = rs.getFloat("bill");
+				// Este pequeño cambio lo hacemos para cuando se imprima podamos ver la cantidad
+				// comprada
+				// No va a cambiar los datos de la tablas.
+				m.setStock(stock_purchase);
+				m.setPrice(price_purchase);
+				medicines.add(m);
 			}
-			
-			return medicines;
-	     
+
+			rs.close();
+			stmt.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return medicines;
+
 	}
-	
-	public List <Medicine> getListofMedicinesPurchasedDoctor (Integer doctor_id) throws Exception
-	{
-	     List <Medicine> medicines = new ArrayList <Medicine>();
-	     
-	     try {
-				Statement stmt = manager.getConnection().createStatement();
-				String sql = "SELECT * FROM purchase_D WHERE doctor_id="+doctor_id;
-				
-				ResultSet rs = stmt.executeQuery(sql);
-				
-				while(rs.next())
-				{
-					Integer id_obtained = rs.getInt("medicine_id");
-					Medicine m = searchMedicineByCode(id_obtained);
-					Integer stock_purchase = rs.getInt("quantity");
-					Float price_purchase = rs.getFloat("bill");
-					//Este pequeño cambio lo hacemos para cuando se imprima podamos ver la cantidad comprada
-					//No va a cambiar los datos de la tablas.
-					m.setStock(stock_purchase);
-					m.setPrice(price_purchase);
-					medicines.add(m);
-				}
-				
-				rs.close();
-				stmt.close();
-				
-			}catch(Exception e)
-			{
-				e.printStackTrace();
+
+	public List<Medicine> getListofMedicinesPurchasedDoctor(Integer doctor_id) throws Exception {
+		List<Medicine> medicines = new ArrayList<Medicine>();
+
+		try {
+			Statement stmt = manager.getConnection().createStatement();
+			String sql = "SELECT * FROM purchase_D WHERE doctor_id=" + doctor_id;
+
+			ResultSet rs = stmt.executeQuery(sql);
+
+			while (rs.next()) {
+				Integer id_obtained = rs.getInt("medicine_id");
+				Medicine m = searchMedicineByCode(id_obtained);
+				Integer stock_purchase = rs.getInt("quantity");
+				Float price_purchase = rs.getFloat("bill");
+				// Este pequeño cambio lo hacemos para cuando se imprima podamos ver la cantidad
+				// comprada
+				// No va a cambiar los datos de la tablas.
+				m.setStock(stock_purchase);
+				m.setPrice(price_purchase);
+				medicines.add(m);
 			}
-			
-			return medicines;
-	     
+
+			rs.close();
+			stmt.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return medicines;
+
 	}
-	
-	public Medicine searchMedicineByName (String name)throws Exception 
-	{
+
+	public Medicine searchMedicineByName(String name) throws Exception {
 		// TODO Auto-generated method stub
-				Medicine m = null;
-				
-				try {
-					Statement stmt = manager.getConnection().createStatement();
-					String sql = "SELECT * FROM medicines WHERE name_med='"+name+"'";
-					ResultSet rs = stmt.executeQuery(sql);
-					Integer code = rs.getInt("code");
-					String name_m = rs.getString("name_med");
-					Float price = rs.getFloat("price");
-					String instructions = rs.getString("intructions");
-					Integer stock  = rs.getInt("stock");
-					Date expirations = rs.getDate("expirations");
-					byte [] image = rs.getBytes("image");
-					Integer pharmacist_id = rs.getInt("pharmacist_id");
-					Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
-					Boolean prescribed = rs.getBoolean("prescribed");
-					m = new Medicine (code,name_m,instructions,price,stock,expirations,p,image,prescribed);
-				    rs.close();
-				    stmt.close();
-				    
-				}catch(Exception e) {e.printStackTrace();}
-				
-			return m;
+		Medicine m = null;
+
+		try {
+			Statement stmt = manager.getConnection().createStatement();
+			String sql = "SELECT * FROM medicines WHERE name_med='" + name + "'";
+			ResultSet rs = stmt.executeQuery(sql);
+			Integer code = rs.getInt("code");
+			String name_m = rs.getString("name_med");
+			Float price = rs.getFloat("price");
+			String instructions = rs.getString("intructions");
+			Integer stock = rs.getInt("stock");
+			Date expirations = rs.getDate("expirations");
+			byte[] image = rs.getBytes("image");
+			Integer pharmacist_id = rs.getInt("pharmacist_id");
+			Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
+			Boolean prescribed = rs.getBoolean("prescribed");
+			m = new Medicine(code, name_m, instructions, price, stock, expirations, p, image, prescribed);
+			rs.close();
+			stmt.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return m;
 	}
-	
-	
-	public Medicine searchMedicineByCode (Integer code)throws Exception 
-	{
+
+	public Medicine searchMedicineByCode(Integer code) throws Exception {
 		// TODO Auto-generated method stub
-				Medicine m = null;
-				
-				try {
-					Statement stmt = manager.getConnection().createStatement();
-					String sql = "SELECT * FROM medicines WHERE code="+code+"";
-					ResultSet rs = stmt.executeQuery(sql);
-					Integer code_m = rs.getInt("code");
-					String name_m = rs.getString("name_med");
-					Float price = rs.getFloat("price");
-					String instructions = rs.getString("intructions");
-					Integer stock  = rs.getInt("stock");
-					Date expirations = rs.getDate("expirations");
-					byte [] image = rs.getBytes("image");
-					Integer pharmacist_id = rs.getInt("pharmacist_id");
-					Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
-					Boolean prescribed = rs.getBoolean("prescribed");
-					m = new Medicine (code_m,name_m,instructions,price,stock,expirations,p,image,prescribed);
-				    rs.close();
-				    stmt.close();
-				    
-				}catch(Exception e) {e.printStackTrace();}
-				
-			return m;
+		Medicine m = null;
+
+		try {
+			Statement stmt = manager.getConnection().createStatement();
+			String sql = "SELECT * FROM medicines WHERE code=" + code + "";
+			ResultSet rs = stmt.executeQuery(sql);
+			Integer code_m = rs.getInt("code");
+			String name_m = rs.getString("name_med");
+			Float price = rs.getFloat("price");
+			String instructions = rs.getString("intructions");
+			Integer stock = rs.getInt("stock");
+			Date expirations = rs.getDate("expirations");
+			byte[] image = rs.getBytes("image");
+			Integer pharmacist_id = rs.getInt("pharmacist_id");
+			Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
+			Boolean prescribed = rs.getBoolean("prescribed");
+			m = new Medicine(code_m, name_m, instructions, price, stock, expirations, p, image, prescribed);
+			rs.close();
+			stmt.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return m;
 	}
-	
-	
-	
-	public void assignMedicinetoClient (Integer client_id,Integer code, Float bill,Integer quantity) throws Exception
-	{
-		//TODO Auto-generated method stub
-		try 
-		{
-			String sql = "INSERT INTO purchase_C (client_id, medicine_id,bill,quantity)"
-					+ "VALUES (?,?,?,?)";
+
+	public void assignMedicinetoClient(Integer client_id, Integer code, Float bill, Integer quantity) throws Exception {
+		// TODO Auto-generated method stub
+		try {
+			String sql = "INSERT INTO purchase_C (client_id, medicine_id,bill,quantity)" + "VALUES (?,?,?,?)";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-			prep.setInt (1,client_id);
-			prep.setInt(2,code);
-			prep.setFloat(3,bill);
-			prep.setInt(4,quantity);
-			prep.executeUpdate();			
-			
-		}catch(Exception e)
-		{
+			prep.setInt(1, client_id);
+			prep.setInt(2, code);
+			prep.setFloat(3, bill);
+			prep.setInt(4, quantity);
+			prep.executeUpdate();
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	public void assignMedicinetoDoctor (Integer doctor_id, Integer code, Float bill,Integer quantity) throws Exception
-	{
-		//TODO Auto-generated method stub
-				try 
-				{
-					String sql = "INSERT INTO purchase_C (client_id, medicine_id,bill,quantity)"
-							+ "VALUES (?,?,?,?)";
-					PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-					prep.setInt (1,doctor_id);
-					prep.setInt(2,code);
-					prep.setFloat(3,bill);
-					prep.setInt(4,quantity);
-					prep.executeUpdate();			
-					
-				}catch(Exception e)
-				{
-					e.printStackTrace();
-				}
+
+	public void assignMedicinetoDoctor(Integer doctor_id, Integer code, Float bill, Integer quantity) throws Exception {
+		// TODO Auto-generated method stub
+		try {
+			String sql = "INSERT INTO purchase_D (doctor_id, medicine_id,bill,quantity)" + "VALUES (?,?,?,?)";
+			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
+			prep.setInt(1, doctor_id);
+			prep.setInt(2, code);
+			prep.setFloat(3, bill);
+			prep.setInt(4, quantity);
+			prep.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-	
-	public void deleteMedicinebyCode (Integer medicine_code) throws Exception
-	{
+
+	public void deleteMedicinebyCode(Integer medicine_code) throws Exception {
 		// TODO Auto-generated method stub
 		try {
 			String sql = "DELETE FROM medicines WHERE code=?";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-			
-			prep.setInt(1,medicine_code);
-			
-			prep.executeUpdate();			
-			
-		}catch(Exception e)
-		{
+
+			prep.setInt(1, medicine_code);
+
+			prep.executeUpdate();
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	//Método necesario para realizar la actualización del stock al hacer órdenes
-	public void updateStock (Integer quantity, Integer medicine_code) throws Exception
-	{
+
+	// Método necesario para realizar la actualización del stock al hacer órdenes
+	public void updateStock(Integer quantity, Integer medicine_code) throws Exception {
 		try {
 			String sql = "UPDATE medicines SET stock = ? WHERE code = ?;";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setInt(1, quantity);
-			prep.setInt(2,medicine_code);
+			prep.setInt(2, medicine_code);
 			prep.executeUpdate();
-		}
-		catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-			
-		}		
+
+		}
 	}
-	
-	public void updateName (String name, Integer medicine_code) throws Exception 
-	{
-		try 
-		{
+
+	public void updateName(String name, Integer medicine_code) throws Exception {
+		try {
 			String sql = "UPDATE medicines SET name_med = ? WHERE code = ?;";
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-			prep.setString(1,name);
-			prep.setInt(2,medicine_code);
+			prep.setString(1, name);
+			prep.setInt(2, medicine_code);
 			prep.executeUpdate();
-			
-		}catch (Exception e)
-		{
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-    
+
 }

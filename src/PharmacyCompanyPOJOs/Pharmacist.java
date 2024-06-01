@@ -19,7 +19,7 @@ public class Pharmacist implements Serializable
 	private static final long serialVersionUID = 98763412L;
 	private Integer id;
 	private String name;
-	private String surnmame;
+	private String surname;
 	private Integer phone_number;
 	private String email;
 	private List <Order> orders;
@@ -37,7 +37,7 @@ public class Pharmacist implements Serializable
 	public Pharmacist(String name, String surnmame, Integer phone_number, String email) {
 		super();
 		this.name = name;
-		this.surnmame = surnmame;
+		this.surname = surnmame;
 		this.phone_number = phone_number;
 		this.email = email;
 		this.orders = new LinkedList <Order>();
@@ -50,7 +50,7 @@ public class Pharmacist implements Serializable
 		super();
 		this.id = id;
 		this.name = name;
-		this.surnmame = surnmame;
+		this.surname = surnmame;
 		this.phone_number = phone_number;
 		this.email = email;
 		this.orders = new LinkedList <Order>();
@@ -79,13 +79,13 @@ public class Pharmacist implements Serializable
 	}
 
 
-	public String getSurnmame() {
-		return surnmame;
+	public String getSurname() {
+		return surname;
 	}
 
 
-	public void setSurnmame(String surnmame) {
-		this.surnmame = surnmame;
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 
@@ -131,14 +131,14 @@ public class Pharmacist implements Serializable
 
 	@Override
 	public String toString() {
-		return "Pharmacist [name=" + name + ", surnmame=" + surnmame + ", phone_number=" + phone_number + ", email="
+		return "Pharmacist [name=" + name + ", surnmame=" + surname + ", phone_number=" + phone_number + ", email="
 				+ email + ", orders=" + orders + ", medicines_created=" + medicines_created + "]";
 	}
 
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, id, medicines_created, name, orders, phone_number, surnmame);
+		return Objects.hash(email, id, medicines_created, name, orders, phone_number, surname);
 	}
 
 
@@ -154,7 +154,7 @@ public class Pharmacist implements Serializable
 		return Objects.equals(email, other.email) && Objects.equals(id, other.id)
 				&& Objects.equals(medicines_created, other.medicines_created) && Objects.equals(name, other.name)
 				&& Objects.equals(orders, other.orders) && Objects.equals(phone_number, other.phone_number)
-				&& Objects.equals(surnmame, other.surnmame);
+				&& Objects.equals(surname, other.surname);
 	}
 	
 	

@@ -26,7 +26,7 @@ public class Doctor implements Serializable
 	@XmlElement
 	private String name;
 	@XmlElement
-	private String surnmame;
+	private String surname;
 	@XmlTransient
 	private String address;
 	@XmlElement
@@ -46,7 +46,7 @@ public class Doctor implements Serializable
 	
 	@Override
 	public String toString() {
-		return "Doctor [name=" + name + ", surnmame=" + surnmame + ", address=" + address
+		return "Doctor [name=" + name + ", surnmame=" + surname + ", address=" + address
 				+ ", phone_number=" + phone_number + ", email=" + email + ", medicines=" + medicines + "]";
 	}
 
@@ -54,7 +54,7 @@ public class Doctor implements Serializable
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, email, id, medicines, name, phone_number, surnmame);
+		return Objects.hash(address, email, id, medicines, name, phone_number, surname);
 	}
 
 	@Override
@@ -69,14 +69,14 @@ public class Doctor implements Serializable
 		return Objects.equals(address, other.address) && Objects.equals(email, other.email)
 				&& Objects.equals(id, other.id) && Objects.equals(medicines, other.medicines)
 				&& Objects.equals(name, other.name) && Objects.equals(phone_number, other.phone_number)
-				&& Objects.equals(surnmame, other.surnmame);
+				&& Objects.equals(surname, other.surname);
 	}
 
-	public Doctor(String name, String surnmame, String address, Integer phone_number, String email) 
+	public Doctor(String name, String surname, String address, Integer phone_number, String email) 
 	{
 		super();
 		this.name = name;
-		this.surnmame = surnmame;
+		this.surname = surname;
 		this.address = address;
 		this.phone_number = phone_number;
 		this.email = email;
@@ -84,11 +84,11 @@ public class Doctor implements Serializable
 	}
 
 
-	public Doctor(Integer id, String name, String surnmame, String address, Integer phone_number, String email) {
+	public Doctor(Integer id, String name, String surname, String address, Integer phone_number, String email) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.surnmame = surnmame;
+		this.surname = surname;
 		this.address = address;
 		this.phone_number = phone_number;
 		this.email = email;
@@ -121,14 +121,14 @@ public class Doctor implements Serializable
 
 
 
-	public String getSurnmame() {
-		return surnmame;
+	public String getSurname() {
+		return surname;
 	}
 
 
 
-	public void setSurnmame(String surnmame) {
-		this.surnmame = surnmame;
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 

@@ -37,14 +37,14 @@ public class JPAUserManager implements UserManager{
 			
 			q.setParameter(2, pw);
 			
-		}catch(Exception e)
+		} catch(Exception e)
 		{e.printStackTrace();}
 			
 		
 		try {
 			u = (User) q.getSingleResult();
 			
-		}catch(NoResultException e) {}
+		} catch(NoResultException e) {}
 		
 		return u;
 	}

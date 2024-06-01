@@ -26,7 +26,7 @@ public class JDBCDoctorManager implements DoctorManager{
 						+ "VALUES(?,?,?,?,?)";
 				PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 				prep.setString(1,c.getName());
-				prep.setString(2, c.getSurnmame());
+				prep.setString(2, c.getSurname());
 				prep.setInt(3,c.getPhone_number());
 				prep.setString(4,c.getEmail());
 				prep.setString(5,c.getAddress());

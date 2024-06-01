@@ -26,7 +26,7 @@ public class Client implements Serializable
 	@XmlElement
 	private String name;
 	@XmlElement
-	private String surnmame;
+	private String surname;
 	@XmlTransient
 	private String address;
 	@XmlElement
@@ -49,7 +49,7 @@ public class Client implements Serializable
 		super();
 		this.id = id;
 		this.name = name;
-		this.surnmame = surnmame;
+		this.surname = surnmame;
 		this.address = address;
 		this.phone_number = phone_number;
 		this.email = email;
@@ -61,7 +61,7 @@ public class Client implements Serializable
 	public Client(String name, String surnmame, String address, Integer phone_number, String email) {
 		super();
 		this.name = name;
-		this.surnmame = surnmame;
+		this.surname = surnmame;
 		this.address = address;
 		this.phone_number = phone_number;
 		this.email = email;
@@ -71,7 +71,7 @@ public class Client implements Serializable
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, email, id, medicines, name, phone_number, surnmame);
+		return Objects.hash(address, email, id, medicines, name, phone_number, surname);
 	}
 
 
@@ -87,7 +87,7 @@ public class Client implements Serializable
 		return Objects.equals(address, other.address) && Objects.equals(email, other.email)
 				&& Objects.equals(id, other.id) && Objects.equals(medicines, other.medicines)
 				&& Objects.equals(name, other.name) && Objects.equals(phone_number, other.phone_number)
-				&& Objects.equals(surnmame, other.surnmame);
+				&& Objects.equals(surname, other.surname);
 	}
 
 
@@ -103,17 +103,17 @@ public class Client implements Serializable
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getSurnmame() {
-		return surnmame;
+	public String getSurname() {
+		return surname;
 	}
-	public void setSurnmame(String surnmame) {
-		this.surnmame = surnmame;
+	public void setSurname(String surnmame) {
+		this.surname = surnmame;
 	}
 	public String getAddress() {
 		return address;
 	}
-	public void setAdress(String adress) {
-		this.address = adress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public Integer getPhone_number() {
 		return phone_number;
@@ -138,8 +138,8 @@ public class Client implements Serializable
 
 	@Override
 	public String toString() {
-		return "Client [name=" + name + ", surnmame=" + surnmame + ", adress=" + address
-				+ ", phone_number=" + phone_number + ", email=" + email + "]";
+		return "Client [Name =" + name + ", Surname =" + surname + ", Address =" + address
+				+ ", Phone Number =" + phone_number + ", Email =" + email + "]";
 	}
 	
 

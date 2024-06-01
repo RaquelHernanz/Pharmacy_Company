@@ -25,7 +25,7 @@ public class JDBCPharmacistManager implements PharmacistManager
 			
 			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 			prep.setString(1,a.getName());
-			prep.setString(2, a.getSurnmame());
+			prep.setString(2, a.getSurname());
 			prep.setInt(3,a.getPhone_number());
 			prep.setString(4,a.getEmail());
 			prep.executeUpdate();

@@ -26,7 +26,7 @@ public class Administrator implements Serializable
 	@XmlElement
 	private String name;
 	@XmlElement
-	private String surnmame;
+	private String surname;
 	@XmlElement
 	private Integer phone_number;
 	@XmlAttribute
@@ -35,12 +35,12 @@ public class Administrator implements Serializable
 	@XmlElementWrapper(name = "Orders")
 	private List <Order> orders;
 	
-	
-	public Administrator(Integer id, String name, String surnmame, Integer phone_number, String email) {
+	// ADD ADDRESS?
+	public Administrator(Integer id, String name, String surname, Integer phone_number, String email) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.surnmame = surnmame;
+		this.surname = surname;
 		this.phone_number = phone_number;
 		this.email = email;
 		this.orders = new LinkedList <Order> ();
@@ -55,10 +55,10 @@ public class Administrator implements Serializable
 	
 
 
-	public Administrator(String name, String surnmame, Integer phone_number, String email) {
+	public Administrator(String name, String surname, Integer phone_number, String email) {
 		super();
 		this.name = name;
-		this.surnmame = surnmame;
+		this.surname = surname;
 		this.phone_number = phone_number;
 		this.email = email;
 		this.orders = new LinkedList <Order> ();
@@ -86,12 +86,12 @@ public class Administrator implements Serializable
 
 
 	public String getSurnmame() {
-		return surnmame;
+		return surname;
 	}
 
 
 	public void setSurnmame(String surnmame) {
-		this.surnmame = surnmame;
+		this.surname = surnmame;
 	}
 
 
@@ -127,7 +127,7 @@ public class Administrator implements Serializable
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, id, name, orders, phone_number, surnmame);
+		return Objects.hash(email, id, name, orders, phone_number, surname);
 	}
 
 
@@ -142,13 +142,13 @@ public class Administrator implements Serializable
 		Administrator other = (Administrator) obj;
 		return Objects.equals(email, other.email) && Objects.equals(id, other.id) && Objects.equals(name, other.name)
 				&& Objects.equals(orders, other.orders) && Objects.equals(phone_number, other.phone_number)
-				&& Objects.equals(surnmame, other.surnmame);
+				&& Objects.equals(surname, other.surname);
 	}
 
 
 	@Override
 	public String toString() {
-		return "Administrator [name=" + name + ", surnmame=" + surnmame + ", phone_number="
+		return "Administrator [name=" + name + ", surnmame=" + surname + ", phone_number="
 				+ phone_number + ", email=" + email +"]";
 	}
 	
