@@ -110,6 +110,7 @@ public class MainMenu_Client {
 	public static void main(String[] args) {
 		MainMenu_Client menu = new MainMenu_Client();
 		menu.mainMenu_Client();
+		jdbcmanager.disconnect();
 	}
 
 	public void mainMenu_Client() {

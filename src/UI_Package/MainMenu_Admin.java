@@ -47,6 +47,7 @@ import PharmacyCompanyPOJOs.Client;
 import PharmacyCompanyPOJOs.Doctor;
 import PharmacyCompanyPOJOs.Medicine;
 import PharmacyCompanyPOJOs.Pharmacist;
+import PharmacyCompanyPOJOs.User;
 import net.miginfocom.swing.MigLayout;
 
 public class MainMenu_Admin {
@@ -104,6 +105,7 @@ public class MainMenu_Admin {
 	public static void main(String[] args) {
 		MainMenu_Admin menuObj = new MainMenu_Admin();
 		menuObj.mainmenu();
+		jdbcmanager.disconnect();
 	}
 
 	public void mainmenu() {
@@ -203,6 +205,18 @@ public class MainMenu_Admin {
 		help.addActionListener(e -> {
 			userManual();
 		});
+		
+		JButton signout = new JButton("Sign out");
+		signout.setBorder(BorderFactory.createBevelBorder(1, new Color(32, 32, 82), new Color(32, 32, 82)));
+		signout.setForeground(Color.WHITE);
+		signout.setFont(new Font("Calibri", Font.PLAIN, 18));
+		signout.setBackground(new Color(19, 18, 79));
+		signout.setPreferredSize(new Dimension(400, 25));
+		signout.addActionListener(e -> {
+			menu.dispatchEvent(new WindowEvent(menu, WindowEvent.WINDOW_CLOSING));
+			Login loginMenu = new Login();
+			loginMenu.loginRegister();
+		});
 
 		JLabel profile = new JLabel();
 		ImageIcon profileIcon = new ImageIcon("resources/profile.png");
@@ -211,10 +225,11 @@ public class MainMenu_Admin {
 		JLabel nameLabelEx = new JLabel("Welcome, Admin");
 		nameLabelEx.setFont(new Font("Calibri", Font.BOLD, 20));
 		nameLabelEx.setForeground(Color.WHITE);
-
+		
 		list.add(label, "align left, wrap 50");
 		list.add(productsButton, "CENTER, wrap 20");
-		list.add(help, "CENTER, wrap 80");
+		list.add(help, "CENTER, wrap 50");
+		list.add(signout,"CENTER, wrap 70");
 		list.add(profile, "CENTER, gapbottom 10, wrap");
 		list.add(nameLabelEx, "CENTER, gapbottom 10");
 
@@ -301,18 +316,22 @@ public class MainMenu_Admin {
 		removeClientButton.setPreferredSize(new Dimension(400, 25));
 		removeClientButton.addActionListener(e -> {
 			int row = table.getSelectedRow();
-			if (row != -1) {
+			if (row != -1) 
+			{
 				tableModel.removeRow(table.getSelectedRow());
 				Client client = clientsListArray.get(row);
 				clientsListArray.remove(row);
+				User client_U = usermanager.getUser(client.getEmail());
 				try {
 					clientmanager.deleteClientbyId(client.getId());
+					usermanager.deleteUser(client_U);
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Error: Client not found.");
 				}
 				JOptionPane.showMessageDialog(null, "Client has been removed from the table.");
 			}
-		});
+		}
+		);
 
 		menuPanel.add(welcomeLabel, "wrap, gapbottom 20");
 		menuPanel.add(darkLabel, "CENTER, wrap, gapbottom 40");
@@ -434,6 +453,8 @@ public class MainMenu_Admin {
 				doctorsListArray.remove(row);
 				try {
 					doctormanager.deleteDoctorbyId(doctor.getId());
+					User doctor_U = usermanager.getUser(doctor.getEmail());
+					usermanager.deleteUser(doctor_U);
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, "Error: Doctor not found.");
 				}
@@ -562,6 +583,8 @@ public class MainMenu_Admin {
 					Pharmacist pharmacist = pharmaciesListArray.get(row);
 					pharmaciesListArray.remove(row);
 					pharmacistmanager.deletePharmacistbyId(pharmacist.getId());
+					User pharmacist_U = usermanager.getUser(pharmacist.getEmail());
+					usermanager.deleteUser(pharmacist_U);
 				}
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(null, "Error: Pharmacist not found.");
@@ -725,5 +748,7 @@ public class MainMenu_Admin {
 	private static List<Medicine> getAllMedicines() throws Exception {
 		return medicinemanager.getListofMedicines();
 	}
+	
+	
 
 }

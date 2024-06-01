@@ -75,7 +75,7 @@ public class JDBCManager {
 					+ "instructions TEXT,"
 					+ "stock INTEGER,"
 					+ "expirations DATE NOU NULL,"
-					+ "FOREIGN KEY pharmacist_id INTEGER REFERENCES pharmacists(id),"
+					+ "FOREIGN KEY pharmacist_id INTEGER REFERENCES pharmacists(id) DELETE ON CASCADE,"
 					+ "image BLOB,"
 					+ "prescribed BOOLEAN NOT NULL);";
 			stmt.executeUpdate(sql);
@@ -85,14 +85,15 @@ public class JDBCManager {
 					+ "code_o INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ "total_price REAL,"
 					+ "quantity INTEGER,"
-					+ "administrator id INTEGER REFERENCES administrators (id),"
-					+ "pharmacist_id INTEGER REFERENCES pharmacists (id)"
+					+ "administrator id INTEGER REFERENCES administrators (id) DELETE ON CASCADE,"
+					+ "pharmacist_id INTEGER REFERENCES pharmacists (id) DELETE ON CASCADE,"
+					+ "medicine_id INTEGER REFERENCES medicines (code) DELETE ON CASCADE"
 					+ ");";
 			stmt.executeUpdate(sql);
 			
 			sql = "CREATE TABLE purchase_C ("
-					+ "cliend_id INTEGER REFERENCES clients (id),"
-					+ "medicine_id INTEGER REFERENCES medicines (code),"
+					+ "cliend_id INTEGER REFERENCES clients (id) DELETE ON CASCADE,"
+					+ "medicine_id INTEGER REFERENCES medicines (code) DELETE ON CASCADE,"
 					+ "quantity INTEGER,"
 					+ "bill REAL,"
 					+ "date DATE,"
@@ -101,8 +102,8 @@ public class JDBCManager {
 			
 			
 			sql = "CREATE TABLE purchase_D ("
-					+ "medicine_id INTEGER REFERENCES medicines (code),"
-					+ "doctor_id INTEGER REFERENCES doctors (id))"
+					+ "medicine_id INTEGER REFERENCES medicines (code) DELETE ON CASCADE,"
+					+ "doctor_id INTEGER REFERENCES doctors (id)) DELETE ON CASCADE"
 					+ "quantity INTEGER,"
 					+ "bill REAL,"
 					+ "date DATE,"
@@ -110,11 +111,6 @@ public class JDBCManager {
 			
 			stmt.executeUpdate(sql);
 			
-			sql = "CREATE TABLE update_medicines ("
-					+ "order_id INTEGER REFERENCES orders (code_o),"
-					+ "medicine_id INTEGER REFERENCES medicines (code)"
-					+ ");";
-			stmt.executeUpdate(sql);
 			
 			
 		}catch(SQLException e) {

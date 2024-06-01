@@ -421,6 +421,9 @@ public class Login {
 			SwingUtilities.invokeLater(
 					() -> JOptionPane.showMessageDialog(registerFrame, "Error: Invalid input. CREATEUSER"));
 		}
+		
+		jdbcmanager.disconnect();
 	}
+
 
 }

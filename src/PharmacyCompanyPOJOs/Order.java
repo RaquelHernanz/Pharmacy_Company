@@ -24,6 +24,8 @@ public class Order
 	private Pharmacist pharmacist;
 	@XmlTransient
 	private Administrator administrator;
+	@XmlElement
+	private Medicine medicine;
 	
 	public Order() {
 		super();
@@ -32,30 +34,35 @@ public class Order
 	}
 	
 
-	public Order(Float totalprice, Integer quantity, Pharmacist pharmacist, Administrator administrator) {
+	public Order(Float totalprice, Integer quantity, Pharmacist pharmacist, Administrator administrator, Medicine medicine) {
 		super();
 		this.totalprice = totalprice;
 		this.quantity = quantity;
 		this.pharmacist = pharmacist;
 		this.administrator = administrator;
+		this.medicine = medicine;
 	}
 	
 	
 
-	public Order(Integer code, Float totalprice, Integer quantity, Pharmacist pharmacist, Administrator administrator) {
+	public Order(Integer code, Float totalprice, Integer quantity, Pharmacist pharmacist, Administrator administrator,
+			Medicine medicine) 
+	{
 		super();
 		this.code = code;
 		this.totalprice = totalprice;
 		this.quantity = quantity;
 		this.pharmacist = pharmacist;
 		this.administrator = administrator;
+		this.medicine = medicine;
 	}
 
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(administrator, code, pharmacist, quantity, totalprice);
+		return Objects.hash(administrator, code, medicine, pharmacist, quantity, totalprice);
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -67,8 +74,8 @@ public class Order
 			return false;
 		Order other = (Order) obj;
 		return Objects.equals(administrator, other.administrator) && Objects.equals(code, other.code)
-				&& Objects.equals(pharmacist, other.pharmacist) && Objects.equals(quantity, other.quantity)
-				&& Objects.equals(totalprice, other.totalprice);
+				&& Objects.equals(medicine, other.medicine) && Objects.equals(pharmacist, other.pharmacist)
+				&& Objects.equals(quantity, other.quantity) && Objects.equals(totalprice, other.totalprice);
 	}
 
 
@@ -112,13 +119,22 @@ public class Order
 	public void setAdministrator(Administrator administrator) {
 		this.administrator = administrator;
 	}
+	
+	public Medicine getMedicine() {
+		return medicine;
+	}
+
+	public void setMedicine(Medicine medicine) {
+		this.medicine = medicine;
+	}
 
 
 	@Override
 	public String toString() {
 		return "Order [code=" + code + ", totalprice=" + totalprice + ", quantity=" + quantity + ", pharmacist="
-				+ pharmacist.getEmail() + ", administrator=" + administrator.getEmail() + "]";
+				+ pharmacist.getName() + ", administrator=" + administrator.getName() + ", medicine=" + medicine.getName() + "]";
 	}
+	
 	
 	
 	

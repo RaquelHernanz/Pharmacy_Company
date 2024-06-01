@@ -6,8 +6,10 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
+import PharmacyCompanyInterfaces.MedicineManager;
 import PharmacyCompanyInterfaces.OrderManager;
 import PharmacyCompanyPOJOs.Administrator;
+import PharmacyCompanyPOJOs.Medicine;
 import PharmacyCompanyPOJOs.Order;
 import PharmacyCompanyPOJOs.Pharmacist;
 
@@ -18,20 +20,22 @@ public class JDBCOrderManager implements OrderManager
 	private JDBCManager manager;
 	private JDBCPharmacistManager pharmacistmanager;
 	private JDBCAdministratorManager administratormanager;
+	private JDBCMedicineManager medicinemanager;
 	
 	public JDBCOrderManager (JDBCManager m) 
 	{
 		this.manager = m;
 		this.pharmacistmanager = new JDBCPharmacistManager(manager);
 		this.administratormanager = new JDBCAdministratorManager (manager);
+		this.medicinemanager = new JDBCMedicineManager (manager);
 	}
 	
 	public void addOrder (Order o) 
 	{
 		// TODO Auto-generated method stub
 				try {
-				 String sql = "INSERT INTO orders (total_price,quantity,pharmacist_id,administrator_id)"
-						 + "VALUES(?,?,?,?)";
+				 String sql = "INSERT INTO orders (total_price,quantity,pharmacist_id,administrator_id,medicine_id)"
+						 + "VALUES(?,?,?,?,?)";
 				 
 				 PreparedStatement prep = manager.getConnection().prepareStatement(sql);
 				 
@@ -39,6 +43,7 @@ public class JDBCOrderManager implements OrderManager
 				 prep.setInt(2,o.getQuantity());
 				 prep.setInt(3,o.getPharmacist().getId());
 				 prep.setInt(4,o.getAdministrator().getId());
+				 prep.setInt(5,o.getMedicine().getCode());
 				 
 				 prep.executeUpdate();
 				 
@@ -66,10 +71,12 @@ public class JDBCOrderManager implements OrderManager
 			Integer quantity_o  = rs.getInt("quantity");
 			Integer pharmacist = rs.getInt("pharmacist_id");
 			Integer administrator_id = rs.getInt("administrator_id");
+			Integer medicine_id = rs.getInt("medicine_id");
 			Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist);
 			Administrator a = administratormanager.searchAdministratorById(administrator_id);
+			Medicine m = medicinemanager.searchMedicineByCode(medicine_id);
 				
-			o = new Order (code,totalprice,quantity_o,p,a);
+			o = new Order (code,totalprice,quantity_o,p,a,m);
 				
 			
 			rs.close();
@@ -99,10 +106,12 @@ public class JDBCOrderManager implements OrderManager
 				Integer quantity  = rs.getInt("quantity");
 				Integer pharmacist_id = rs.getInt("pharmacist_id");
 				Integer administrator_id = rs.getInt("administrator_id");
+				Integer medicine_id = rs.getInt("medicine_id");
 				Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
 				Administrator a = administratormanager.searchAdministratorById(administrator_id);
+				Medicine m = medicinemanager.searchMedicineByCode(medicine_id);
 				
-				Order o = new Order (code,totalprice,quantity,p,a);
+				Order o = new Order (code,totalprice,quantity,p,a,m);
 				orders.add(o);
 				
 			}
@@ -131,10 +140,12 @@ public class JDBCOrderManager implements OrderManager
 				Integer quantity  = rs.getInt("quantity");
 				Integer administrator_id = rs.getInt("administrator_id");
 				Integer pharmacist_id = rs.getInt("pharmacist_id");
+				Integer medicine_id = rs.getInt("medicine_id");
 				Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
 				Administrator a = administratormanager.searchAdministratorById(administrator_id);
+				Medicine m = medicinemanager.searchMedicineByCode(medicine_id);
 				
-				o = new Order (code_o,totalprice,quantity,p,a);
+				o = new Order (code_o,totalprice,quantity,p,a,m);
 			
 			rs.close();
 			stmt.close();
@@ -144,34 +155,6 @@ public class JDBCOrderManager implements OrderManager
 		}
 		return o;
 		
-	}
-	
-	public List <Order> getListofOrdersfromStock () throws Exception
-	{
-		List <Order> orders = new LinkedList <>();
-		
-       try {
-			
-			Statement stmt = manager.getConnection().createStatement();
-			String sql = "SELECT * FROM update_medicines";
-			ResultSet rs = stmt.executeQuery(sql);
-			
-			while(rs.next())
-			{
-				
-				Integer code_order = rs.getInt("order_id");
-				Order o = searchOrderByCode(code_order);
-				orders.add(o);
-			}
-			
-			rs.close();
-			stmt.close();
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-       return orders;
 	}
 	
 	
@@ -191,10 +174,11 @@ public class JDBCOrderManager implements OrderManager
 				Float totalprice = rs.getFloat("total_price");
 				Integer quantity  = rs.getInt("quantity");
 				Integer administrator_id = rs.getInt("administrator_id");
+				Integer medicine_id = rs.getInt("medicine_id");
 				Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
 				Administrator a = administratormanager.searchAdministratorById(administrator_id);
-				
-				Order o = new Order (code,totalprice,quantity,p,a);
+				Medicine m = medicinemanager.searchMedicineByCode(medicine_id);
+				Order o = new Order (code,totalprice,quantity,p,a,m);
 				orders.add(o);
 				
 			}
@@ -227,10 +211,12 @@ public class JDBCOrderManager implements OrderManager
 				Float totalprice = rs.getFloat("total_price");
 				Integer quantity  = rs.getInt("quantity");
 				Integer pharmacist_id = rs.getInt("pharmacist_id");
+				Integer code_medicine = rs.getInt("medicine_id");
+				
 				Pharmacist p = pharmacistmanager.searchPharmacistById(pharmacist_id);
 				Administrator a = administratormanager.searchAdministratorById(administrator_id);
-				
-				Order o = new Order (code,totalprice,quantity,p,a);
+				Medicine m = medicinemanager.searchMedicineByCode(code_medicine);
+				Order o = new Order (code,totalprice,quantity,p,a,m);
 				orders.add(o);
 				
 			}
@@ -244,23 +230,7 @@ public class JDBCOrderManager implements OrderManager
 		return orders;
 	}
 	
-	public void assignMedicinetoOrder (Integer medicine_id,Integer order_id) throws Exception
-	{
-		//TODO Auto-generated method stub
-		try 
-		{
-			String sql = "INSERT INTO update_medicines (order_id, medicine_id)"
-					+ "VALUES (?,?)";
-			PreparedStatement prep = manager.getConnection().prepareStatement(sql);
-			prep.setInt (1,order_id);
-			prep.setInt(2,medicine_id);
-			prep.executeUpdate();			
-			
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-	}
+
 	
 	public void deleteOrderbyCode (Integer order_code) {
 		// TODO Auto-generated method stub

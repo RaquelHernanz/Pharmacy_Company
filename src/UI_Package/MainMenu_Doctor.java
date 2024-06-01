@@ -110,6 +110,7 @@ public class MainMenu_Doctor {
 	public static void main(String[] args) {
 		MainMenu_Doctor menu = new MainMenu_Doctor();
 		menu.mainMenu_Doctor();
+		jdbcmanager.disconnect();
 	}
 
 	public void mainMenu_Doctor() {

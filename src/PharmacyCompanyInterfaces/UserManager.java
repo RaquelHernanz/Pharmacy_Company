@@ -17,4 +17,5 @@ public interface UserManager {
 	public User checkPassword(String email, String pass);
 	public void changePassword(User u, String new_passwd);
 	public void changeEmail(User u, String email);
+	public void deleteUser (User u);
 }

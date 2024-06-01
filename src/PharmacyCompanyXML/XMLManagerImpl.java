@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 import PharmacyCompanyInterfaces.AdministratorManager;
 import PharmacyCompanyInterfaces.ClientManager;
 import PharmacyCompanyInterfaces.DoctorManager;
@@ -197,10 +199,24 @@ public class XMLManagerImpl implements XMLManager
 		
 	}
 	
+	
 	@Override
 	public Client xmltoClient (File xml) throws Exception 
 	{
 		Client c = null;
+		manager = new JDBCManager();
+		clientmanager = new JDBCClientManager(manager);
+		try {
+			
+			JAXBContext jaxbContext = JAXBContext.newInstance(Client.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			
+			c = (Client) unmarshaller.unmarshal(xml);
+			clientmanager.createClient(c);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 		return c;
 	}
@@ -210,6 +226,19 @@ public class XMLManagerImpl implements XMLManager
 	public Administrator xmltoAdministrator (File xml) throws Exception 
 	{
 		Administrator a = null;
+		manager = new JDBCManager();
+		administratormanager = new JDBCAdministratorManager(manager);
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Administrator.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			
+			a = (Administrator) unmarshaller.unmarshal(xml);
+			administratormanager.createAdministrator(a);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		return a;
 	}
 	
@@ -217,6 +246,18 @@ public class XMLManagerImpl implements XMLManager
 	public Doctor xmltoDoctor (File xml) throws Exception 
 	{
 		Doctor d = null;
+		manager = new JDBCManager();
+		doctormanager = new JDBCDoctorManager(manager);
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Doctor.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			
+			d = (Doctor) unmarshaller.unmarshal(xml);
+			doctormanager.createDoctor(d);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return d;
 	}
 	
@@ -224,6 +265,19 @@ public class XMLManagerImpl implements XMLManager
 	public Pharmacist xmltoPharmacist (File xml) throws Exception 
 	{
 		Pharmacist p = null;
+		manager = new JDBCManager();
+		pharmacistmanager = new JDBCPharmacistManager(manager);
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Pharmacist.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			
+			p = (Pharmacist) unmarshaller.unmarshal(xml);
+			pharmacistmanager.createPharmacist(p);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
 		return p;
 	}
 	
@@ -231,6 +285,18 @@ public class XMLManagerImpl implements XMLManager
 	public Medicine xmltoMedicine (File xml) throws Exception 
 	{
 		Medicine m = null;
+		manager = new JDBCManager();
+		medicinemanager = new JDBCMedicineManager(manager);
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Pharmacist.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			
+			m = (Medicine) unmarshaller.unmarshal(xml);
+			medicinemanager.addMedicine(m);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return m;
 	}
 	
@@ -238,8 +304,20 @@ public class XMLManagerImpl implements XMLManager
 	public Order xmltoOrder (File xml) throws Exception 
 	{
 		Order o = null;
+		manager = new JDBCManager();
+		ordermanager = new JDBCOrderManager(manager);
+		try {
+			JAXBContext jaxbContext = JAXBContext.newInstance(Pharmacist.class);
+			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+			
+			o = (Order) unmarshaller.unmarshal(xml);
+			ordermanager.addOrder(o);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		return o;
 	}
-	
+
 }
 

@@ -90,6 +90,7 @@ public class MainMenu_Pharmacies {
 		MainMenu_Pharmacies pharm = new MainMenu_Pharmacies();
 		try {
 			pharm.mainMenu_Pharmacy();
+			jdbcmanager.disconnect();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -632,18 +633,15 @@ public class MainMenu_Pharmacies {
 					protected Void doInBackground() {
 						Integer medicine_code = medicineOrder.getCode();
 						try {
-							medicinemanager.updateStock(medicineOrder.getStock() + chosenStock, medicine_code);
 							Pharmacist pharmacistSample = pharmacistmanager
 									.searchPharmacistByEmail(emailText.getText());
 							Administrator adminInCharge = administratormanager
 									.searchAdministratorByEmail(emailTextAdmin.getText());
 
 							Order order = new Order(medicineOrder.getPrice(), chosenStock, pharmacistSample,
-									adminInCharge);
+									adminInCharge,medicineOrder);
 							ordermanager.addOrder(order);
 							medicinemanager.updateStock(medicineOrder.getStock() + chosenStock, medicine_code);
-							Order database = ordermanager.searchOrderByPrice(medicineOrder.getPrice());
-							ordermanager.assignMedicinetoOrder(medicine_code, database.getCode());
 						} catch (Exception e1) {
 							JOptionPane.showMessageDialog(null, "Invalid input. Try again.");
 						}
