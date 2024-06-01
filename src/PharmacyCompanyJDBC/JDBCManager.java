@@ -84,7 +84,7 @@ public class JDBCManager {
 			sql = "CREATE TABLE orders ("
 					+ "code_o INTEGER PRIMARY KEY AUTOINCREMENT,"
 					+ "total_price REAL,"
-					+ "quantity INTEGER"
+					+ "quantity INTEGER,"
 					+ "administrator id INTEGER REFERENCES administrators (id),"
 					+ "pharmacist_id INTEGER REFERENCES pharmacists (id)"
 					+ ");";

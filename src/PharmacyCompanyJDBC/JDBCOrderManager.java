@@ -49,6 +49,7 @@ public class JDBCOrderManager implements OrderManager
 				
 	}
 	
+
 	public Order searchOrderByPrice (Float total_price) 
 	{
 		
@@ -77,7 +78,6 @@ public class JDBCOrderManager implements OrderManager
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
 		return o;
 	}
 	
@@ -144,6 +144,34 @@ public class JDBCOrderManager implements OrderManager
 		}
 		return o;
 		
+	}
+	
+	public List <Order> getListofOrdersfromStock () throws Exception
+	{
+		List <Order> orders = new LinkedList <>();
+		
+       try {
+			
+			Statement stmt = manager.getConnection().createStatement();
+			String sql = "SELECT * FROM update_medicines";
+			ResultSet rs = stmt.executeQuery(sql);
+			
+			while(rs.next())
+			{
+				
+				Integer code_order = rs.getInt("order_id");
+				Order o = searchOrderByCode(code_order);
+				orders.add(o);
+			}
+			
+			rs.close();
+			stmt.close();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+       return orders;
 	}
 	
 	

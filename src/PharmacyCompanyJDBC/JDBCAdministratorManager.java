@@ -4,10 +4,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import PharmacyCompanyInterfaces.AdministratorManager;
 import PharmacyCompanyPOJOs.Administrator;
+import PharmacyCompanyPOJOs.Order;
 
 
 public class JDBCAdministratorManager implements AdministratorManager {
@@ -224,4 +226,9 @@ public class JDBCAdministratorManager implements AdministratorManager {
     		e.printStackTrace();
     	}
     }
+    
+    
 }
+
+
+

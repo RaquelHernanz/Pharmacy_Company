@@ -7,44 +7,50 @@ import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name="Pharmacist")
-@XmlType(propOrder = {})
-public class Pharmacist implements Serializable 
-{
-	
+@XmlRootElement(name = "Pharmacist")
+@XmlType(propOrder = { "name", "surname", "email", "medicines_created" })
+public class Pharmacist implements Serializable {
+
 	private static final long serialVersionUID = 98763412L;
+	@XmlTransient
 	private Integer id;
+	@XmlElement
 	private String name;
+	@XmlElement
 	private String surname;
+	@XmlTransient
 	private Integer phone_number;
+	@XmlAttribute
 	private String email;
-	private List <Order> orders;
-	private List <Medicine> medicines_created;
-	
-	
+	@XmlTransient
+	private List<Order> orders;
+	@XmlElement(name = "Medicine")
+	@XmlElementWrapper(name = "Medicines")
+	private List<Medicine> medicines_created;
+
 	public Pharmacist() {
 		super();
-		this.orders = new LinkedList <Order>();
-		this.medicines_created = new LinkedList <Medicine>();
+		this.orders = new LinkedList<Order>();
+		this.medicines_created = new LinkedList<Medicine>();
 	}
-	
-	
-	
+
 	public Pharmacist(String name, String surnmame, Integer phone_number, String email) {
 		super();
 		this.name = name;
 		this.surname = surnmame;
 		this.phone_number = phone_number;
 		this.email = email;
-		this.orders = new LinkedList <Order>();
-		this.medicines_created = new LinkedList <Medicine>();
+		this.orders = new LinkedList<Order>();
+		this.medicines_created = new LinkedList<Medicine>();
 	}
-	
-
 
 	public Pharmacist(Integer id, String name, String surnmame, Integer phone_number, String email) {
 		super();
@@ -53,81 +59,65 @@ public class Pharmacist implements Serializable
 		this.surname = surnmame;
 		this.phone_number = phone_number;
 		this.email = email;
-		this.orders = new LinkedList <Order>();
-		this.medicines_created = new LinkedList <Medicine>();
+		this.orders = new LinkedList<Order>();
+		this.medicines_created = new LinkedList<Medicine>();
 	}
-
-
 
 	public Integer getId() {
 		return id;
 	}
 
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
 
 	public String getName() {
 		return name;
 	}
 
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 
 	public String getSurname() {
 		return surname;
 	}
 
-
 	public void setSurname(String surname) {
 		this.surname = surname;
 	}
-
 
 	public Integer getPhone_number() {
 		return phone_number;
 	}
 
-
 	public void setPhone_number(Integer phone_number) {
 		this.phone_number = phone_number;
 	}
-
 
 	public String getEmail() {
 		return email;
 	}
 
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 
 	public List<Order> getOrders() {
 		return orders;
 	}
 
-
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
 	}
-
 
 	public List<Medicine> getMedicines_created() {
 		return medicines_created;
 	}
 
-
 	public void setMedicines_created(List<Medicine> medicines_created) {
 		this.medicines_created = medicines_created;
 	}
-
 
 	@Override
 	public String toString() {
@@ -135,12 +125,10 @@ public class Pharmacist implements Serializable
 				+ email + ", orders=" + orders + ", medicines_created=" + medicines_created + "]";
 	}
 
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(email, id, medicines_created, name, orders, phone_number, surname);
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -156,6 +144,5 @@ public class Pharmacist implements Serializable
 				&& Objects.equals(orders, other.orders) && Objects.equals(phone_number, other.phone_number)
 				&& Objects.equals(surname, other.surname);
 	}
-	
-	
+
 }

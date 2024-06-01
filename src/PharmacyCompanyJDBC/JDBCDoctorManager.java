@@ -236,10 +236,10 @@ public class JDBCDoctorManager implements DoctorManager{
 			prep.setString(1,email);
 			prep.setInt(2,id);
 			prep.executeUpdate();
-    	} catch(Exception e)
-    	{
-			e.printStackTrace();
+    		
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+
     }
-    
-  }
 }

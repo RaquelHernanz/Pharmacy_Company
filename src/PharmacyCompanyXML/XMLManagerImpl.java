@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-
 import PharmacyCompanyInterfaces.AdministratorManager;
 import PharmacyCompanyInterfaces.ClientManager;
 import PharmacyCompanyInterfaces.DoctorManager;
@@ -38,17 +37,19 @@ public class XMLManagerImpl implements XMLManager
 	OrderManager ordermanager;
 	MedicineManager medicinemanager;
 	
+	@Override
 	public void administrator2Xml(Integer id) throws Exception 
 	{
 		Administrator a = null;
 		manager = new JDBCManager();
 		administratormanager = new JDBCAdministratorManager(manager);
 		ordermanager = new JDBCOrderManager(manager);
-		List<Order> orders = new LinkedList <Order>();
+
+		List<Order> orders = new LinkedList<Order>(); 
+		
 		
 		try {
 			
-			//El método estaba en order, no en administrator
 			a = administratormanager.searchAdministratorById(id);
 			orders = ordermanager.getOrderOfAdministrator(id);
 			a.setOrders(orders);
@@ -66,6 +67,7 @@ public class XMLManagerImpl implements XMLManager
 		}
 	}
 	
+	@Override
 	public void client2Xml(Integer id) throws Exception 
 	{
 		Client c = null;
@@ -75,7 +77,8 @@ public class XMLManagerImpl implements XMLManager
 		
 		try {
 			
-			medicines = medicinemanager.getListofMedicinesPurchasedClient(id); //falta hacer este método en JDBCClientManager
+
+			medicines = medicinemanager.getListofMedicinesPurchasedClient(id);
 			c = clientmanager.searchClientById(id);
 			c.setMedicines(medicines);
 			
@@ -92,6 +95,9 @@ public class XMLManagerImpl implements XMLManager
 		}
 	}
 	
+
+
+	@Override
 	public void pharmacist2Xml(Integer id) throws Exception 
 	{
 		Pharmacist p = null;
@@ -119,6 +125,7 @@ public class XMLManagerImpl implements XMLManager
 		}
 	}
 	
+	@Override
 	public void doctor2Xml(Integer id) throws Exception 
 	{
 		Doctor d = null;
@@ -130,7 +137,7 @@ public class XMLManagerImpl implements XMLManager
 			medicines = medicinemanager.getListofMedicinesPurchasedDoctor(id);
 			d = doctormanager.searchDoctorById(id);
 			d.setMedicines(medicines);
-			
+		
 			JAXBContext jaxbContext = JAXBContext.newInstance(Doctor.class);
 			Marshaller marshaller = jaxbContext.createMarshaller();
 			
@@ -143,6 +150,8 @@ public class XMLManagerImpl implements XMLManager
 		}
 	}
 	
+	
+	@Override
 	public void Medicine2Xml(Integer code) throws Exception 
 	{
 		Medicine m = null;
@@ -164,6 +173,7 @@ public class XMLManagerImpl implements XMLManager
 		}
 	}
 	
+	@Override
 	public void Order2Xml(Integer code) throws Exception 
 	{
 		Order o = null;
@@ -187,6 +197,7 @@ public class XMLManagerImpl implements XMLManager
 		
 	}
 	
+	@Override
 	public Client xmltoClient (File xml) throws Exception 
 	{
 		Client c = null;
@@ -194,35 +205,41 @@ public class XMLManagerImpl implements XMLManager
 		return c;
 	}
 	
+	
+	@Override
 	public Administrator xmltoAdministrator (File xml) throws Exception 
 	{
 		Administrator a = null;
 		return a;
 	}
 	
+	@Override
 	public Doctor xmltoDoctor (File xml) throws Exception 
 	{
 		Doctor d = null;
 		return d;
 	}
 	
+	@Override
 	public Pharmacist xmltoPharmacist (File xml) throws Exception 
 	{
 		Pharmacist p = null;
 		return p;
 	}
 	
+	@Override
 	public Medicine xmltoMedicine (File xml) throws Exception 
 	{
 		Medicine m = null;
 		return m;
 	}
+	
+	@Override
 	public Order xmltoOrder (File xml) throws Exception 
 	{
 		Order o = null;
 		return o;
 	}
-	
 	
 }
 
