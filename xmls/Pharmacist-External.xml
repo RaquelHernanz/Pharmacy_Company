@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+
+<!DOCTYPE pharmacist [
+    <!ELEMENT pharmacist (email, phone_number, medicines_created, orders)>
+    <!ATTLIST pharmacist
+    name CDATA #REQUIRED
+    surname CDATA #REQUIRED
+    >
+    <!ELEMENT phone_number (#PCDATA)>
+    <!ELEMENT email (#PCDATA)>
+    <!ELEMENT medicines_created (medicine*)>
+    <!ELEMENT orders (order*)>
+    <!ELEMENT medicine (name, price, stock, instructions, expirations)>
+    <!ATTLIST medicine 
+    prescribed CDATA #IMPLIED>
+    <!ELEMENT name (#PCDATA)>
+    <!ELEMENT price (#PCDATA)>
+    <!ELEMENT stock (#PCDATA)>
+    <!ELEMENT instructions (#PCDATA)>
+    <!ELEMENT expirations (#PCDATA)>
+    <!ELEMENT order (quantity, totalprice)>
+    <!ELEMENT quantity (#PCDATA)>
+    <!ELEMENT totalprice (#PCDATA)>
+]>
+
+<!-- An example of pharmacist that can be added to the system-->
+<pharmacist name="Julia" surname="Harlen">
+<email>julia@gmail.com</email>
+<phone_number>685834</phone_number>
+<medicines_created>
+<medicine prescribed="true">
+<name>Oxilina</name>
+<price>20.0</price>
+<stock>400</stock>
+<instructions>Only for cronic pain </instructions>
+<expirations>2026-07-05</expirations>
+</medicine>
+</medicines_created>
+<orders/>
+</pharmacist>
+

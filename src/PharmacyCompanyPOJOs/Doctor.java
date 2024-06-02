@@ -8,6 +8,7 @@ import java.util.Objects;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -15,26 +16,26 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name="Doctor")
-@XmlType(propOrder = {"name","surname","email","phone_number","Medicines"})
+@XmlRootElement(name="doctor")
+@XmlType(propOrder = {"email","phone_number","address","medicines"})
 public class Doctor implements Serializable
 {
 	
 	private static final long serialVersionUID = 98763412L;
 	@XmlTransient
 	private Integer id;
-	@XmlElement
+	@XmlAttribute
 	private String name;
-	@XmlElement
+	@XmlAttribute
 	private String surname;
-	@XmlTransient
+	@XmlElement
 	private String address;
 	@XmlElement
 	private Integer phone_number;
 	@XmlElement
 	private String email;
-	@XmlElement(name="Medicine")
-	@XmlElementWrapper(name="Medicines")
+	@XmlElement(name="medicine")
+	@XmlElementWrapper(name="medicines")
 	private List <Medicine> medicines;
 	
 	public Doctor() {
@@ -178,16 +179,6 @@ public class Doctor implements Serializable
 	public void setMedicines(List<Medicine> medicines) {
 		this.medicines = medicines;
 	}
-	
-	
-
-
-	
-
-	
-
-	
-	
 	
 	
 	

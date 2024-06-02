@@ -10,8 +10,8 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name="Order")
-@XmlType(propOrder = {"quantity","totalprice","pharmacist"})
+@XmlRootElement(name="order")
+@XmlType(propOrder = {"quantity","totalprice"})
 public class Order 
 {
 	@XmlTransient
@@ -20,11 +20,11 @@ public class Order
 	private Float totalprice;
 	@XmlElement
 	private Integer quantity;
-	@XmlElement
+	@XmlTransient
 	private Pharmacist pharmacist;
 	@XmlTransient
 	private Administrator administrator;
-	@XmlElement
+	@XmlTransient
 	private Medicine medicine;
 	
 	public Order() {

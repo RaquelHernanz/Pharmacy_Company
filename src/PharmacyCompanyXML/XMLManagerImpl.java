@@ -7,6 +7,10 @@ import java.util.List;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import PharmacyCompanyInterfaces.AdministratorManager;
 import PharmacyCompanyInterfaces.ClientManager;
@@ -39,14 +43,22 @@ public class XMLManagerImpl implements XMLManager
 	OrderManager ordermanager;
 	MedicineManager medicinemanager;
 	
+	public XMLManagerImpl () 
+	{
+		super ();
+		manager = new JDBCManager();
+		administratormanager = new JDBCAdministratorManager(manager);
+		ordermanager = new JDBCOrderManager(manager);
+		clientmanager = new JDBCClientManager(manager);
+		pharmacistmanager = new JDBCPharmacistManager(manager);
+		doctormanager = new JDBCDoctorManager(manager);
+		medicinemanager = new JDBCMedicineManager(manager);
+	}
+	
 	@Override
 	public void administrator2Xml(Integer id) throws Exception 
 	{
 		Administrator a = null;
-		manager = new JDBCManager();
-		administratormanager = new JDBCAdministratorManager(manager);
-		ordermanager = new JDBCOrderManager(manager);
-
 		List<Order> orders = new LinkedList<Order>(); 
 		
 		
@@ -60,7 +72,7 @@ public class XMLManagerImpl implements XMLManager
 			JAXBContext jaxbContext = JAXBContext.newInstance(Administrator.class);
 			Marshaller marshaller = jaxbContext.createMarshaller();
 			
-			File file = new File("Administrator.xml");
+			File file = new File("./xmls/Administrator.xml");
 			marshaller.marshal(a,file);
 			System.out.println(a);
 			
@@ -73,8 +85,6 @@ public class XMLManagerImpl implements XMLManager
 	public void client2Xml(Integer id) throws Exception 
 	{
 		Client c = null;
-		manager = new JDBCManager();
-		clientmanager = new JDBCClientManager(manager);
 		List<Medicine> medicines = new LinkedList<Medicine>();
 		
 		try {
@@ -88,7 +98,7 @@ public class XMLManagerImpl implements XMLManager
 			JAXBContext jaxbContext = JAXBContext.newInstance(Client.class);
 			Marshaller marshaller = jaxbContext.createMarshaller();
 			
-			File file = new File("Client.xml");
+			File file = new File("./xmls/Client.xml");
 			marshaller.marshal(c, file);
 			System.out.println(c);
 			
@@ -103,13 +113,11 @@ public class XMLManagerImpl implements XMLManager
 	public void pharmacist2Xml(Integer id) throws Exception 
 	{
 		Pharmacist p = null;
-		manager = new JDBCManager();
-		pharmacistmanager = new JDBCPharmacistManager(manager);
 		List<Medicine> medicines = new LinkedList<Medicine>();
 		List <Order> orders = new LinkedList<Order>();
 		
 		try {
-			medicines = medicinemanager.getMedicinesofPharmacist(id); //falta
+			medicines = medicinemanager.getMedicinesofPharmacist(id);
 			p = pharmacistmanager.searchPharmacistById(id);
 			orders = ordermanager.getOrderOfPharmacist(id);
 			p.setMedicines_created(medicines);
@@ -118,7 +126,7 @@ public class XMLManagerImpl implements XMLManager
 			JAXBContext jaxbContext = JAXBContext.newInstance(Pharmacist.class);
 			Marshaller marshaller = jaxbContext.createMarshaller();
 			
-			File file = new File("Pharmacist.xml");
+			File file = new File("./xmls/Pharmacist.xml");
 			marshaller.marshal(p,file);
 			System.out.print(p);
 			
@@ -131,8 +139,6 @@ public class XMLManagerImpl implements XMLManager
 	public void doctor2Xml(Integer id) throws Exception 
 	{
 		Doctor d = null;
-		manager = new JDBCManager();
-		doctormanager = new JDBCDoctorManager(manager);
 		List<Medicine> medicines = new LinkedList <Medicine>();
 		
 		try {
@@ -143,7 +149,7 @@ public class XMLManagerImpl implements XMLManager
 			JAXBContext jaxbContext = JAXBContext.newInstance(Doctor.class);
 			Marshaller marshaller = jaxbContext.createMarshaller();
 			
-			File file = new File("Doctor.xml");
+			File file = new File("./xmls/Doctor.xml");
 			marshaller.marshal(d, file);
 			System.out.println(d);
 			
@@ -157,8 +163,6 @@ public class XMLManagerImpl implements XMLManager
 	public void Medicine2Xml(Integer code) throws Exception 
 	{
 		Medicine m = null;
-		manager = new JDBCManager();
-		medicinemanager = new JDBCMedicineManager(manager);
 		
 		try {
 			m = medicinemanager.searchMedicineByCode(code);
@@ -166,7 +170,7 @@ public class XMLManagerImpl implements XMLManager
 			JAXBContext jaxbContext = JAXBContext.newInstance(Medicine.class);
 			Marshaller marshaller = jaxbContext.createMarshaller();
 			
-			File file = new File("Medicine.xml");
+			File file = new File("./xmls/Medicine.xml");
 			marshaller.marshal(m,file);
 			System.out.println(m);
 			
@@ -179,8 +183,6 @@ public class XMLManagerImpl implements XMLManager
 	public void Order2Xml(Integer code) throws Exception 
 	{
 		Order o = null;
-		manager = new JDBCManager();
-		ordermanager = new JDBCOrderManager(manager);
 		
 		try {
 			o = ordermanager.searchOrderByCode(code);
@@ -188,7 +190,7 @@ public class XMLManagerImpl implements XMLManager
 			JAXBContext jaxbContext = JAXBContext.newInstance(Order.class);
 			Marshaller marshaller = jaxbContext.createMarshaller();
 			
-			File file = new File ("Order.xml");
+			File file = new File ("./xmls/Order.xml");
 			marshaller.marshal(o,file);
 			System.out.println(o);
 			
@@ -204,8 +206,7 @@ public class XMLManagerImpl implements XMLManager
 	public Client xmltoClient (File xml) throws Exception 
 	{
 		Client c = null;
-		manager = new JDBCManager();
-		clientmanager = new JDBCClientManager(manager);
+		
 		try {
 			
 			JAXBContext jaxbContext = JAXBContext.newInstance(Client.class);
@@ -226,8 +227,7 @@ public class XMLManagerImpl implements XMLManager
 	public Administrator xmltoAdministrator (File xml) throws Exception 
 	{
 		Administrator a = null;
-		manager = new JDBCManager();
-		administratormanager = new JDBCAdministratorManager(manager);
+		
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(Administrator.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -246,8 +246,6 @@ public class XMLManagerImpl implements XMLManager
 	public Doctor xmltoDoctor (File xml) throws Exception 
 	{
 		Doctor d = null;
-		manager = new JDBCManager();
-		doctormanager = new JDBCDoctorManager(manager);
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(Doctor.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -265,8 +263,6 @@ public class XMLManagerImpl implements XMLManager
 	public Pharmacist xmltoPharmacist (File xml) throws Exception 
 	{
 		Pharmacist p = null;
-		manager = new JDBCManager();
-		pharmacistmanager = new JDBCPharmacistManager(manager);
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(Pharmacist.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -285,8 +281,6 @@ public class XMLManagerImpl implements XMLManager
 	public Medicine xmltoMedicine (File xml) throws Exception 
 	{
 		Medicine m = null;
-		manager = new JDBCManager();
-		medicinemanager = new JDBCMedicineManager(manager);
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(Pharmacist.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -304,8 +298,6 @@ public class XMLManagerImpl implements XMLManager
 	public Order xmltoOrder (File xml) throws Exception 
 	{
 		Order o = null;
-		manager = new JDBCManager();
-		ordermanager = new JDBCOrderManager(manager);
 		try {
 			JAXBContext jaxbContext = JAXBContext.newInstance(Pharmacist.class);
 			Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -318,6 +310,19 @@ public class XMLManagerImpl implements XMLManager
 		}
 		return o;
 	}
+	
+	@Override
+	public void simpleTransform(String sourcePath, String xsltPath,String resultDir) throws Exception 
+	{
+		TransformerFactory tFactory = TransformerFactory.newInstance();
+		try {
+			Transformer transformer = tFactory.newTransformer(new StreamSource(new File(xsltPath)));
+			transformer.transform(new StreamSource(new File(sourcePath)),new StreamResult(new File(resultDir)));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 
 }
 

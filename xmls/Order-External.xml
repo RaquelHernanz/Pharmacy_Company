@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<!-- Doesn't include an example-->
+<!DOCTYPE client [
+   <!ELEMENT order (quantity, totalprice)>
+   <!ELEMENT quantity (#PCDATA)>
+   <!ELEMENT totalprice (#PCDATA)>
+   
+]>

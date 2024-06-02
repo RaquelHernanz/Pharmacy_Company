@@ -23,4 +23,5 @@ public interface XMLManager
 	public Pharmacist xmltoPharmacist (File xml) throws Exception;
 	public Medicine xmltoMedicine (File xml) throws Exception;
 	public Order xmltoOrder (File xml) throws Exception;
+	public void simpleTransform(String sourcePath, String xsltPath,String resultDir) throws Exception;
 }

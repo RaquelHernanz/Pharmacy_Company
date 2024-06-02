@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+
+<!DOCTYPE medicine [
+    <!ELEMENT medicine (name, price, stock, instructions,expirations, orders)>
+    <!ATTLIST medicine
+    prescribed CDATA #IMPLIED
+    >
+    <!ELEMENT name (#PCDATA)>
+    <!ELEMENT instructions (#PCDATA)>
+    <!ELEMENT price (#PCDATA)>
+    <!ELEMENT stock (#PCDATA)>
+    <!ELEMENT expirations (#PCDATA)>
+    <!ELEMENT orders (order*)>
+    <!ELEMENT order (quantity, totalprice)>
+    <!ELEMENT quantity (#PCDATA)>
+    <!ELEMENT totalprice (#PCDATA)>
+]>
+
+<!-- It won't work if there ins't any pharmacist-->
+<medicine prescribed="false">
+<name></name>
+<price>15.0</price>
+<stock>500</stock>
+<instructions>Only for diabetic patients </instructions>
+<expirations>2026-07-05</expirations>
+<orders/>
+</medicine>

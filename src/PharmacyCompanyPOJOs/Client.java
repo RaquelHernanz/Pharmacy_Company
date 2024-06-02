@@ -15,26 +15,26 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name="Client")
-@XmlType(propOrder = {"name","surname","email","phone_number","Medicines"})
+@XmlRootElement(name="client")
+@XmlType(propOrder = {"email","phone_number","address","medicines"})
 public class Client implements Serializable
 {
 	private static final long serialVersionUID = 98763412L;
 	
 	@XmlTransient
 	private Integer id;
-	@XmlElement
+	@XmlAttribute
 	private String name;
-	@XmlElement
+	@XmlAttribute
 	private String surname;
-	@XmlTransient
+	@XmlElement
 	private String address;
 	@XmlElement
 	private Integer phone_number;
-	@XmlAttribute
+	@XmlElement
 	private String email;
-	@XmlElement(name="Medicine")
-	@XmlElementWrapper(name="Medicines")
+	@XmlElement(name="medicine")
+	@XmlElementWrapper(name="medicines")
 	private List <Medicine> medicines;
 	
 	

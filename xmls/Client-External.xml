@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<!-- Doesn't include an example-->
+<!DOCTYPE client [
+    <!ELEMENT client (address, phone_number, email, medicines)>
+    <!ATTLIST client
+    name CDATA #REQUIRED
+    surname CDATA #REQUIRED
+    >
+    <!ELEMENT address (#PCDATA)>
+    <!ELEMENT phone_number (#PCDATA)>
+    <!ELEMENT email (#PCDATA)>
+    <!ELEMENT medicines (medicine*)>
+    <!ELEMENT medicine (name, price, stock, instructions)>
+    <!ELEMENT name (#PCDATA)>
+    <!ELEMENT price (#PCDATA)>
+    <!ELEMENT stock (#PCDATA)>
+    <!ELEMENT instructions (#PCDATA)>
+]>
+

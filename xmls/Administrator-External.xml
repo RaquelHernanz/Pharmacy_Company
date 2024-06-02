@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+
+<!DOCTYPE administrator [
+   <!ELEMENT administrator (email,phone_number,orders)>
+   <!ATTLIST administrator
+    name CDATA #REQUIRED
+    surname CDATA #REQUIRED
+   >
+   <!ELEMENT phone_number (#PCDATA)>
+   <!ELEMENT email (#PCDATA)>
+   <!ELEMENT orders (order*)>
+   <!ELEMENT order (quantity, totalprice)>
+   <!ELEMENT quantity (#PCDATA)>
+   <!ELEMENT totalprice (#PCDATA)>
+]>
+
+<!-- An example of administrator that can be added to the system-->
+
+<administrator name="Thomas" surname="Williams">
+<email>thomas@gmail.com</email>
+<phone_number>120329</phone_number>
+<orders/>
+</administrator>

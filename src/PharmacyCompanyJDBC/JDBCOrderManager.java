@@ -229,7 +229,6 @@ public class JDBCOrderManager implements OrderManager
 		}
 		return orders;
 	}
-	
 
 	
 	public void deleteOrderbyCode (Integer order_code) {

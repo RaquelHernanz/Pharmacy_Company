@@ -512,7 +512,7 @@ public class MainMenu_Pharmacies {
 							String blobString = "paracetamol-500mg-caplets-x-32-p278-1003_zoom.png";
 							byte[] blobBytes = blobString.getBytes();
 							Medicine m = new Medicine(nameEx, instructionsEx, priceEx, stockEx, dateEx, pharmacistUser,
-									blobBytes, prescribed);
+									blobBytes, prescribed,null);
 							medicinemanager.addMedicine(m);
 						} else {
 							System.out.println("Error");
