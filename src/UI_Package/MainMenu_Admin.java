@@ -46,6 +46,7 @@ import PharmacyCompanyJPA.JPAUserManager;
 import PharmacyCompanyPOJOs.Client;
 import PharmacyCompanyPOJOs.Doctor;
 import PharmacyCompanyPOJOs.Medicine;
+import PharmacyCompanyPOJOs.Order;
 import PharmacyCompanyPOJOs.Pharmacist;
 import PharmacyCompanyPOJOs.User;
 import net.miginfocom.swing.MigLayout;
@@ -57,17 +58,20 @@ public class MainMenu_Admin {
 	private JFrame generalMenuFrameLists;
 	private JTable table;
 	private DefaultTableModel tableModel;
+	private DefaultTableModel tableMode2;
 	private JPanel panel4;
 
 	private String[] clientTitles;
 	private String[] doctorTitles;
 	private String[] pharmacyTitles;
 	private String[] medicineTitles;
+	private String [] ordersTitles;
 
 	private List<Client> clientsListArray;
 	private List<Doctor> doctorsListArray;
 	private List<Pharmacist> pharmaciesListArray;
 	private List<Medicine> medicinesListArray;
+	private List <Order> ordersListArray;
 
 	private JButton removeClientButton;
 	private JButton removeDoctorButton;
@@ -192,7 +196,7 @@ public class MainMenu_Admin {
 				products();
 			} catch (Exception e1) {
 				SwingUtilities
-						.invokeLater(() -> JOptionPane.showMessageDialog(menu, "Error: No pharmacists available."));
+						.invokeLater(() -> JOptionPane.showMessageDialog(menu, "Error: No products available."));
 			}
 		});
 
@@ -217,6 +221,21 @@ public class MainMenu_Admin {
 			Login loginMenu = new Login();
 			loginMenu.loginRegister();
 		});
+		
+		JButton orderssButton = new JButton("Shipments of Restock");
+		orderssButton.setBorder(BorderFactory.createBevelBorder(1, new Color(32, 32, 82), new Color(32, 32, 82)));
+		orderssButton.setForeground(Color.WHITE);
+		orderssButton.setFont(new Font("Calibri", Font.PLAIN, 18));
+		orderssButton.setBackground(new Color(19, 18, 79));
+		orderssButton.setPreferredSize(new Dimension(400, 25));
+		orderssButton.addActionListener(e -> {
+			try {
+				orders();
+			} catch (Exception e1) {
+				SwingUtilities
+						.invokeLater(() -> JOptionPane.showMessageDialog(menu, "Error: No shipments avaible available."));
+			}
+		});
 
 		JLabel profile = new JLabel();
 		ImageIcon profileIcon = new ImageIcon("resources/profile.png");
@@ -228,6 +247,7 @@ public class MainMenu_Admin {
 		
 		list.add(label, "align left, wrap 50");
 		list.add(productsButton, "CENTER, wrap 20");
+		list.add(orderssButton,"CENTER, wrap 30");
 		list.add(help, "CENTER, wrap 50");
 		list.add(signout,"CENTER, wrap 70");
 		list.add(profile, "CENTER, gapbottom 10, wrap");
@@ -346,6 +366,7 @@ public class MainMenu_Admin {
 		generalMenuFrameLists.add(panel2, "grow");
 		generalMenuFrameLists.setVisible(true);
 	}
+
 
 	public JScrollPane clientsList() throws Exception {
 		clientTitles = new String[] { "Name", "Surname", "E-Mail", "Address", "Phone Number" };
@@ -651,9 +672,7 @@ public class MainMenu_Admin {
 		}
 	}
 
-	public void shipmentsListView() {
 
-	}
 
 	public void products() throws Exception {
 		generalMenuFrameLists = new JFrame();
@@ -747,6 +766,96 @@ public class MainMenu_Admin {
 
 	private static List<Medicine> getAllMedicines() throws Exception {
 		return medicinemanager.getListofMedicines();
+	}
+	
+	
+	public JScrollPane OrdersList() throws Exception {
+		ordersTitles = new String[] { "Code", "Quantity", "Total Price", "Pharmacist","Medicine"};
+		ordersListArray = ordermanager.getListOfOrders();
+
+		String[][] orders2DArray = new String[ordersListArray.size()][5];
+
+		for (int i = 0; i < ordersListArray.size(); i++) {
+			Order order = ordersListArray.get(i);
+			orders2DArray[i][0] = String.valueOf(order.getCode());
+			orders2DArray[i][1] = String.valueOf(order.getQuantity());
+			orders2DArray[i][2] = String.valueOf(order.getTotalprice());
+			orders2DArray[i][3] = order.getPharmacist().getEmail();
+			orders2DArray[i][4] = order.getMedicine().getName();
+		}
+
+		tableMode2 = new DefaultTableModel(orders2DArray, ordersTitles);
+		table = new JTable(tableMode2);
+		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+		table.getTableHeader().setBackground(new Color(19, 18, 79));
+		table.getTableHeader().setForeground(Color.WHITE);
+		table.getTableHeader().setFont(new Font("CALIBRI", Font.PLAIN, 12));
+		table.setBackground(new Color(19, 18, 79));
+		table.setForeground(Color.WHITE);
+		table.setFont(new Font("CALIBRI", Font.PLAIN, 12));
+		return new JScrollPane(table);
+	}
+	
+	public void orders() throws Exception {
+		generalMenuFrameLists = new JFrame();
+
+		generalMenuFrameLists.setLayout(new MigLayout("fill", "30[]30[]30", "30[]30"));
+		FlatLightLaf.setup();
+		try {
+			UIManager.setLookAndFeel(new FlatLightLaf());
+		} catch (UnsupportedLookAndFeelException e) {
+			throw new RuntimeException(e);
+		}
+		generalMenuFrameLists.setSize(1300, 750);
+		generalMenuFrameLists.getContentPane().setBackground(new Color(12, 11, 61));
+		generalMenuFrameLists.setLocationRelativeTo(null);
+
+		JPanel menuPanel = new JPanel();
+		menuPanel.setLayout(new MigLayout("fill"));
+		menuPanel.setBackground(Color.RED);
+
+		ImageIcon darkLogo = new ImageIcon("resources/DarkPharmaCorpLogo.png");
+		JLabel darkLabel = new JLabel(darkLogo);
+
+		ImageIcon welcomeLogo = new ImageIcon("resources/welcomeAdmin.png");
+		JLabel welcomeLabel = new JLabel(welcomeLogo);
+
+		menuPanel.setLayout(new MigLayout("", "[]", "[][][][][][][]"));
+		menuPanel.setBackground(new Color(12, 11, 61));
+
+		JButton closeButton = new JButton("Close");
+		closeButton.setBorder(BorderFactory.createBevelBorder(1, new Color(32, 32, 82), new Color(32, 32, 82)));
+		closeButton.setForeground(Color.WHITE);
+		closeButton.setFont(new Font("Calibri", Font.PLAIN, 18));
+		closeButton.setBackground(new Color(19, 18, 79));
+		closeButton.setPreferredSize(new Dimension(400, 25));
+		closeButton.addActionListener(e -> {
+			generalMenuFrameLists.dispatchEvent(new WindowEvent(generalMenuFrameLists, WindowEvent.WINDOW_CLOSING));
+		});
+
+		JPanel panel2 = new JPanel();
+		panel2.setLayout(new MigLayout("fill"));
+		panel2.setBackground(new Color(12, 11, 61));
+
+		panel4 = new JPanel();
+		panel4.setLayout(new MigLayout("fill"));
+		panel4.setBackground(new Color(12, 11, 61));
+		panel4.add(OrdersList(), "grow");
+
+		JPanel panel3 = new JPanel();
+		panel3.setLayout(new MigLayout("fill"));
+		panel3.setBackground(new Color(12, 11, 61));
+
+		menuPanel.add(welcomeLabel, "wrap, gapbottom 20");
+		menuPanel.add(darkLabel, "CENTER, wrap, gapbottom 65");
+		menuPanel.add(closeButton, "CENTER, wrap, gapbottom 10");
+
+		panel2.add(panel3, "wrap, grow");
+		panel2.add(panel4, "grow");
+
+		generalMenuFrameLists.add(menuPanel, "grow");
+		generalMenuFrameLists.add(panel2, "grow");
+		generalMenuFrameLists.setVisible(true);
 	}
 	
 	

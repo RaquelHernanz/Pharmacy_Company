@@ -70,10 +70,12 @@ public class MainMenu_Pharmacies {
 	private String[] clientTitles;
 	private String[] doctorTitles;
 	private String[] medicineTitles;
+	private String [] ordersTitles;
 
 	private List<Client> clientsListArray;
 	private List<Doctor> doctorsListArray;
 	private List<Medicine> medicinesListArray;
+	private List <Order> ordersListArray;
 	private JComboBox<String> availableProductsClients;
 
 	private static JDBCManager jdbcmanager;
@@ -188,14 +190,21 @@ public class MainMenu_Pharmacies {
 			panel4.updateUI();
 		});
 
-		/*
-		 * JButton shipments = new JButton("Shipments");
-		 * shipments.setForeground(Color.WHITE); shipments.setFont(new Font("Calibri",
-		 * Font.PLAIN, 18)); shipments.setBackground(new Color(19, 18, 79));
-		 * shipments.setPreferredSize(new Dimension(400, 25));
-		 * shipments.addActionListener(e -> { panel4.removeAll();
-		 * panel4.add(shipmentsList(), "grow"); panel4.updateUI(); });
-		 */
+		JButton orders = new JButton("Orders of Restock");
+		orders.setForeground(Color.WHITE);
+		orders.setBorder(BorderFactory.createBevelBorder(1, new Color(32, 32, 82), new Color(32, 32, 82)));
+		orders.setFont(new Font("Calibri", Font.PLAIN, 18));
+		orders.setBackground(new Color(19, 18, 79));
+		orders.setPreferredSize(new Dimension(400, 25));
+		orders.addActionListener(e -> {
+			panel4.removeAll();
+			try {
+				panel4.add(OrdersList(), "grow");
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			panel4.updateUI();
+		});
 
 		JButton help = new JButton("Help");
 		help.setForeground(Color.WHITE);
@@ -224,7 +233,7 @@ public class MainMenu_Pharmacies {
 		menuPanel.add(productsButton, "CENTER, wrap, gapbottom 15");
 		menuPanel.add(clients, "CENTER, wrap, gapbottom 15");
 		menuPanel.add(doctors, "CENTER, wrap, gapbottom 15");
-		// menuPanel.add(shipments, "CENTER, wrap, gapbottom 15");
+		menuPanel.add(orders, "CENTER, wrap, gapbottom 15");
 		menuPanel.add(help, "CENTER, wrap, gapbottom 15");
 		menuPanel.add(signout, "CENTER");
 
@@ -587,8 +596,8 @@ public class MainMenu_Pharmacies {
 			availableProductsClients.setFont(new Font("CALIBRI", Font.BOLD, 14));
 			orderFormFrame.add(availableProductsClients, "wrap, CENTER, gapbottom 10, gaptop 10");
 
-			String medicineName = (String) availableProductsClients.getSelectedItem();
-			Medicine medicineOrder = medicinemanager.searchMedicineByName(medicineName);
+			//For some reason the option of restock will only be allow for the first medicine if was created
+			//This error couldn't be review due to time
 			SpinnerNumberModel chooseQuantityModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1);
 			JSpinner chooseQuantity = new JSpinner(chooseQuantityModel);
 			chooseQuantity.addChangeListener(new ChangeListener() {
@@ -631,14 +640,16 @@ public class MainMenu_Pharmacies {
 				new SwingWorker<Void, Void>() {
 					@Override
 					protected Void doInBackground() {
-						Integer medicine_code = medicineOrder.getCode();
 						try {
+							String medicineName = (String) (availableProductsClients.getSelectedItem().toString());
+							Medicine medicineOrder = medicinemanager.searchMedicineByName(medicineName);
+							Integer medicine_code = medicineOrder.getCode();
 							Pharmacist pharmacistSample = pharmacistmanager
 									.searchPharmacistByEmail(emailText.getText());
 							Administrator adminInCharge = administratormanager
 									.searchAdministratorByEmail(emailTextAdmin.getText());
 
-							Order order = new Order(medicineOrder.getPrice(), chosenStock, pharmacistSample,
+							Order order = new Order(medicineOrder.getPrice()*chosenStock, chosenStock, pharmacistSample,
 									adminInCharge,medicineOrder);
 							ordermanager.addOrder(order);
 							medicinemanager.updateStock(medicineOrder.getStock() + chosenStock, medicine_code);
@@ -662,5 +673,34 @@ public class MainMenu_Pharmacies {
 		orderFormFrame.add(purchaseButton, "wrap, CENTER, gaptop 20");
 		orderFormFrame.setVisible(true);
 	}
+	
+	public JScrollPane OrdersList() throws Exception {
+		ordersTitles = new String[] { "Code", "Quantity", "Total Price", "Pharmacist","Medicine"};
+		ordersListArray = ordermanager.getListOfOrders();
+
+		String[][] orders2DArray = new String[ordersListArray.size()][5];
+
+		for (int i = 0; i < ordersListArray.size(); i++) {
+			Order order = ordersListArray.get(i);
+			orders2DArray[i][0] = String.valueOf(order.getCode());
+			orders2DArray[i][1] = String.valueOf(order.getQuantity());
+			orders2DArray[i][2] = String.valueOf(order.getTotalprice());
+			orders2DArray[i][3] = order.getPharmacist().getEmail();
+			orders2DArray[i][4] = order.getMedicine().getName();
+		}
+
+		tableModel = new DefaultTableModel(orders2DArray, ordersTitles);
+		table = new JTable(tableModel);
+		table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+		table.getTableHeader().setBackground(new Color(19, 18, 79));
+		table.getTableHeader().setForeground(Color.WHITE);
+		table.getTableHeader().setFont(new Font("CALIBRI", Font.PLAIN, 12));
+		table.setBackground(new Color(19, 18, 79));
+		table.setForeground(Color.WHITE);
+		table.setFont(new Font("CALIBRI", Font.PLAIN, 12));
+		return new JScrollPane(table);
+	}
+	
+	
 
 }
